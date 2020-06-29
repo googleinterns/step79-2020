@@ -1,0 +1,4 @@
+<h3 (click)="logout()">Welcome {{name}}!</h3>
+<div><app-profile-card *ngFor="let user of users | async"
+    [user]='user'></app-profile-card>
+</div>
