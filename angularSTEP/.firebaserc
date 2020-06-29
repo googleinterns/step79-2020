@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "boq-devex-step-2020": {
+      "hosting": {
+        "angularSTEP": [
+          "boq-devex-step-2020"
+        ]
+      }
+    }
+  }
+}

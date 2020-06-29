@@ -1,0 +1,29 @@
+.example-container{
+    text-align: center;
+    width: 400px;
+    margin: 0px auto; 
+    margin-top: 150px;
+    border: 2px solid rgba(0, 0, 0, 0.472);
+    border-radius: 15px;
+}
+
+.form-container{
+    margin: 40px 70px;
+}
+
+.error{
+    color: red;
+    margin-bottom: 20px;
+}
+
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.form-field{
+    display: block
+}
