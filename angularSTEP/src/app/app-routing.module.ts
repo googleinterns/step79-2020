@@ -4,12 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 import { EmailComponent } from './email/email.component';
+import { SetupComponent } from './setup/setup.component';
 
 const routes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
                         { path: 'signup', component: SignupComponent },
                         { path: 'login-email', component: EmailComponent },
-                        { path: 'home', component: HomeComponent }];
+                        { path: 'home', component: HomeComponent },
+                        { path: 'username-setup', component: SetupComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
