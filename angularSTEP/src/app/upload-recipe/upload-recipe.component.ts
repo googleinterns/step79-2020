@@ -91,21 +91,14 @@ export class UploadRecipeComponent {
 
   onSubmit() {
     this.db.collection('recipes').add({
-      //// uploaderUserName: 
-      // / userDocumentID
       recipeName: this.autoCapitalizeName(this.recipeForm.value.name),
       description: this.autoCapitalizeFirst(this.recipeForm.value.description),
-      // // totalRating
-      // // numRatings
       ingredients: this.ingredients,
       tools: this.tools,
       instructions: this.instructions,
       extraInfo: this.autoCapitalizeFirst(this.recipeForm.value.extraInfo),
-      //// comments
-      //// images
       difficulty: this.recipeForm.value.difficulty,
       timestamp: Date.now(),
-      //// tags[] 
     });
     
     this.router.navigate(['/confirm-upload']);
