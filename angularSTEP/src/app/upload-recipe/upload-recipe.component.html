@@ -24,7 +24,8 @@
 
   <mat-form-field>
     <mat-label>Short Description</mat-label>
-    <input matInput placeholder="Ex. Best Chicken tamales ever. NOT for vegetarians!" formControlName="description" required>
+    <textarea matInput #description placeholder="Ex. Best Chicken tamales ever. NOT for vegetarians!" formControlName="description" maxlength="200" required></textarea>
+    <mat-hint>{{description.value?.length}}/200 Characters</mat-hint>
     <mat-error>This is required.</mat-error>
   </mat-form-field>
 
