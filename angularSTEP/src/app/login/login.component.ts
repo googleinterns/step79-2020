@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
     this.aboutToSetup = true;
     this.fAuth.signInWithPopup(provider).then((success) => {
       if (success.additionalUserInfo.isNewUser) {
-        this.userSetup = true;
+        this.router.navigate(['/username-setup'])
       } else {
         this.router.navigate(['/home'])
       }
