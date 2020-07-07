@@ -22,7 +22,7 @@ interface User {
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
-  error: string = '';
+  error = '';
   signUpForm: FormGroup;
   hide = true;
   picUrl = '';
