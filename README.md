@@ -56,8 +56,8 @@ Please read [CONTRIBUTING.md](https://github.com/googleinterns/.github/blob/mast
 
 ## License
 
-This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the APACHE 2.0 License - see the [LICENSE.md](https://github.com/googleinterns/step79-2020/blob/addCommunityFiles/LICENSE) file for details
 
 ## Acknowledgments
 
-We would like to thank Google for the opportunity. 
+We would like to thank Google for the opportunity.
