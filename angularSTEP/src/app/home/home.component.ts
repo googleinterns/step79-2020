@@ -1,23 +1,12 @@
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
+import {Component, OnInit} from '@angular/core';
 
-import { Component, OnInit } from '@angular/core';
-import { Router } from  "@angular/router";
-import { AngularFireAuth } from  "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreCollection } from  "@angular/fire/firestore";
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 
 //basic home page
 interface User {
@@ -34,24 +23,28 @@ interface User {
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  name: any;
-  obj: any;
-  intA: any;
+  name = '';
   userCollection: AngularFirestoreCollection<User>;
   users: Observable<User[]>;
 
-  constructor(public fAuth: AngularFireAuth, private router: Router, private http: HttpClient, private afs: AngularFirestore) { 
+  constructor(
+    public fAuth: AngularFireAuth,
+    private router: Router,
+    private afs: AngularFirestore
+  ) {
+    this.userCollection = this.afs.collection('users');
+    this.users = this.userCollection.valueChanges();
     this.fAuth.onAuthStateChanged(auth => {
       if (auth) {
-        this.name = auth.displayName;
+        this.name = auth.displayName !== null ? auth.displayName : '';
       }
       if (!auth) {
         this.router.navigate(['/login']);
       }
-    })
+    });
   }
 
   logout() {
@@ -59,8 +52,5 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  ngOnInit() {
-    this.userCollection = this.afs.collection('users');
-    this.users = this.userCollection.valueChanges(); 
-  }
+  ngOnInit() {}
 }
