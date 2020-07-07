@@ -1,7 +1,7 @@
 <div class="example-container">
     <div class="form-container">
       <h2>Set up username</h2>
-      <h4 class="error" *ngIf="error">{{ error }}</h4>
+      <h4 class="error" *ngIf="error != ''">{{ error }}</h4>
       <form [formGroup]="usernameForm" (submit)="onSubmit()">
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
