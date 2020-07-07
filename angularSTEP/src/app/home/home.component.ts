@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from  "@angular/router";
-import { AngularFireAuth } from  "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreCollection } from  "@angular/fire/firestore";
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+
+import { AngularFireAuth } from  "@angular/fire/auth";
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Router } from  "@angular/router";
 
 //basic home page
 interface User {

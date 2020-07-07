@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from  "@angular/router";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { AngularFireAuth } from  "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreCollection } from  "@angular/fire/firestore";
+import { AngularFirestore } from  "@angular/fire/firestore";
 import { Observable } from 'rxjs';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from  "@angular/router";
 
 interface User {
   username: string;
