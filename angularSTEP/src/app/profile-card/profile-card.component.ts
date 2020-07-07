@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 interface User {
   username: string;
@@ -14,20 +14,19 @@ interface User {
 @Component({
   selector: 'app-profile-card',
   templateUrl: './profile-card.component.html',
-  styleUrls: ['./profile-card.component.scss']
+  styleUrls: ['./profile-card.component.scss'],
 })
 export class ProfileCardComponent implements OnInit {
-
   @Input() user: any;
-  username: string;
-  displayName: string;
-  picUrl: string;
+  username = '';
+  displayName = '';
+  picUrl = '';
 
   constructor() {}
 
   ngOnInit(): void {
     this.displayName = this.user.displayName;
     this.username = this.user.username;
-    this.picUrl = this.user.photo;
+    this.picUrl = this.user.photoUrl;
   }
 }

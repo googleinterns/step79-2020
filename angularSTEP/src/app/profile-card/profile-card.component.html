@@ -1,9 +1,7 @@
 <mat-card class="example-card">
     <mat-card-header>
-      <img mat-card-avatar *ngIf='picUrl != undefined' src={{picUrl}} alt="Profile photo of {{displayName}}" class="profile-img">
-      <!-- blank profile is free for comercial use from :
-        https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/ -->
-      <img mat-card-avatar *ngIf='picUrl == undefined' src="assets/images/blank-profile.png" alt="Profile photo of {{displayName}}" class="profile-img">
+      <img mat-card-avatar *ngIf='picUrl != ""' src={{picUrl}} alt="Profile photo of {{displayName}}" class="profile-img">
+      <img mat-card-avatar *ngIf='picUrl == ""' src="assets/images/blank-profile.png" alt="Profile photo of {{displayName}}" class="profile-img">
       <mat-card-title>{{ displayName }}</mat-card-title>
       <mat-card-subtitle>@{{ username }}</mat-card-subtitle>
     </mat-card-header>
