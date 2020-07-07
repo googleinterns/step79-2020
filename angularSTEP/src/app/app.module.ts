@@ -22,7 +22,7 @@ import { NgModule } from '@angular/core';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { SetupComponent } from './setup/setup.component';
 import { SignupComponent } from './signup/signup.component';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
