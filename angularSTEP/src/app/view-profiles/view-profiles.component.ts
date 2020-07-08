@@ -66,7 +66,7 @@ export class ViewProfilesComponent implements OnInit {
   }
 
   goToUser(username: string) {
-    console.log(username);
+    this.router.navigate(['users/'+username]);
   }
 
   ngOnInit() {}

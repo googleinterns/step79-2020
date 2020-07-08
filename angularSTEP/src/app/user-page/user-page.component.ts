@@ -1,3 +1,4 @@
+import {ActivatedRoute, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-page.component.scss']
 })
 export class UserPageComponent implements OnInit {
-
-  constructor() { }
+  username: string = '';
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    const username = this.activatedRoute.snapshot.paramMap.get('username');
+    if(username == null){
+      this.router.navigate(['/users']);
+    } else {
+      this.username = username;
+    }
   }
 
 }
