@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   aboutToSetup = false;
 
   //checks if user is already signed in. If user is signed in
-  // and there is no user in the database linked to the account
+  //and there is no user in the database linked to the account
   //it will delete the user (in case user refreshes page before
   //setting a username but after signing in with Google
   constructor(
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       .signInWithPopup(provider)
       .then(success => {
         const userInfo = success.additionalUserInfo;
-        if (success !== null && userInfo !== null && userInfo !== undefined) {
+        if (success !== null && userInfo) {
           if (userInfo.isNewUser) {
             this.router.navigate(['/username-setup']);
           } else {
