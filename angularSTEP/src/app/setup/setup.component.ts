@@ -60,8 +60,8 @@ export class SetupComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  // when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
-  // creates a user and updates the "displayName" of the user authentication to the username
+  //when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
+  //creates a user and updates the "displayName" of the user authentication to the username
   onSubmit() {
     if (!this.usernameForm.valid) {
       this.error = 'Please make sure the form is filled out correctly';
@@ -79,7 +79,7 @@ export class SetupComponent implements OnInit {
             this.fAuth.currentUser
               .then(user => {
                 if (user === null) {
-                  throw new Error();
+                  this.error = 'Could not create user. Please try again.';
                 } else {
                   const dName =
                     user.displayName !== null ? user.displayName : '';
@@ -93,7 +93,12 @@ export class SetupComponent implements OnInit {
                       if (dName !== '' && email !== '') {
                         this.addUser(dName, email);
                       } else {
-                        throw new Error();
+                        this.error = 'Could not create user. Please try again.';
+                        this.fAuth.currentUser.then(user => {
+                          if (user !== null) {
+                            user.delete();
+                          }
+                        });
                       }
                     })
                     .catch(err => {

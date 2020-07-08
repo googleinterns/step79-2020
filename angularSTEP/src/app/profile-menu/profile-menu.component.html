@@ -2,8 +2,6 @@
     [matMenuTriggerFor]='menu'
     [matRippleRadius]='20'
     [matRippleCentered]='true'>
-    <!-- blank profile is free for comercial use from :
-        https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/ -->
     <img *ngIf='!loggedIn' src="assets/images/blank-profile.png" alt="Profile photo" class="profile-img">
     <img *ngIf='loggedIn && (picUrl == undefined)' src="assets/images/blank-profile.png" alt="Profile photo of {{displayName}}" class="profile-img">
     <img *ngIf='loggedIn && (picUrl != undefined)' src={{picUrl}} alt="Profile photo of {{displayName}}" class="profile-img">
