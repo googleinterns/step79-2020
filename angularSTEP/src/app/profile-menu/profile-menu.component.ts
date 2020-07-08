@@ -1,18 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
-  styleUrls: ['./profile-menu.component.scss']
+  styleUrls: ['./profile-menu.component.scss'],
 })
 export class ProfileMenuComponent implements OnInit {
-
   @Input() user: any;
-  username: string;
-  displayName: string;
-  picUrl: string;
+  username = '';
+  displayName = '';
+  picUrl = 'assets/images/blank-profile.png';
   //fixed value for now - implement input to show if user is actually signed in
-  loggedIn: boolean;
+  loggedIn = false;
 
   constructor() {}
 
@@ -24,12 +23,11 @@ export class ProfileMenuComponent implements OnInit {
   }
 
   //temporary logout and signin functions
-  logout(){
+  logout() {
     this.loggedIn = !this.loggedIn;
   }
 
-  signIn(){
+  signIn() {
     this.loggedIn = !this.loggedIn;
   }
-
 }
