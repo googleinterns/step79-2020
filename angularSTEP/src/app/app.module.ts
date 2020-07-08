@@ -23,6 +23,7 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { SetupComponent } from './setup/setup.component';
 import { SignupComponent } from './signup/signup.component';
 import { environment } from '../environments/environment';
+import { ViewProfilesComponent } from './view-profiles/view-profiles.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { environment } from '../environments/environment';
     SignupComponent,
     SetupComponent,
     HomeComponent,
-    ProfileCardComponent
+    ProfileCardComponent,
+    ViewProfilesComponent
   ],
   imports: [
     AppRoutingModule,
