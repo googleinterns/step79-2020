@@ -1,1 +1,10 @@
-<p>Welcome to {{username}}'s page!</p>
+<div *ngIf="profileLoaded">
+    <div class="profile-header">
+        <img class="profile-pic" src="{{ picUrl }}" alt="Profile pic for {{ displayName }}">
+        <div class="name-header">
+            <h1>{{displayName}}</h1>
+            <h3>@{{username}}</h3>
+        </div>
+    </div>
+    <button mat-button routerLink="/users">Back</button>
+</div>
