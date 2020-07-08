@@ -41,7 +41,7 @@ class User {
 @Component({
   selector: 'app-view-profiles',
   templateUrl: './view-profiles.component.html',
-  styleUrls: ['./view-profiles.component.scss']
+  styleUrls: ['./view-profiles.component.scss'],
 })
 export class ViewProfilesComponent implements OnInit {
   loggedIn = false;
@@ -65,7 +65,7 @@ export class ViewProfilesComponent implements OnInit {
     });
   }
 
-  goToUser(username: string){
+  goToUser(username: string) {
     console.log(username);
   }
 
