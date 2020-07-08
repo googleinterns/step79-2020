@@ -1,0 +1,18 @@
+<div class="page-container">
+    <div class="form-container">
+      <h2>Set up username</h2>
+      <h4 class="error" *ngIf="error != ''">{{ error }}</h4>
+      <form [formGroup]="usernameForm" (submit)="onSubmit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" autocomplete="off" placeholder="Ex. johndoe123" required>
+          <mat-error *ngIf="usernameForm.controls.username.invalid">
+            <span *ngIf="usernameForm.controls.username.errors.required">This field is mandatory.</span>
+            <span *ngIf="usernameForm.controls.username.errors.minlength">Invalid. Must be at least 3 characters long.</span>
+          </mat-error>
+        </mat-form-field>
+        <br/>
+        <button mat-raised-button color="primary" type="submit">Create my account</button>
+      </form>
+    </div>
+  </div>

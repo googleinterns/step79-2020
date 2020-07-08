@@ -1,0 +1,25 @@
+.profile-card {
+    max-width: 400px;
+}
+
+.card-img {
+    margin: 0 auto;
+    margin-bottom: 16px;
+}
+  
+.profile-img {
+    background-size: cover;
+}
+
+.mat-card{
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}
+
+.mat-card-subtitle {
+    cursor: pointer;
+}
+
+.mat-card-subtitle:hover {
+    color: red;
+}

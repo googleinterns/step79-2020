@@ -4,7 +4,12 @@
     "experimentalDecorators": true,
     "allowJs": true,
     "rootDir": ".",
-    "outDir": "build"
+    "outDir": "build",
+    "target": "es2015",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
   },
   "include": [
     "src/**/*.ts",
