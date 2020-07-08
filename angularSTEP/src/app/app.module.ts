@@ -24,6 +24,7 @@ import { SetupComponent } from './setup/setup.component';
 import { SignupComponent } from './signup/signup.component';
 import { environment } from '../environments/environment';
 import { ViewProfilesComponent } from './view-profiles/view-profiles.component';
+import { UserPageComponent } from './user-page/user-page.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ViewProfilesComponent } from './view-profiles/view-profiles.component';
     SetupComponent,
     HomeComponent,
     ProfileCardComponent,
-    ViewProfilesComponent
+    ViewProfilesComponent,
+    UserPageComponent
   ],
   imports: [
     AppRoutingModule,
