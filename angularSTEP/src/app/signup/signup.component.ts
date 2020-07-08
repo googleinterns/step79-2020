@@ -44,9 +44,9 @@ export class SignupComponent implements OnInit {
   //initializes the reactive form with Validators
   ngOnInit() {}
 
-  // when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
-  // creates a user and updates the "displayName" of the user authentication to the username (this is for the future
-  //  to make it easy to find user info since the doc Id is the username).
+  //when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
+  //creates a user and updates the "displayName" of the user authentication to the username (this is for the future
+  //to make it easy to find user info since the doc Id is the username).
   onSubmit() {
     if (!this.signUpForm.valid) {
       this.error = 'Please make sure the form is filled out correctly';

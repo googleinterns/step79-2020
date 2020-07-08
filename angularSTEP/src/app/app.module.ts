@@ -18,10 +18,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
+import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { SetupComponent } from './setup/setup.component';
 import { SignupComponent } from './signup/signup.component';
 import { environment } from '../environments/environment';
@@ -29,6 +32,7 @@ import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
+    ProfileMenuComponent,
     LoginComponent,
     EmailComponent,
     SignupComponent,
@@ -39,6 +43,11 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     AppRoutingModule,
+    HttpClientModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatRippleModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -50,7 +59,6 @@ import { environment } from '../environments/environment';
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatIconModule,
     MatInputModule,
     MatSelectModule,
     MatTabsModule,
