@@ -1,3 +1,5 @@
+//User class that resembles the documents
+//in the Users collection on Firestore
 export class User {
   username: string;
   displayName: string;
