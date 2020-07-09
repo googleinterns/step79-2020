@@ -36,9 +36,10 @@ export class HomeComponent implements OnInit {
         this.setUserData();
       }
       if (!auth) {
-        this.router.navigate(['/login']);
+        this.username = '';
+        this.updateData = true;
       }
-    });
+    })
   }
 
   ngOnInit() {}
@@ -66,7 +67,6 @@ export class HomeComponent implements OnInit {
       this.updateData = true;
     } else {
       this.fAuth.signOut();
-      this.router.navigate(['/login']);
     }
   }
 }

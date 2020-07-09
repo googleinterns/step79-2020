@@ -19,7 +19,6 @@ export class ProfileMenuComponent implements OnInit {
   username = '';
   displayName = '';
   picUrl = 'assets/images/blank-profile.png';
-  //fixed value for now - implement input to show if user is actually signed in
   loggedIn = true;
 
   constructor(public fAuth: AngularFireAuth, public router: Router) {
@@ -38,13 +37,12 @@ export class ProfileMenuComponent implements OnInit {
     this.picUrl = this.user.picUrl;
   }
 
-  //temporary logout and signin functions
   logout() {
     this.fAuth.signOut();
     this.loggedIn = false;
   }
 
   signIn() {
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/login']);
   }
 }
