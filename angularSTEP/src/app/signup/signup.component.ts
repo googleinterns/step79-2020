@@ -3,18 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {Converter} from '../converter';
 import {Router} from '@angular/router';
-
-interface User {
-  username: string;
-  displayName: string;
-  email: string;
-  photo: string;
-  following: Array<string>;
-  recipes: Array<string>;
-  wishlist: Array<string>;
-  shoppinglist: Array<string>;
-}
+import {User} from '../user';
 
 @Component({
   selector: 'app-signup',
@@ -97,16 +88,20 @@ export class SignupComponent implements OnInit {
     this.afs
       .collection('users')
       .doc(this.signUpForm.value.username)
-      .set({
-        displayName: this.signUpForm.value.displayName,
-        username: this.signUpForm.value.username,
-        photoUrl: this.picUrl,
-        timestamp: Date.now(),
-        recipes: [],
-        wishlist: [],
-        shoppinglist: new Object(),
-        following: [],
-      })
+      .ref.withConverter(new Converter().converter)
+      .set(
+        new User(
+          this.signUpForm.value.username,
+          this.signUpForm.value.displayName,
+          this.signUpForm.value.email,
+          this.picUrl,
+          [],
+          Date.now(),
+          [],
+          [],
+          new Object()
+        )
+      )
       .catch(err => {
         this.fAuth.currentUser.then(user => {
           if (user !== null) {

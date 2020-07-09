@@ -3,19 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {Converter} from '../converter';
 import {Router} from '@angular/router';
-
-interface User {
-  username: string;
-  fName: string;
-  lName: string;
-  email: string;
-  photo: string;
-  following: Array<string>;
-  recipes: Array<string>;
-  wishlist: Array<string>;
-  shoppinglist: Array<string>;
-}
+import {User} from '../user';
 
 //this component gets called when signing into a google account. Changes the "display name"
 //to the username
@@ -46,17 +36,23 @@ export class SetupComponent implements OnInit {
 
   //creates and adds a user to Firestore
   addUser(dName: string, email: string) {
-    this.afs.collection('users').doc(this.usernameForm.value.username).set({
-      displayName: dName,
-      username: this.usernameForm.value.username,
-      email: email,
-      photoUrl: this.picUrl,
-      timestamp: Date.now(),
-      recipes: [],
-      wishlist: [],
-      shoppinglist: new Object(),
-      following: [],
-    });
+    this.afs
+      .collection('users')
+      .doc(this.usernameForm.value.username)
+      .ref.withConverter(new Converter().converter)
+      .set(
+        new User(
+          this.usernameForm.value.username,
+          dName,
+          email,
+          this.picUrl,
+          [],
+          Date.now(),
+          [],
+          [],
+          new Object()
+        )
+      );
     this.router.navigate(['/home']);
   }
 

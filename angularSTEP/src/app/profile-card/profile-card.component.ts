@@ -1,14 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-interface User {
-  username: string;
+interface UserData {
   displayName: string;
-  email: string;
-  photo: string;
-  following: Array<string>;
-  recipes: Array<string>;
-  wishlist: Array<string>;
-  shoppinglist: Array<string>;
+  username: string;
+  picUrl: string;
 }
 
 @Component({
@@ -17,7 +12,7 @@ interface User {
   styleUrls: ['./profile-card.component.scss'],
 })
 export class ProfileCardComponent implements OnInit {
-  @Input() user: any;
+  @Input() user!: UserData;
   username = '';
   displayName = '';
   picUrl = '';
@@ -25,8 +20,10 @@ export class ProfileCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.displayName = this.user.displayName;
-    this.username = this.user.username;
-    this.picUrl = this.user.photoUrl;
+    if (this.user !== null) {
+      this.displayName = this.user.displayName;
+      this.username = this.user.username;
+      this.picUrl = this.user.picUrl;
+    }
   }
 }
