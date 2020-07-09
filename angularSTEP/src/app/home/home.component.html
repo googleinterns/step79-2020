@@ -1,4 +1,5 @@
-<h3 (click)="logout()">Welcome {{name}}!</h3>
+<h3 (click)="logout()">Welcome {{username}}!</h3>
 <div><app-profile-card *ngFor="let user of users | async"
     [user]='user'></app-profile-card>
 </div>
+<app-profile-menu *ngIf="updateData" [user]='{"username": username, "displayName": displayName, "picUrl": picUrl}'></app-profile-menu>
