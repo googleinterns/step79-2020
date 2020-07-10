@@ -6,14 +6,17 @@ import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { SetupComponent } from './setup/setup.component';
 import { SignupComponent } from './signup/signup.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { UploadRecipeComponent } from './upload-recipe/upload-recipe.component'
+import { ConfirmComponent } from './confirm/confirm.component';
 
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
                         { path: 'signup', component: SignupComponent },
                         { path: 'login-email', component: EmailComponent },
                         { path: 'home', component: HomeComponent },
-                        { path: 'username-setup', component: SetupComponent }];
+                        { path: 'username-setup', component: SetupComponent },
+                        { path: 'upload-recipe', component: UploadRecipeComponent},
+                        { path: 'confirm-upload', component: ConfirmComponent},];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
