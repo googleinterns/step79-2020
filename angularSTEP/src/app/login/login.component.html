@@ -1,0 +1,12 @@
+<div class="page-container" *ngIf='!userSetup'>
+  <div class="form-container">
+      <h2>Log In</h2>
+      <h4 class="error" *ngIf="error">{{ error }}</h4>
+ 
+      <button (click)="googleLogin()" id="google"><img src="">Log in with Google</button>
+      <br/>
+      <button routerLink="/login-email" id="email">Email</button>
+      <br/>
+      <a routerLink="/signup" routerLinkActive="active" class="alc">No account? <strong>Create one here</strong></a>
+  </div>
+</div>

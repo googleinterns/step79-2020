@@ -1,0 +1,28 @@
+<div class="page-container">
+  <div class="form-container">
+    <h2>Sign In</h2>
+    <span class="error" *ngIf="error">{{ error }}</span>
+    <form [formGroup]="logInForm" (submit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName="email" autocomplete="off" placeholder="Ex. abc@123.com" required>
+        <mat-error *ngIf="logInForm.controls.email.invalid">
+          <span *ngIf="logInForm.controls.email.errors.required">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input [type]="hide ? 'password' : 'text'" matInput formControlName="password" required>
+        <button mat-icon-button matSuffix type="button" (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+        <mat-error *ngIf="logInForm.controls.email.invalid">
+          <span *ngIf="logInForm.controls.password.errors.required">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" type="submit">Sign In</button>
+    </form>
+    <button class="back-button" mat-button type="button" (click)="goBack()">Back</button>
+  </div>
+</div>

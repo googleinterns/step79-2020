@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "angularSTEP",
+      "public": "dist/angularSTEP",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

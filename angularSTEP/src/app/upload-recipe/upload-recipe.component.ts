@@ -31,16 +31,16 @@ export class UploadRecipeComponent {
 
 
   addIngredient(newIngredient: string) {
-    var formattedIngredient: string = this.autoCapitalizeFirst(newIngredient);
+    var formattedIngredient: any = this.autoCapitalizeFirst(newIngredient);
     if (formattedIngredient != '' && formattedIngredient != undefined) {
       this.ingredients.push(formattedIngredient);
     }
   }
 
   addInstruction(newInstruction: string) {
-    var onlyLettersStartInstruction: string =  this.removeNumsAndSymbolsAtStart(newInstruction);
+    var onlyLettersStartInstruction: any =  this.removeNumsAndSymbolsAtStart(newInstruction);
     if (onlyLettersStartInstruction != '') {
-      var formattedInstruction: string = this.autoCapitalizeFirst(onlyLettersStartInstruction);
+      var formattedInstruction: any = this.autoCapitalizeFirst(onlyLettersStartInstruction);
       if (formattedInstruction != '' && formattedInstruction != undefined) {
         this.instructions.push(formattedInstruction);
       } 
@@ -48,17 +48,18 @@ export class UploadRecipeComponent {
   } 
 
   addTool(newTool: string) {
-    var formattedTool: string = this.autoCapitalizeFirst(newTool);
+    var formattedTool: any = this.autoCapitalizeFirst(newTool);
     if (formattedTool != '' && formattedTool != undefined) {
       this.tools.push(formattedTool);
     }
   }
 
-  autoCapitalizeFirst(fullString: string): string {
+  autoCapitalizeFirst(fullString: string): string | undefined {
     var trimString: string = fullString.trim();
     if (trimString != '') {
       return trimString.charAt(0).toUpperCase() + trimString.substring(1);
     }
+    return undefined;
   }
 
   autoCapitalizeName(fullName: string): string {
@@ -75,7 +76,7 @@ export class UploadRecipeComponent {
     return formattedName;
   }
 
-  removeNumsAndSymbolsAtStart(originalString: string): string {
+  removeNumsAndSymbolsAtStart(originalString: string): string | undefined {
       var startIndex: number = -1;
 
       for (let i = 0; i < originalString.length; i++) {
@@ -87,6 +88,7 @@ export class UploadRecipeComponent {
       if (startIndex == -1) {
         return '';
       }
+      return '';
   }
 
   onSubmit() {

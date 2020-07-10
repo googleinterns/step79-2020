@@ -1,0 +1,45 @@
+.page-container{
+    text-align: center;
+    width: 400px;
+    margin: 0px auto; 
+    margin-top: 200px;
+    border: 2px solid rgba(0, 0, 0, 0.472);
+    border-radius: 15px;
+}
+
+.form-container{
+    margin: 40px 70px;
+}
+
+.error{
+    color: red;
+    margin-bottom: 20px;
+}
+
+#google {
+    background: #fff no-repeat 25px;
+    background-size: 25px;
+    width: 245px;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(169, 169, 169, 0.52);
+    height: 45px;
+    cursor: pointer;
+}
+
+img{
+    float: left;
+}
+
+#email {
+    background: #ECECEC no-repeat 25px;
+    background-size: 25px;
+    width: 245px;
+    text-align: center;
+    margin: 10px 0;
+    border-radius: 3px;
+    border: 1px solid rgba(169, 169, 169, 0.52);
+    height: 45px;
+    cursor: pointer;
+}
