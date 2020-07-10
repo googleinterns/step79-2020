@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
           if (userInfo.isNewUser) {
             this.router.navigate(['/username-setup']);
           } else {
+            console.log('ughhh');
             this.router.navigate(['/home']);
           }
         }
