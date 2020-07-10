@@ -9,6 +9,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EmailComponent} from './email/email.component';
@@ -28,6 +29,7 @@ import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {environment} from '../environments/environment';
 
 @NgModule({
@@ -41,35 +43,31 @@ import {environment} from '../environments/environment';
     SetupComponent,
     HomeComponent,
     ProfileCardComponent,
+    UploadRecipeComponent,
   ],
 
   imports: [
-    AppRoutingModule,
-    HttpClientModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatRippleModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule,
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     MatCardModule,
+    MatFormFieldModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    BrowserModule,
-    MatButtonModule,
     MatInputModule,
     MatIconModule,
-    MatFormFieldModule,
+    MatMenuModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
