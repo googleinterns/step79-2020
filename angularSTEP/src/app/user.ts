@@ -2,6 +2,7 @@
 //in the Users collection on Firestore
 export class User {
   username: string;
+  uid: string;
   displayName: string;
   email: string;
   picUrl: string;
@@ -12,6 +13,7 @@ export class User {
   shoppingList: object;
   constructor(
     username: string,
+    uid: string,
     displayName: string,
     email: string,
     picUrl: string,
@@ -22,6 +24,7 @@ export class User {
     shoppingList: object
   ) {
     this.username = username;
+    this.uid = uid;
     this.displayName = displayName;
     this.email = email;
     this.picUrl = picUrl;
@@ -30,4 +33,15 @@ export class User {
     this.wishlist = wishlist;
     this.shoppingList = shoppingList;
   }
+}
+
+export class Username {
+  username: string;
+  uid: string;
+  constructor(
+    username: string,
+    uid: string){
+      this.username = username;
+      this.uid = uid;
+    }
 }

@@ -4,6 +4,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {Router, NavigationEnd} from '@angular/router';
 import {User} from '../user';
 import {Converter} from '../converter';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-profile-menu',
@@ -16,6 +17,7 @@ export class ProfileMenuComponent implements OnInit {
   displayName = '';
   picUrl = 'assets/images/blank-profile.png';
   loggedIn = false;
+  routerCheck!: Subscription;
 
   constructor(
     public fAuth: AngularFireAuth,
@@ -28,12 +30,11 @@ export class ProfileMenuComponent implements OnInit {
     this.fAuth.onAuthStateChanged(auth => {
       if (
         auth &&
-        this.router.url !== '/username-setup' &&
-        this.router.url !== '/login'
+        this.router.url !== '/login' &&
+        this.router.url !== '/signup'
       ) {
         this.loggedIn = false;
-        this.username = auth.displayName !== null ? auth.displayName : '';
-        this.setUserData();
+        this.setUserData(auth.uid);
       } else {
         this.lookForRouterChange();
         this.loggedIn = false;
@@ -45,23 +46,17 @@ export class ProfileMenuComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  //detects route change if router has changed from setting up username.
+  //detects route change if router has changed from setting up account.
   //If it has, and the user is not signed it, it will update the menu component
   lookForRouterChange() {
-    if (this.router.url === '/login' || this.router.url === '/username-setup') {
-      console.log('hi');
-      this.router.events.forEach(event => {
+    if (this.router.url === '/login' || this.router.url === '/signup') {
+      this.routerCheck = this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          if (
-            this.router.url !== '/username-setup' &&
-            this.router.url !== '/login'
-          ) {
+          if (this.router.url !== '/login' && this.router.url !== '/signup') {
             this.fAuth.currentUser.then(user => {
               if (user) {
                 this.loggedIn = false;
-                this.username =
-                  user.displayName !== null ? user.displayName : '';
-                this.setUserData();
+                this.setUserData(user.uid);
                 this.loggedIn = false;
               }
             });
@@ -86,13 +81,14 @@ export class ProfileMenuComponent implements OnInit {
   //this method sets the users data and then injects it
   //into the profile menu dropdown. It waits until all of the
   //information is set and then displays the menu.
-  async setUserData() {
+  async setUserData(uid: string) {
     const postUser = await this.afs
-      .doc('/users/' + this.username + '/')
-      .ref.withConverter(new Converter().converter)
+      .doc('/users/' + uid + '/')
+      .ref.withConverter(new Converter().userConverter)
       .get();
     if (postUser.data()) {
       this.user = postUser.data()!;
+      this.username = this.user.username !== null ? this.user.username : '';
       this.displayName =
         this.user.displayName !== null ? this.user.displayName : '';
       this.picUrl =
@@ -100,9 +96,17 @@ export class ProfileMenuComponent implements OnInit {
           ? this.user.picUrl
           : 'assets/images/blank-profile.png';
       this.loggedIn = true;
+      if (this.routerCheck) {
+        this.routerCheck.unsubscribe();
+      }
     } else {
       this.fAuth.currentUser.then(user => {
-        if (user) {
+        if (
+          user &&
+          this.router.url !== '/login' &&
+          this.router.url !== '/signup'
+        ) {
+          this.routerCheck.unsubscribe();
           user.delete();
         }
       });

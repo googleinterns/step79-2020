@@ -5,7 +5,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Converter} from '../converter';
 import {Router} from '@angular/router';
-import {User} from '../user';
+import {User, Username} from '../user';
 
 //this component gets called when signing into a google account. Changes the "display name"
 //to the username
@@ -35,25 +35,35 @@ export class SetupComponent implements OnInit {
   ngOnInit() {}
 
   //creates and adds a user to Firestore
-  addUser(dName: string, email: string) {
-    this.afs
-      .collection('users')
+  addUser(dName: string, email: string, uid: string) {
+    return this.afs
+      .collection('usernames')
       .doc(this.usernameForm.value.username)
-      .ref.withConverter(new Converter().converter)
-      .set(
-        new User(
-          this.usernameForm.value.username,
-          dName,
-          email,
-          this.picUrl,
-          [],
-          Date.now(),
-          [],
-          [],
-          new Object()
-        )
-      );
-    this.router.navigate(['/home']);
+      .ref.withConverter(new Converter().usernameConverter)
+      .set(new Username(this.usernameForm.value.username, uid))
+      .then(() => {
+        this.afs
+          .collection('users')
+          .doc(uid)
+          .ref.withConverter(new Converter().userConverter)
+          .set(
+            new User(
+              this.usernameForm.value.username,
+              uid,
+              dName,
+              email,
+              this.picUrl,
+              [],
+              Date.now(),
+              [],
+              [],
+              new Object()
+            )
+          )
+          .then(() => {
+            this.router.navigate(['/home']);
+          });
+      });
   }
 
   //when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
@@ -63,7 +73,7 @@ export class SetupComponent implements OnInit {
       this.error = 'Please make sure the form is filled out correctly';
     } else {
       this.afs
-        .doc('/users/' + this.usernameForm.value.username + '/')
+        .doc('/usernames/' + this.usernameForm.value.username + '/')
         .ref.get()
         .then(doc => {
           if (doc.exists) {
@@ -72,45 +82,26 @@ export class SetupComponent implements OnInit {
               this.usernameForm.value.username +
               ' already taken.';
           } else {
-            this.fAuth.currentUser
-              .then(user => {
-                if (user === null) {
-                  this.error = 'Could not create user. Please try again.';
-                } else {
-                  const dName =
-                    user.displayName !== null ? user.displayName : '';
-                  const email = user.email !== null ? user.email : '';
-                  this.picUrl = user.photoURL !== null ? user.photoURL : '';
-                  user
-                    .updateProfile({
-                      displayName: this.usernameForm.value.username,
-                    })
-                    .then(success => {
-                      if (dName !== '' && email !== '') {
-                        this.addUser(dName, email);
-                      } else {
-                        this.error = 'Could not create user. Please try again.';
-                        this.fAuth.currentUser.then(user => {
-                          if (user !== null) {
-                            user.delete();
-                          }
-                        });
-                      }
-                    })
-                    .catch(err => {
-                      this.error = 'Could not add user. Please try again.';
-                    });
-                }
-              })
-              .catch(error => {
+            this.fAuth.currentUser.then(user => {
+              if (user === null) {
                 this.error = 'Could not create user. Please try again.';
-                this.fAuth.currentUser.then(user => {
-                  if (user !== null) {
-                    user.delete();
-                  }
-                });
-              });
+              } else {
+                const dName = user.displayName !== null ? user.displayName : '';
+                const email = user.email !== null ? user.email : '';
+                this.picUrl = user.photoURL !== null ? user.photoURL : '';
+                user;
+                this.addUser(dName, email, user.uid);
+              }
+            });
           }
+        })
+        .catch(() => {
+          this.error = 'Could not create user. Please try again.';
+          this.fAuth.currentUser.then(user => {
+            if (user !== null) {
+              user.delete();
+            }
+          });
         });
     }
   }

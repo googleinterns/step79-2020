@@ -5,7 +5,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Converter} from '../converter';
 import {Router} from '@angular/router';
-import {User} from '../user';
+import {User, Username} from '../user';
 
 @Component({
   selector: 'app-signup',
@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
       this.error = 'Please make sure the form is filled out correctly';
     } else {
       this.afs
-        .doc('/users/' + this.signUpForm.value.username + '/')
+        .doc('/usernames/' + this.signUpForm.value.username + '/')
         .ref.get()
         .then(doc => {
           if (doc.exists) {
@@ -59,24 +59,16 @@ export class SignupComponent implements OnInit {
                 if (success.user !== null) {
                   this.picUrl =
                     success.user.photoURL !== null ? success.user.photoURL : '';
-                  success.user
-                    .updateProfile({
-                      displayName: this.signUpForm.value.username,
-                    })
-                    .then(success => {
-                      this.addUser();
-                      this.fAuth.currentUser.then(user => {
-                        this.router.navigate(['/home']);
-                      });
-                    })
-                    .catch(error => {
-                      this.error = 'Could not create user.';
-                    });
+                  this.addUser(success.user.uid);
                 }
               })
-              .catch(err => {
-                this.error =
-                  'Email address may not be valid or an account may already be using this email address.';
+              .catch(() => {
+                this.fAuth.currentUser.then(user => {
+                  if (user !== null) {
+                    user.delete();
+                  }
+                  this.error = 'User not created. Please try again.';
+                });
               });
           }
         });
@@ -84,31 +76,34 @@ export class SignupComponent implements OnInit {
   }
 
   //creates the user and adds it to Firestore
-  addUser() {
-    this.afs
-      .collection('users')
+  addUser(uid: string) {
+    return this.afs
+      .collection('usernames')
       .doc(this.signUpForm.value.username)
-      .ref.withConverter(new Converter().converter)
-      .set(
-        new User(
-          this.signUpForm.value.username,
-          this.signUpForm.value.displayName,
-          this.signUpForm.value.email,
-          this.picUrl,
-          [],
-          Date.now(),
-          [],
-          [],
-          new Object()
-        )
-      )
-      .catch(err => {
-        this.fAuth.currentUser.then(user => {
-          if (user !== null) {
-            user.delete();
-          }
-          this.error = 'Please try again.';
-        });
+      .ref.withConverter(new Converter().usernameConverter)
+      .set(new Username(this.signUpForm.value.username, uid))
+      .then(() => {
+        this.afs
+          .collection('users')
+          .doc(uid)
+          .ref.withConverter(new Converter().userConverter)
+          .set(
+            new User(
+              this.signUpForm.value.username,
+              uid,
+              this.signUpForm.value.displayName,
+              this.signUpForm.value.email,
+              this.picUrl,
+              [],
+              Date.now(),
+              [],
+              [],
+              new Object()
+            )
+          )
+          .then(() => {
+            this.router.navigate(['/home']);
+          });
       });
   }
 

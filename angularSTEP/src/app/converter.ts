@@ -1,15 +1,16 @@
 import {QueryDocumentSnapshot, SnapshotOptions} from '@angular/fire/firestore';
 
-import {User} from './user';
+import {User, Username} from './user';
 
 //This class is what holds the firebase converter. This
 //converter is what you need to include when reading a document
 //from Firestore. It tells it how to convert to document into a class
 export class Converter {
-  public converter = {
+  public userConverter = {
     toFirestore: function (user: User) {
       return {
         displayName: user.displayName,
+        uid: user.uid,
         username: user.username,
         email: user.email,
         picUrl: user.picUrl,
@@ -27,6 +28,7 @@ export class Converter {
       const data = snapshot.data(options);
       return new User(
         data.username,
+        data.uid,
         data.displayName,
         data.email,
         data.picUrl,
@@ -35,6 +37,25 @@ export class Converter {
         data.recipes,
         data.wishlist,
         data.shoppingList
+      );
+    },
+  };
+
+  public usernameConverter = {
+    toFirestore: function (username: Username) {
+      return {
+        uid: username.uid,
+        username: username.username,
+      };
+    },
+    fromFirestore: function (
+      snapshot: QueryDocumentSnapshot<User>,
+      options: SnapshotOptions
+    ) {
+      const data = snapshot.data(options);
+      return new Username(
+        data.username,
+        data.uid
       );
     },
   };
