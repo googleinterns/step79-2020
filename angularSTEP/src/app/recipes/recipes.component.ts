@@ -37,7 +37,7 @@ export class RecipesComponent {
                     const id = a.payload.doc.id;
                     return { id, ...data};
                   }))
-                );   
+                );   ef6c834cb3c7f703a16902cad38db9766642a81d
   }
   
   goToRecipe(id: string) {
