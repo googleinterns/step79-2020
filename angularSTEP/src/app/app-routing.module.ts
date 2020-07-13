@@ -7,6 +7,8 @@ import { EmailComponent } from './email/email.component';
 import { SetupComponent } from './setup/setup.component';
 import { UploadRecipeComponent } from './upload-recipe/upload-recipe.component'
 import { ConfirmComponent } from './confirm/confirm.component';
+import { RecipePageComponent } from './recipe-page/recipe-page.component';
+import { RecipesComponent } from './recipes/recipes.component';
 
 const routes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
@@ -15,7 +17,10 @@ const routes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
                         { path: 'home', component: HomeComponent },
                         { path: 'username-setup', component: SetupComponent },
                         { path: 'upload-recipe', component: UploadRecipeComponent},
-                        { path: 'confirm-upload', component: ConfirmComponent},];
+                        { path: 'confirm-upload', component: ConfirmComponent},
+                        { path: 'recipes', component: RecipesComponent},
+                        { path: 'recipes/:id', redirectTo: 'recipe/:id'}, 
+                        { path: 'recipe/:id', component: RecipePageComponent},];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

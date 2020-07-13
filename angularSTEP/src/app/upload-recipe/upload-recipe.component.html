@@ -32,18 +32,6 @@
   <br><br>
 
   <mat-form-field>
-    <mat-label>Tools</mat-label>
-    <input matInput #tool placeholder="Ex. Tamale Steamer" formControlName="tools" required>
-    <mat-error>This is required.</mat-error>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="button" (click)="addTool(tool.value); tool.value = ''">Add</button>
-  <br>
-
-  <ul><li *ngFor="let tool of tools">{{tool}}</li></ul>
-  
-  <br><br>
-
-  <mat-form-field>
     <mat-label>Ingredients</mat-label>
     <input matInput #ingredient placeholder="Ex. Masa" formControlName="ingredients" required>
     <mat-error>This is required.</mat-error>
@@ -52,6 +40,18 @@
   <br>
 
   <ul><li *ngFor="let ingredient of ingredients">{{ingredient}}</li></ul>
+  
+  <br><br> 
+
+ <mat-form-field>
+    <mat-label>Tools</mat-label>
+    <input matInput #tool placeholder="Ex. Tamale Steamer" formControlName="tools" required>
+    <mat-error>This is required.</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="addTool(tool.value); tool.value = ''">Add</button>
+  <br>
+
+  <ul><li *ngFor="let tool of tools">{{tool}}</li></ul>
   
   <br><br>
 
@@ -66,7 +66,6 @@
   <br>
 
   <ol><li *ngFor="let instruction of instructions">{{instruction}}</li></ol>
-  
 
   <br><br>
 
