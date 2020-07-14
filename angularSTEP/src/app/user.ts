@@ -1,27 +1,17 @@
 //User class that resembles the documents
 //in the Users collection on Firestore
 export class User {
-  username: string;
-  uid: string;
-  displayName: string;
-  email: string;
-  picUrl: string;
-  following: Array<string>;
-  time: number;
-  recipes: Array<string>;
-  wishlist: Array<string>;
-  shoppingList: object;
   constructor(
-    username: string,
-    uid: string,
-    displayName: string,
-    email: string,
-    picUrl: string,
-    following: Array<string>,
-    time: number,
-    recipes: Array<string>,
-    wishlist: Array<string>,
-    shoppingList: object
+    public username: string,
+    public uid: string,
+    public displayName: string,
+    public email: string,
+    public picUrl: string,
+    public following: Array<string>,
+    public time: number,
+    public recipes: Array<string>,
+    public wishlist: Array<string>,
+    public shoppingList: object
   ) {
     this.username = username;
     this.uid = uid;
@@ -29,18 +19,17 @@ export class User {
     this.email = email;
     this.picUrl = picUrl;
     this.following = following;
-    (this.time = time), (this.recipes = recipes);
+    this.time = time;
+    this.recipes = recipes;
     this.wishlist = wishlist;
     this.shoppingList = shoppingList;
   }
 }
 
 export class Username {
-  username: string;
-  uid: string;
   constructor(
-    username: string,
-    uid: string){
+    public username: string,
+    public uid: string){
       this.username = username;
       this.uid = uid;
     }
