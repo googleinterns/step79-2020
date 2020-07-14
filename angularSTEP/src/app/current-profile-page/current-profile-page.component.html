@@ -1,4 +1,4 @@
-<div class="profile-header">
+<div class="profile-header" *ngIf="!stillLoading">
   <img class="profile-pic" src="{{ user.picUrl }}" alt="Profile pic for {{ user.displayName }}">
   <div class="name-header">
     <h1>{{user.displayName}}</h1>
@@ -6,13 +6,13 @@
   </div>
 </div>
 
-<mat-tab-group dynamicHeight [selectedIndex]="selected">
+<mat-tab-group dynamicHeight *ngIf="!stillLoading" [selectedIndex]="selected">
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>account_circle</mat-icon>
       My Profile
     </ng-template>
-    <!-- add profile component here -->
+    <app-my-profile-tab [userData]='user'></app-my-profile-tab>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>

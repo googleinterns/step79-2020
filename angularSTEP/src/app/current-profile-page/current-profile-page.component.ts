@@ -18,6 +18,7 @@ import { Converter } from '../converter'
 export class CurrentProfilePageComponent implements OnInit {
   selected = 0;
   uid = '';
+  stillLoading = true;
   user!: User;
 
   constructor(
@@ -65,6 +66,7 @@ export class CurrentProfilePageComponent implements OnInit {
       .get();
     if (postUser !== null && postUser.data() !== undefined) {
       this.user = postUser.data()!;
+      this.stillLoading = false;
     } else {
       this.router.navigate(['/login']);
     }
