@@ -34,6 +34,7 @@ import { SignupComponent } from './signup/signup.component';
 import { UploadRecipeComponent } from './upload-recipe/upload-recipe.component';
 import { environment } from '../environments/environment';
 import { MyProfileTabComponent } from './my-profile-tab/my-profile-tab.component';
+import { ChangeProfileImgComponent } from './change-profile-img/change-profile-img.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { MyProfileTabComponent } from './my-profile-tab/my-profile-tab.component
     ProfileCardComponent,
     UploadRecipeComponent,
     CurrentProfilePageComponent,
-    MyProfileTabComponent
+    MyProfileTabComponent,
+    ChangeProfileImgComponent
   ],
 
   imports: [
