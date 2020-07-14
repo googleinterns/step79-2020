@@ -2,11 +2,11 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-import { User } from '../user';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Observable} from 'rxjs';
+import {User} from '../user';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   users: Observable<User[]>;
   username = '';
 
-  constructor(public fAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(private fAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.userCollection = this.afs.collection('users');
     this.users = this.userCollection.valueChanges();
   }

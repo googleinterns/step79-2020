@@ -4,7 +4,6 @@ import { EmailComponent } from './email/email.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
-import { SetupComponent } from './setup/setup.component';
 import { SignupComponent } from './signup/signup.component';
 import { UploadRecipeComponent } from './upload-recipe/upload-recipe.component'
 import { ConfirmComponent } from './confirm/confirm.component';

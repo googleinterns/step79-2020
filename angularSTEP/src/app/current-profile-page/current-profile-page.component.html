@@ -1,12 +1,16 @@
-<div class="profile-header" *ngIf="!stillLoading">
+<div class="profile-header" *ngIf="user">
   <img class="profile-pic" src="{{ user.picUrl }}" alt="Profile pic for {{ user.displayName }}">
   <div class="name-header">
-    <h1>{{user.displayName}}</h1>
+    <h1 *ngIf='!displayNameForm'>{{user.displayName}}<mat-icon aria-label="Edit icon" (click)='editValue("displayName")'>edit</mat-icon></h1>
+    <form *ngIf='displayNameForm' (submit)="onSubmit()" [style.fontSize.px]='24'>
+        <input matInput [formControl]='displayNameForm'>
+        <button type="submit" color="primary" mat-icon-button><mat-icon>check</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="cancelForm('displayName')"><mat-icon>close</mat-icon></button>
+    </form>
     <h3>@{{user.username}}</h3>
   </div>
 </div>
-
-<mat-tab-group dynamicHeight *ngIf="!stillLoading" [selectedIndex]="selected">
+<mat-tab-group dynamicHeight *ngIf="user" [selectedIndex]="selected">
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>account_circle</mat-icon>
