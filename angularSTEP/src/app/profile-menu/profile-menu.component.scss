@@ -1,4 +1,5 @@
-$avatar-size: 30px;
+$avatar-size: 35px;
+$ripple-size: 60px;
 
 .profile-img {
     height: $avatar-size;
@@ -13,8 +14,8 @@ $avatar-size: 30px;
     justify-content: center;
     align-items: center;
     display: flex;
-    width: 45px;
-    height: 45px;
+    width: $ripple-size;
+    height: $ripple-size;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
