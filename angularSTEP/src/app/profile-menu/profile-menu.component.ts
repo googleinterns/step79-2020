@@ -74,6 +74,15 @@ export class ProfileMenuComponent implements OnInit {
     this.fAuth.signOut();
   }
 
+  myProfile(index: string) {
+    if(index !== "myprofile") {
+      this.router.navigate(['/myprofile'], { queryParams: {"tab" : index}});
+    } else {
+      this.router.navigate(['/myprofile']);
+    }
+  }
+
+
   signIn() {
     this.router.navigate(['/login']);
   }
