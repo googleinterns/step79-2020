@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {Converter} from '../converter';
-import {Router} from '@angular/router';
-import {User, Username} from '../user';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Converter } from '../converter';
+import { Router } from '@angular/router';
+import { User, Username } from '../user';
 
 //this component gets called when signing into a google account. Changes the "display name"
 //to the username

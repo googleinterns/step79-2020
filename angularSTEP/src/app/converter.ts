@@ -1,6 +1,6 @@
-import {QueryDocumentSnapshot, SnapshotOptions} from '@angular/fire/firestore';
+import { QueryDocumentSnapshot, SnapshotOptions } from '@angular/fire/firestore';
 
-import {User, Username} from './user';
+import { User, Username } from './user';
 
 //This class is what holds the firebase converter. This
 //converter is what you need to include when reading a document

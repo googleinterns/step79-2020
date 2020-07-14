@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {Router, NavigationEnd} from '@angular/router';
-import {User} from '../user';
-import {Converter} from '../converter';
-import {Subscription} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router, NavigationEnd } from '@angular/router';
+import { User } from '../user';
+import { Converter } from '../converter';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile-menu',
