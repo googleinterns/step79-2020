@@ -1,13 +1,23 @@
 <div class="form-container">
-    <h2>Change Profile Photo</h2>
-    <h4 class="error" *ngIf="error">{{ error }}</h4>
-    <form [formGroup]="fileForm" (submit)="onFileSubmit()">
-        <input type="file" formControlName="image" autocomplete="off" accept="image/*" (change)="onFileSelect($event)" required>
-        <mat-error *ngIf="fileForm.controls.image.invalid">
-            <span *ngIf="fileForm.controls.image.errors.fileType">Allowed types: png, jpg, jpeg, gif</span>
-        </mat-error>
-        <br>
-        <button mat-raised-button [disabled]="fileForm.invalid || fileForm.pristine" color="primary" type="submit">Update Profile Photo</button>
-    </form>
-    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+    <mat-card class="form-container">
+        <mat-card-content>
+            <mat-card-title>Change Profile Image</mat-card-title>
+            <img mat-card-image *ngIf='previewImgUrl' [src]="previewImgUrl" alt="Photo">
+            <h4 class="error" *ngIf="error">{{ error }}</h4>
+            <form [formGroup]="fileForm" (submit)="onFileSubmit()">
+                <label for="upload-photo"><span><h3 class="upload">Upload Photo...<mat-icon>add_photo_alternate</mat-icon></h3></span></label>
+                <input type="file" formControlName="image" autocomplete="off" accept="image/*" id="upload-photo" (change)="onFileSelect($event)" required>
+                <mat-error *ngIf="fileForm.controls.image.invalid">
+                    <span *ngIf="fileForm.controls.image.errors.fileType">Allowed types: png, jpg, jpeg, gif</span>
+                </mat-error>
+                <br>
+                <mat-card-actions>
+                    <button mat-button [disabled]="fileForm.invalid || fileForm.pristine" color="primary" type="submit">Update Profile Photo</button>
+                    <button mat-button type="button" (click)="closeComponent()">Cancel</button>
+                </mat-card-actions>
+            </form>
+            <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+        </mat-card-content>
+      </mat-card>
 </div>
+

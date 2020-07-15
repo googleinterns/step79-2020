@@ -1,4 +1,5 @@
-import {Component, OnInit, NgZone } from '@angular/core';
+import {Component, OnInit, NgZone, Output, EventEmitter} from '@angular/core';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -15,9 +16,11 @@ export class ChangeProfileImgComponent implements OnInit {
   error = '';
   fileForm: FormGroup;
   hide = true;
-  imgFile!: object;
+  imgFile!: Blob;
   pictureUrl = '';
   progress = 0;
+  previewImgUrl!: SafeUrl;
+  @Output() uploadDone = new EventEmitter<boolean>();
 
   constructor(
     public fAuth: AngularFireAuth,
@@ -25,7 +28,8 @@ export class ChangeProfileImgComponent implements OnInit {
     private storage: AngularFireStorage,
     private afs: AngularFirestore,
     private router: Router,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private sanitizer: DomSanitizer
   ) {
     this.fileForm = this.fb.group({
       image: [null, [requiredFileType]],
@@ -40,8 +44,12 @@ export class ChangeProfileImgComponent implements OnInit {
 
   onFileSelect(event: any) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
+      const file: Blob = event.target.files[0];
       this.imgFile = file;
+      //uploads preview of image
+      this.previewImgUrl = this.sanitizer.bypassSecurityTrustUrl(
+        URL.createObjectURL(file)
+      );
     }
   }
 
@@ -50,7 +58,9 @@ export class ChangeProfileImgComponent implements OnInit {
     if (imageRef) {
       imageRef.delete();
     }
-    const task = this.storage.ref('images/' + uid + 'ProfileImage').put(this.imgFile);
+    const task = this.storage
+      .ref('images/' + uid + 'ProfileImage')
+      .put(this.imgFile);
     task.percentageChanges().subscribe(num => {
       this.progress = num ? num : 0;
     });
@@ -65,6 +75,9 @@ export class ChangeProfileImgComponent implements OnInit {
               .doc(uid)
               .ref.withConverter(new Converter().userConverter)
               .update({picUrl: url})
+              .then(() => {
+                this.uploadDone.emit(true);
+              });
           }
         });
     });
@@ -82,12 +95,16 @@ export class ChangeProfileImgComponent implements OnInit {
       }
     });
   }
+
+  closeComponent() {
+    this.uploadDone.emit(true);
+  }
 }
 
 function requiredFileType(control: FormControl) {
   const imageTypes: Array<string> = ['png', 'jpg', 'jpeg', 'gif'];
   const file = control.value;
-  if (file !== null) {
+  if (file && file.split('.')[1]) {
     const type = file.split('.')[1].toLowerCase();
     if (imageTypes.indexOf(type) > -1) {
       return null;

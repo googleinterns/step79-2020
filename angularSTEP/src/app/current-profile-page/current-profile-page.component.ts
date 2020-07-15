@@ -1,5 +1,5 @@
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Component, OnInit, NgZone } from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -15,6 +15,7 @@ export class CurrentProfilePageComponent implements OnInit {
   selected = 0;
   uid = '';
   stillLoading = true;
+  changeImage = false;
   user: User | null = null;
   displayNameForm: FormControl | null = null;
 
@@ -68,7 +69,6 @@ export class CurrentProfilePageComponent implements OnInit {
           this.router.navigate(['/login']);
         }
       });
-    
   }
 
   editValue(form: string) {
@@ -107,5 +107,13 @@ export class CurrentProfilePageComponent implements OnInit {
           });
       }
     });
+  }
+
+  closeImgChanger(close: boolean) {
+    this.changeImage = !close;
+  }
+
+  changeProfileImage() {
+    this.changeImage = !this.changeImage;
   }
 }
