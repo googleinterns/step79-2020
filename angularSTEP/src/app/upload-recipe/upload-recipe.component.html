@@ -1,0 +1,85 @@
+<h3>Upload a Recipe</h3>
+
+<form [formGroup]="recipeForm" (submit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Recipe Name</mat-label>
+    <input matInput placeholder="Ex. Mom's tamales" formControlName="name" required>
+    <mat-error>This is required.</mat-error>
+  </mat-form-field>
+
+  <br><br>
+
+  <mat-form-field>
+    <mat-label>Recipe Difficulty</mat-label>
+    <mat-select formControlName="difficulty" required>
+      <mat-option value="Beginner">Beginner</mat-option>
+      <mat-option value="Intermediate">Intermediate</mat-option>
+      <mat-option value="Advanced">Advanced</mat-option>
+      <mat-option value="Professional">Professional</mat-option>
+    </mat-select>
+    <mat-error>This is required.</mat-error>
+  </mat-form-field>
+
+  <br><br>
+
+  <mat-form-field>
+    <mat-label>Short Description</mat-label>
+    <textarea matInput #description placeholder="Ex. Best Chicken tamales ever. NOT for vegetarians!" formControlName="description" maxlength="200" required></textarea>
+    <mat-hint>{{description.value?.length}}/200 Characters</mat-hint>
+    <mat-error>This is required.</mat-error>
+  </mat-form-field>
+
+  <br><br>
+
+  <mat-form-field>
+    <mat-label>Tools</mat-label>
+    <input matInput #tool placeholder="Ex. Tamale Steamer" formControlName="tools" required>
+    <mat-error>This is required.</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="addTool(tool.value); tool.value = ''">Add</button>
+  <br>
+
+  <ul><li *ngFor="let tool of tools">{{tool}}</li></ul>
+  
+  <br><br>
+
+  <mat-form-field>
+    <mat-label>Ingredients</mat-label>
+    <input matInput #ingredient placeholder="Ex. Masa" formControlName="ingredients" required>
+    <mat-error>This is required.</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="addIngredient(ingredient.value); ingredient.value = ''">Add</button>
+  <br>
+
+  <ul><li *ngFor="let ingredient of ingredients">{{ingredient}}</li></ul>
+  
+  <br><br>
+
+  <mat-form-field>
+    <mat-label>Instructions</mat-label>
+    <textarea matInput #instruction placeholder="Ex. Mix the chili and tomato blend into the pulled chicken" formControlName="instructions" required></textarea>
+    <mat-hint align="start">Do not number the steps</mat-hint>
+    <mat-error>This is required.</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="addInstruction(instruction.value); instruction.value = '';">Add</button>
+  
+  <br>
+
+  <ol><li *ngFor="let instruction of instructions">{{instruction}}</li></ol>
+  
+
+  <br><br>
+
+  <mat-form-field>
+    <mat-label>Extra Information</mat-label>
+    <textarea matInput placeholder="Ex. It was a crisp autumn day when I suddenly felt inspired to take a trip down memory lane and cook..." formControlName="extraInfo"></textarea>
+    <mat-hint>Write anything else you may want to include about your recipe</mat-hint>
+  </mat-form-field>
+
+  <br><br>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="!recipeForm.valid">Upload Recipe</button>
+</form>
+
+
+

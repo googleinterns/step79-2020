@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="mat-elevation-z8">
+    <span>Recipe Stuff</span>
+
+    <button routerLink="/home" mat-button>Home</button>
+    <button mat-button>Discover</button>
+    <button routerLink="/upload-recipe" mat-button>Upload Recipe</button>
+
+    <div class="spacer">
+        <mat-form-field>
+            <mat-label><mat-icon>search</mat-icon></mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+
+    <app-profile-menu></app-profile-menu>
+</mat-toolbar>
