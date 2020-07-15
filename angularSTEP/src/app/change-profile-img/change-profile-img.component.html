@@ -1,4 +1,3 @@
-<img src={{pictureUrl}}>
 <div class="form-container">
     <h2>Change Profile Photo</h2>
     <h4 class="error" *ngIf="error">{{ error }}</h4>
@@ -10,4 +9,5 @@
         <br>
         <button mat-raised-button [disabled]="fileForm.invalid || fileForm.pristine" color="primary" type="submit">Update Profile Photo</button>
     </form>
+    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
 </div>

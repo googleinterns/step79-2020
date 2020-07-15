@@ -1,5 +1,5 @@
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Component, OnInit, NgZone} from '@angular/core';
+import {Component, OnInit, NgZone } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -41,31 +41,34 @@ export class CurrentProfilePageComponent implements OnInit {
 
   //gets the current users information and stores it
   async setUserData() {
-    const postUser = await this.afs
+    //actively listens for data change, and then reloads the user.
+    this.afs.firestore
       .doc('/users/' + this.uid + '/')
-      .ref.withConverter(new Converter().userConverter)
-      .get();
-    if (postUser !== null && postUser.data() !== undefined) {
-      this.route.queryParams.subscribe(params => {
-        const tab = params['tab'];
-        switch (tab) {
-          case 'wishlist': {
-            this.selected = 1;
-            break;
-          }
-          case 'shoppinglist': {
-            this.selected = 2;
-            break;
-          }
-          default: {
-            this.selected = 0;
-          }
+      .withConverter(new Converter().userConverter)
+      .onSnapshot(postUser => {
+        if (postUser !== null && postUser.data() !== undefined) {
+          this.route.queryParams.subscribe(params => {
+            const tab = params['tab'];
+            switch (tab) {
+              case 'wishlist': {
+                this.selected = 1;
+                break;
+              }
+              case 'shoppinglist': {
+                this.selected = 2;
+                break;
+              }
+              default: {
+                this.selected = 0;
+              }
+            }
+          });
+          this.user = postUser.data()!;
+        } else {
+          this.router.navigate(['/login']);
         }
       });
-      this.user = postUser.data()!;
-    } else {
-      this.router.navigate(['/login']);
-    }
+    
   }
 
   editValue(form: string) {
@@ -100,7 +103,6 @@ export class CurrentProfilePageComponent implements OnInit {
           .ref.withConverter(new Converter().userConverter)
           .update({displayName: this.displayNameForm.value})
           .then(() => {
-            this.user!.displayName = this.displayNameForm!.value;
             this.displayNameForm = null;
           });
       }

@@ -10,6 +10,7 @@
     <h3>@{{user.username}}</h3>
   </div>
 </div>
+<app-change-profile-img (changedPicUrl)="onPicUrlChange($event)"></app-change-profile-img>
 <mat-tab-group dynamicHeight *ngIf="user" [selectedIndex]="selected">
   <mat-tab>
     <ng-template mat-tab-label>
