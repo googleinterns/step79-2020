@@ -1,15 +1,13 @@
 <mat-toolbar color="primary" class="mat-elevation-z8">
     <span>Recipe Stuff</span>
 
-    <a mat-button>Home</a>
-    <a mat-button>Discover</a>
-    <a mat-button>Recipes</a>
+    <button routerLink="/home" mat-button>Home</button>
+    <button mat-button>Discover</button>
+    <button routerLink="/upload-recipe" mat-button>Upload Recipe</button>
 
     <div class="spacer">
         <app-auto-complete></app-auto-complete>
     </div>
 
-    
-    <a mat-raised-button color="accent">Sign Up</a>
-    <a mat-raised-button color="red">Log In</a>
+    <app-profile-menu></app-profile-menu>
 </mat-toolbar>

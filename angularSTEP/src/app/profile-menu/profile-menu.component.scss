@@ -1,0 +1,25 @@
+$avatar-size: 35px;
+$ripple-size: 60px;
+
+.profile-img {
+    height: $avatar-size;
+    width: $avatar-size;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-size: cover;
+}
+
+.profile-avatar-container {
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: $ripple-size;
+    height: $ripple-size;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+}
