@@ -4,7 +4,6 @@ import { EmailComponent } from './email/email.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
-import { SetupComponent } from './setup/setup.component';
 import { SignupComponent } from './signup/signup.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { ViewProfilesComponent } from './view-profiles/view-profiles.component';
@@ -18,7 +17,6 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'home', component: HomeComponent },
                         { path: 'users', component: ViewProfilesComponent},
                         { path:'users/:username', component:UserPageComponent },
-                        { path: 'username-setup', component: SetupComponent },
                         { path: 'upload-recipe', component: UploadRecipeComponent},
                         { path: 'confirm-upload', component: ConfirmComponent}];
 
