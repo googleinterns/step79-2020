@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router, NavigationEnd } from '@angular/router';
-import { User } from '../user';
-import { Converter } from '../converter';
-import { Subscription } from 'rxjs';
+import {Component, OnInit, NgZone} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router, NavigationEnd} from '@angular/router';
+import {User} from '../user';
+import {Converter} from '../converter';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-profile-menu',
@@ -22,7 +22,8 @@ export class ProfileMenuComponent implements OnInit {
   constructor(
     public fAuth: AngularFireAuth,
     private router: Router,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private zone: NgZone
   ) {
     //checks if Authentication has changed, if user signs in through email
     //it should update menu. If user signs in through google sign-in and is a new
@@ -95,7 +96,9 @@ export class ProfileMenuComponent implements OnInit {
         this.user.picUrl !== null && this.user.picUrl !== ''
           ? this.user.picUrl
           : 'assets/images/blank-profile.png';
-      this.loggedIn = true;
+      this.zone.run(() => {
+        this.loggedIn = true;
+      });
       if (this.routerCheck) {
         this.routerCheck.unsubscribe();
       }

@@ -7,36 +7,7 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
-
-class User {
-  username: string;
-  displayName: string;
-  email: string;
-  picUrl: string;
-  following: Array<string>;
-  recipes: Array<string>;
-  wishlist: Array<string>;
-  shoppinglist: Array<string>;
-  constructor(
-    username: string,
-    displayName: string,
-    email: string,
-    picUrl: string,
-    following: Array<string>,
-    recipes: Array<string>,
-    wishlist: Array<string>,
-    shoppinglist: Array<string>
-  ) {
-    this.username = username;
-    this.displayName = displayName;
-    this.email = email;
-    this.picUrl = picUrl;
-    this.following = following;
-    this.recipes = recipes;
-    this.wishlist = wishlist;
-    this.shoppinglist = shoppinglist;
-  }
-}
+import {User} from '../user';
 
 @Component({
   selector: 'app-view-profiles',
@@ -66,7 +37,7 @@ export class ViewProfilesComponent implements OnInit {
   }
 
   goToUser(username: string) {
-    this.router.navigate(['users/'+username]);
+    this.router.navigate(['users/' + username]);
   }
 
   ngOnInit() {}

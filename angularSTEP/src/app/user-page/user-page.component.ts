@@ -1,40 +1,8 @@
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-  AngularFirestore,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/firestore';
 import {Component, OnInit} from '@angular/core';
-
-class User {
-  username: string;
-  displayName: string;
-  email: string;
-  picUrl: string;
-  following: Array<string>;
-  recipes: Array<string>;
-  wishlist: Array<string>;
-  shoppinglist: Array<string>;
-  constructor(
-    username: string,
-    displayName: string,
-    email: string,
-    picUrl: string,
-    following: Array<string>,
-    recipes: Array<string>,
-    wishlist: Array<string>,
-    shoppinglist: Array<string>
-  ) {
-    this.username = username;
-    this.displayName = displayName;
-    this.email = email;
-    this.picUrl = picUrl;
-    this.following = following;
-    this.recipes = recipes;
-    this.wishlist = wishlist;
-    this.shoppinglist = shoppinglist;
-  }
-}
+import {User} from '../user';
+import {Converter} from '../converter';
 
 @Component({
   selector: 'app-user-page',
@@ -64,43 +32,27 @@ export class UserPageComponent implements OnInit {
     }
   }
 
-  userConverter = {
-    toFirestore: function (user: User) {
-      return {displayName: user.displayName};
-    },
-    fromFirestore: function (
-      snapshot: QueryDocumentSnapshot<any>,
-      options: SnapshotOptions
-    ) {
-      const data = snapshot.data(options);
-      return new User(
-        data.username,
-        data.displayName,
-        data.email,
-        data.photoUrl,
-        data.following,
-        data.recipes,
-        data.wishlist,
-        data.shoppingList
-      );
-    },
-  };
-
   async setUserData() {
-    const postUser = await this.afs
-      .doc('/users/' + this.username + '/')
-      .ref.withConverter(this.userConverter)
+    const postUsername = await this.afs
+      .doc('/usernames/' + this.username + '/')
+      .ref.withConverter(new Converter().usernameConverter)
       .get();
-    if (postUser !== null && postUser.data() !== undefined) {
-      const user: User = postUser.data()!;
-      this.displayName = user.displayName !== null ? user.displayName : '';
-      this.picUrl =
-        user.picUrl !== null && user.picUrl !== ''
-          ? user.picUrl
-          : 'assets/images/blank-profile.png';
-      this.profileLoaded = true;
-    } else {
-      this.router.navigate(['/users']);
+    if (postUsername !== null && postUsername.data() !== undefined) {
+      const postUser = await this.afs
+        .doc('/users/' + postUsername.data()?.uid + '/')
+        .ref.withConverter(new Converter().userConverter)
+        .get();
+      if (postUser !== null && postUser.data() !== undefined) {
+        const user: User = postUser.data()!;
+        this.displayName = user.displayName !== null ? user.displayName : '';
+        this.picUrl =
+          user.picUrl !== null && user.picUrl !== ''
+            ? user.picUrl
+            : 'assets/images/blank-profile.png';
+        this.profileLoaded = true;
+      } else {
+        this.router.navigate(['/users']);
+      }
     }
   }
 }
