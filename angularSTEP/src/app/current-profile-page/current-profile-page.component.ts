@@ -23,14 +23,14 @@ export class CurrentProfilePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private _ngZone: NgZone
+    private zone: NgZone
   ) {
     this.fAuth.onAuthStateChanged(auth => {
       if (auth) {
         this.uid = auth.uid;
         this.setUserData();
       } else {
-        this._ngZone.run(() => {
+        this.zone.run(() => {
           this.router.navigate(['/login']);
         });
       }
@@ -62,7 +62,9 @@ export class CurrentProfilePageComponent implements OnInit {
           }
         }
       });
-      this.user = postUser.data()!;
+      this.zone.run(() => {
+        this.user = postUser.data()!;
+      })
     } else {
       this.router.navigate(['/login']);
     }
