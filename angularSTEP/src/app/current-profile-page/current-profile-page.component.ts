@@ -1,5 +1,5 @@
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Component, OnInit, NgZone} from '@angular/core';
+import {Component, OnInit, NgZone, ChangeDetectorRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -24,21 +24,24 @@ export class CurrentProfilePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private _ngZone: NgZone
-  ) {
+    private zone: NgZone,
+    private cd: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
     this.fAuth.onAuthStateChanged(auth => {
       if (auth) {
         this.uid = auth.uid;
-        this.setUserData();
+        
+          this.setUserData();
+        
       } else {
-        this._ngZone.run(() => {
+        this.zone.run(() => {
           this.router.navigate(['/login']);
         });
       }
     });
   }
-
-  ngOnInit() {}
 
   //gets the current users information and stores it
   async setUserData() {
@@ -64,7 +67,9 @@ export class CurrentProfilePageComponent implements OnInit {
               }
             }
           });
-          this.user = postUser.data()!;
+          this.zone.run(() => {
+            this.user = postUser.data()!;
+          })
         } else {
           this.router.navigate(['/login']);
         }
