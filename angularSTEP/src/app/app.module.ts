@@ -31,6 +31,7 @@ import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {environment} from '../environments/environment';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {environment} from '../environments/environment';
     HomeComponent,
     ProfileCardComponent,
     UploadRecipeComponent,
+    MapComponent,
   ],
 
   imports: [
