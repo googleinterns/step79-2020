@@ -32,6 +32,7 @@ import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {environment} from '../environments/environment';
 import { MapComponent } from './map/map.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MapComponent } from './map/map.component';
     MatSelectModule,
     MatToolbarModule,
     ReactiveFormsModule,
+    GoogleMapsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

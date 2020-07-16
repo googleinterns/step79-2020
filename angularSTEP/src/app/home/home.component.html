@@ -1,4 +1,14 @@
-<div><app-profile-card *ngFor="let user of users | async"
-    [user]='user'></app-profile-card>
-</div>
+<app-map (setAddress)="getNewCenter($event)" addressType="geocode"></app-map>
+<div #mapElem id="map"></div>
 
+<!-- <google-map
+    height="500px"
+    width="40%"
+    [zoom]="zoom"
+    [center]="center"
+    [options]="options"
+></google-map> -->
+
+<!-- Use custom zoom buttons -->
+<button mat-raised-button (click)="zoomIn()">Zoom in</button>
+<button mat-raised-button (click)="zoomOut()">Zoom out</button>

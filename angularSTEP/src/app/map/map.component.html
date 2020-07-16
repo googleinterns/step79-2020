@@ -1,1 +1,8 @@
-<p>map works!</p>
+<form [formGroup]="mapsForm" class="example-form">
+    <mat-form-field appearance="outline" class="example-full-width">
+    <mat-label>Location</mat-label>
+      <input matInput class="input"
+        formControlName="location"
+        #addresstext>
+    </mat-form-field>
+  </form>
