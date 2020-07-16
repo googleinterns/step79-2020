@@ -2,25 +2,28 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
 
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './navbar/navbar.component';
+import { AppRoutingModule } from './app-routing.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
+
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
-import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EmailComponent} from './email/email.component';
 import {HomeComponent} from './home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './login/login.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
@@ -36,6 +39,7 @@ import {environment} from '../environments/environment';
   declarations: [
     AppComponent,
     NavbarComponent,
+    AutoCompleteComponent,
     ProfileMenuComponent,
     LoginComponent,
     EmailComponent,
@@ -63,6 +67,9 @@ import {environment} from '../environments/environment';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
     MatMenuModule,
     MatRippleModule,
     MatSelectModule,
