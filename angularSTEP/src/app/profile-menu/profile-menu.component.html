@@ -3,8 +3,8 @@
     [matRippleRadius]='20'
     [matRippleCentered]='true'>
     <img *ngIf='!loggedIn' src="assets/images/blank-profile.png" alt="Profile photo" class="profile-img">
-    <img *ngIf='loggedIn && (picUrl == undefined)' src="assets/images/blank-profile.png" alt="Profile photo of {{displayName}}" class="profile-img">
-    <img *ngIf='loggedIn && (picUrl != undefined)' src={{picUrl}} alt="Profile photo of {{displayName}}" class="profile-img">
+    <img *ngIf='loggedIn && (picUrl == undefined)' src="assets/images/blank-profile.png" alt="Profile photo of {{ displayName }}" class="profile-img">
+    <img *ngIf='loggedIn && (picUrl != undefined)' [src]='picUrl' alt="Profile photo of {{displayName}}" class="profile-img">
 </div>
 <mat-menu #menu="matMenu">
     <button *ngIf="loggedIn" mat-menu-item>
