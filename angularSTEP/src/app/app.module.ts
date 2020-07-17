@@ -70,8 +70,7 @@ import { environment } from '../environments/environment';
     MatSelectModule,
     MatToolbarModule,
     ReactiveFormsModule,
-    MatTabsModule,
-    ReactiveFormsModule
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,9 +1,7 @@
 import {
-  AngularFirestore,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
+  AngularFirestore
 } from '@angular/fire/firestore';
-import { Component, Input, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router, ActivatedRoute } from '@angular/router';
