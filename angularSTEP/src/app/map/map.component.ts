@@ -4,7 +4,7 @@ import {
   ElementRef,
   OnInit,
   Input,
-  NgZone
+  NgZone,
 } from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
 
@@ -33,8 +33,8 @@ export class MapComponent implements OnInit {
     maxZoom: 15,
     minZoom: 3,
   };
-  markers: google.maps.Marker[] = new Array();
-  infocontent: string = '';
+  markers: google.maps.Marker[] = [];
+  infocontent = '';
   map!: google.maps.Map;
   service!: google.maps.places.PlacesService;
   infowindow!: google.maps.InfoWindow;
@@ -63,8 +63,12 @@ export class MapComponent implements OnInit {
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
       const place = autocomplete.getPlace();
       this.center = {
-        lat: place.geometry?.location.lat() ? place.geometry?.location.lat() : 0,
-        lng: place.geometry?.location.lng() ? place.geometry?.location.lng() : 0,
+        lat: place.geometry?.location.lat()
+          ? place.geometry?.location.lat()
+          : 0,
+        lng: place.geometry?.location.lng()
+          ? place.geometry?.location.lng()
+          : 0,
       };
       this.zone.run(() => {
         this.clearMarkers();
@@ -72,7 +76,7 @@ export class MapComponent implements OnInit {
         this.map.setZoom(this.zoom);
         this.map.setCenter(this.center);
         this.getResults();
-      })
+      });
     });
   }
 
@@ -87,48 +91,61 @@ export class MapComponent implements OnInit {
       type: 'grocery_or_supermarket',
     };
     this.service = new google.maps.places.PlacesService(this.map);
-    this.service.nearbySearch(this.request, (results, status) => this.zone.run(() => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
+    this.service.nearbySearch(this.request, (results, status) =>
+      this.zone.run(() => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
           for (let i = 0; i < results.length; i++) {
             const marker = new google.maps.Marker({
               map: this.map,
               position: results[i].geometry!.location,
-              title: results[i].name
+              title: results[i].name,
             });
 
-            google.maps.event.addListener(marker, "click", () => {
+            google.maps.event.addListener(marker, 'click', () => {
               const requestInfo: google.maps.places.PlaceDetailsRequest = {
                 placeId: results[i].place_id!,
-                fields: ['formatted_phone_number', 'vicinity', 'website']
-              }
-              this.service.getDetails(requestInfo, (res, stat) => this.zone.run(() => {
-                if (stat === google.maps.places.PlacesServiceStatus.OK) {
-                const infocontent = '<div id="content">' +
-                '<div id="siteNotice">' +
-                "</div>" +
-                '<h1 id="firstHeading" class="firstHeading">'+ results[i].name +'</h1>' +
-                '<div id="bodyContent">' +
-                "<p>Phone Number: " + res.formatted_phone_number +
-                "<br/>Address: " + res.vicinity +
-                "<br/>Rating: " + results[i].rating + "/5"+
-                "<br><a href=" + res.website+" target='_blank'>Visit Website</a>"+
-                "</p>" +
-                "</div>" +
-                "</div>";
-                this.infowindow.setContent(infocontent);
-                this.infowindow.open(this.map, marker);
-                }
-              })) 
+                fields: ['formatted_phone_number', 'vicinity', 'website'],
+              };
+              this.service.getDetails(requestInfo, (res, stat) =>
+                this.zone.run(() => {
+                  if (stat === google.maps.places.PlacesServiceStatus.OK) {
+                    const infocontent =
+                      '<div id="content">' +
+                      '<div id="siteNotice">' +
+                      '</div>' +
+                      '<h1 id="firstHeading" class="firstHeading">' +
+                      results[i].name +
+                      '</h1>' +
+                      '<div id="bodyContent">' +
+                      '<p>Phone Number: ' +
+                      res.formatted_phone_number +
+                      '<br/>Address: ' +
+                      res.vicinity +
+                      '<br/>Rating: ' +
+                      results[i].rating +
+                      '/5' +
+                      '<br><a href=' +
+                      res.website +
+                      " target='_blank'>Visit Website</a>" +
+                      '</p>' +
+                      '</div>' +
+                      '</div>';
+                    this.infowindow.setContent(infocontent);
+                    this.infowindow.open(this.map, marker);
+                  }
+                })
+              );
             });
             this.markers.push(marker);
           }
         }
-    }))
+      })
+    );
   }
 
   //clears markers if user changes to different location
-  clearMarkers(){
-    for (var i = 0; i < this.markers.length; i++) {
+  clearMarkers() {
+    for (let i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
     this.markers = [];
@@ -147,6 +164,4 @@ export class MapComponent implements OnInit {
     }
     this.map.setZoom(this.zoom);
   }
-
-  
 }
