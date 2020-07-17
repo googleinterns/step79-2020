@@ -16,7 +16,7 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login-email', component: EmailComponent },
                         { path: 'home', component: HomeComponent },
                         { path: 'users', component: ViewProfilesComponent},
-                        { path:'users/:username', component:UserPageComponent },
+                        { path: 'users/:username', component: UserPageComponent },
                         { path: 'upload-recipe', component: UploadRecipeComponent},
                         { path: 'confirm-upload', component: ConfirmComponent}];
 
