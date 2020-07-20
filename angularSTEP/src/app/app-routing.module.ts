@@ -9,6 +9,7 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { ViewProfilesComponent } from './view-profiles/view-profiles.component';
 import { UploadRecipeComponent } from './upload-recipe/upload-recipe.component'
 import { ConfirmComponent } from './confirm/confirm.component';
+import { CurrentProfilePageComponent } from './current-profile-page/current-profile-page.component';
 
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
@@ -18,7 +19,8 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'users', component: ViewProfilesComponent},
                         { path: 'users/:username', component: UserPageComponent },
                         { path: 'upload-recipe', component: UploadRecipeComponent},
-                        { path: 'confirm-upload', component: ConfirmComponent}];
+                        { path: 'confirm-upload', component: ConfirmComponent},
+                        { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
