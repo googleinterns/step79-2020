@@ -39,6 +39,7 @@ import {environment} from '../environments/environment';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NgAisModule } from 'angular-instantsearch';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
+import { SearchBoxComponent } from './search-box/search-box.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
+    SearchBoxComponent,
   ],
 
   imports: [
