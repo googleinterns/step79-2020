@@ -1,39 +1,39 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCardModule} from '@angular/material/card';
-
-import {AppComponent} from './app.component';
-import {NavbarComponent} from './navbar/navbar.component';
-import { AppRoutingModule } from './app-routing.module';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
-
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AppComponent} from './app.component';
+import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
 import {EmailComponent} from './email/email.component';
 import {HomeComponent} from './home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './login/login.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import {NgModule} from '@angular/core';
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
+import {NavbarComponent} from './navbar/navbar.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {environment} from '../environments/environment';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +48,7 @@ import {environment} from '../environments/environment';
     HomeComponent,
     ProfileCardComponent,
     UploadRecipeComponent,
+    CurrentProfilePageComponent,
   ],
 
   imports: [
@@ -75,6 +76,7 @@ import {environment} from '../environments/environment';
     MatSelectModule,
     MatToolbarModule,
     ReactiveFormsModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

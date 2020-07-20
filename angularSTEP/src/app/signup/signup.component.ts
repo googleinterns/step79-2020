@@ -58,7 +58,7 @@ export class SignupComponent implements OnInit {
               .then(success => {
                 if (success.user !== null) {
                   this.picUrl =
-                    success.user.photoURL !== null ? success.user.photoURL : '';
+                    success.user.photoURL !== null ? success.user.photoURL : 'assets/images/blank-profile.png';
                   this.addUser(success.user.uid);
                 }
               })
