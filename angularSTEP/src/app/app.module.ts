@@ -37,6 +37,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {environment} from '../environments/environment';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { NgAisModule } from 'angular-instantsearch';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 
 
@@ -86,6 +87,7 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     MatToolbarModule,
     ReactiveFormsModule,
     MatTabsModule,
+    NgAisModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
