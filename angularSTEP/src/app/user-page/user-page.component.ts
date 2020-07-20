@@ -12,13 +12,14 @@ import {Converter} from '../converter';
 })
 export class UserPageComponent implements OnInit {
   username = '';
+  currentPageUid = '';
   loggedIn = false;
   displayName = '';
   picUrl = 'assets/images/blank-profile.png';
   profileLoaded = false;
   userFollowing = false;
   currentUserUid!: string;
-  currentUser: User | undefined = undefined;
+  currentUserData: User | undefined = undefined;
 
   constructor(
     private router: Router,
@@ -32,7 +33,7 @@ export class UserPageComponent implements OnInit {
         this.currentUserUid = auth.uid;
       } else {
         this.loggedIn = false;
-        this.currentUser = undefined;
+        this.currentUserData = undefined;
         this.userFollowing = false;
       }
     });
@@ -54,11 +55,12 @@ export class UserPageComponent implements OnInit {
       .ref.withConverter(new Converter().usernameConverter)
       .get();
     if (postUsername !== null && postUsername.data() !== undefined) {
+      this.currentPageUid = postUsername.data()?.uid!;
       const postUser = await this.afs
-        .doc('/users/' + postUsername.data()?.uid + '/')
+        .doc('/users/' + this.currentPageUid + '/')
         .ref.withConverter(new Converter().userConverter)
         .get();
-      this.userFollowing = await this.isUserFollowing(postUsername.data()?.uid);
+      this.userFollowing = await this.isUserFollowing();
       if (postUser !== null && postUser.data() !== undefined) {
         const user: User = postUser.data()!;
         this.displayName = user.displayName !== null ? user.displayName : '';
@@ -73,13 +75,18 @@ export class UserPageComponent implements OnInit {
     }
   }
 
-  async isUserFollowing(uid: string | undefined){
-    if(uid && this.loggedIn && this.currentUserUid){
+  async isUserFollowing() {
+    if (this.currentPageUid && this.loggedIn && this.currentUserUid) {
       const postUser = await this.afs.firestore
-      .doc('/users/' + this.currentUserUid + '/').withConverter(new Converter().userConverter).get();
-      if(postUser){
-        this.currentUser = postUser.data();
-        if(this.currentUser && this.currentUser.following.indexOf(uid) > -1){
+        .doc('/users/' + this.currentUserUid + '/')
+        .withConverter(new Converter().userConverter)
+        .get();
+      if (postUser) {
+        this.currentUserData = postUser.data();
+        if (
+          this.currentUserData &&
+          this.currentUserData.following.indexOf(this.currentPageUid) > -1
+        ) {
           return true;
         }
       }
@@ -87,4 +94,42 @@ export class UserPageComponent implements OnInit {
     return false;
   }
 
+  follow() {
+    if (this.currentUserData && this.currentUserData.following) {
+      this.currentUserData.following.push(this.currentPageUid);
+      this.fAuth.currentUser.then(user => {
+        if (user) {
+          this.afs
+            .collection('users')
+            .doc(this.currentUserUid)
+            .ref.withConverter(new Converter().userConverter)
+            .update({following: this.currentUserData!.following})
+            .then(() => {
+              this.userFollowing = true;
+            });
+        }
+      });
+    }
+  }
+
+  unfollow() {
+    if (this.currentUserData && this.currentUserData.following) {
+      const index = this.currentUserData.following.indexOf(this.currentPageUid);
+      if (index > -1) {
+        this.currentUserData.following.splice(index, 1);
+        this.fAuth.currentUser.then(user => {
+          if (user) {
+            this.afs
+              .collection('users')
+              .doc(this.currentUserUid)
+              .ref.withConverter(new Converter().userConverter)
+              .update({following: this.currentUserData!.following})
+              .then(() => {
+                this.userFollowing = false;
+              });
+          }
+        });
+      }
+    }
+  }
 }

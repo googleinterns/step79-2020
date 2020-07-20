@@ -2,7 +2,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Observable} from 'rxjs';
@@ -22,7 +22,8 @@ export class ViewProfilesComponent implements OnInit {
   constructor(
     public fAuth: AngularFireAuth,
     private router: Router,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private zone: NgZone
   ) {
     this.userCollection = this.afs.collection('users');
     this.users = this.userCollection.valueChanges();
@@ -37,7 +38,9 @@ export class ViewProfilesComponent implements OnInit {
   }
 
   goToUser(username: string) {
-    this.router.navigate(['users/' + username]);
+    this.zone.run(() => {
+      this.router.navigate(['users/', username]);
+    })
   }
 
   ngOnInit() {}
