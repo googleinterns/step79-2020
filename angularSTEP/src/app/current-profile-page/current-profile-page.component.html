@@ -1,0 +1,33 @@
+<div  *ngIf='user'> 
+  <div class="profile-header">
+    <img class="profile-pic" src="{{ user.picUrl }}" alt="Profile pic for {{ user.displayName }}">
+    <div class="name-header">
+      <h1>{{ user.displayName }}</h1>
+      <h3>@{{ user.username }}</h3>
+    </div>
+  </div>
+
+  <mat-tab-group dynamicHeight [selectedIndex]="selected">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>account_circle</mat-icon>
+        My Profile
+      </ng-template>
+      <!-- add profile component here -->
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>favorite_border</mat-icon>
+        My Wishlist
+      </ng-template>
+      <!-- add wishlist component here -->
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>list_alt</mat-icon>
+        My Shoppinglist
+      </ng-template>
+      <!-- add shoppinglist component here -->
+    </mat-tab>
+  </mat-tab-group>
+</div> 
