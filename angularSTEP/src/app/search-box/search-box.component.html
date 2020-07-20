@@ -1,1 +1,18 @@
-<p>search-box works!</p>
+<div class='example-form'>
+    <mat-form-field appearance="outline" class="example-full-width" floatLabel="never">
+        <input
+        [(ngModel)]="searchField"
+        autocomplete="off"
+        matInput
+        #input
+        (keyup)="onChangeDebounced(input.value)"
+        [value]="this.state.query"
+        placeholder='Search for profiles'
+        >
+        <mat-spinner [diameter]='24' *ngIf='loading' matPrefix></mat-spinner>
+        <mat-icon *ngIf='!loading' matPrefix>search</mat-icon>
+        <button mat-button mat-icon-button matSuffix (click)="this.state.clear(); clearSearchField()" *ngIf="searchField">
+            <mat-icon>close</mat-icon>
+        </button>   
+    </mat-form-field>
+</div>

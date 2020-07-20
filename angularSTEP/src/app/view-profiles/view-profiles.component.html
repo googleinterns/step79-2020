@@ -1,5 +1,5 @@
 <ais-instantsearch [config]="config">
-    <ais-search-box></ais-search-box>
+    <app-search-box [delay]='500'></app-search-box>
     <ais-hits>
       <ng-template let-hits="hits">
           <app-profile-card *ngFor="let user of hits" [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>

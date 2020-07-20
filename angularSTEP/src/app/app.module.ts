@@ -22,6 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {NgModule} from '@angular/core';
@@ -37,9 +38,9 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {environment} from '../environments/environment';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { NgAisModule } from 'angular-instantsearch';
+import {NgAisModule} from 'angular-instantsearch';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
-import { SearchBoxComponent } from './search-box/search-box.component';
+import {SearchBoxComponent} from './search-box/search-box.component';
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import { SearchBoxComponent } from './search-box/search-box.component';
     ReactiveFormsModule,
     MatMenuModule,
     MatRippleModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatToolbarModule,
     ReactiveFormsModule,
