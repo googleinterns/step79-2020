@@ -27,6 +27,10 @@ export class MyProfileTabComponent implements OnInit {
     }
   }
 
+  cancelForm(form: string) {
+    this.aboutMeForm = null;
+  }
+
   onSubmit() {
     this.fAuth.currentUser.then(user => {
       if (

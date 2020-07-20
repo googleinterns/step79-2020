@@ -34,11 +34,16 @@ import { SignupComponent } from './signup/signup.component';
 import { UploadRecipeComponent } from './upload-recipe/upload-recipe.component';
 import { environment } from '../environments/environment';
 import { MyProfileTabComponent } from './my-profile-tab/my-profile-tab.component';
+import { ViewProfilesComponent } from './view-profiles/view-profiles.component'; 
+import { UserPageComponent } from './user-page/user-page.component'; 
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    AutoCompleteComponent,
     ProfileMenuComponent,
     LoginComponent,
     EmailComponent,
@@ -46,6 +51,8 @@ import { MyProfileTabComponent } from './my-profile-tab/my-profile-tab.component
     SetupComponent,
     HomeComponent,
     ProfileCardComponent,
+    ViewProfilesComponent,
+    UserPageComponent,
     UploadRecipeComponent,
     CurrentProfilePageComponent,
     MyProfileTabComponent
@@ -69,13 +76,15 @@ import { MyProfileTabComponent } from './my-profile-tab/my-profile-tab.component
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
     MatMenuModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
     ReactiveFormsModule,
     MatTabsModule,
-    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
