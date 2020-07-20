@@ -13,10 +13,13 @@ import {Converter} from '../converter';
 export class MyProfileTabComponent implements OnInit {
   @Input() userData!: User;
   aboutMeForm: FormControl | null = null;
+  usersFollowing: User[] = [];
 
   constructor(private afs: AngularFirestore, private fAuth: AngularFireAuth) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.getFollowing();
+  }
 
   editValue(form: string) {
     switch (form) {
@@ -50,5 +53,17 @@ export class MyProfileTabComponent implements OnInit {
           });
       }
     });
+  }
+
+  async getFollowing(){
+    for(let i = 0; i < this.userData!.following.length; i++){
+    const user = await this.afs
+          .collection('users')
+          .doc(this.userData!.following[i])
+          .ref.withConverter(new Converter().userConverter).get();
+    if(user && user.data()){
+      this.usersFollowing.push(user.data()!);
+    }
+  }
   }
 }
