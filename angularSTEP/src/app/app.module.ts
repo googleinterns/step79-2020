@@ -30,7 +30,9 @@ import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+import {UserPageComponent} from './user-page/user-page.component'; 
 import {environment} from '../environments/environment';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
@@ -47,6 +49,8 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     SetupComponent,
     HomeComponent,
     ProfileCardComponent,
+    ViewProfilesComponent,
+    UserPageComponent,
     UploadRecipeComponent,
     CurrentProfilePageComponent,
   ],
