@@ -24,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
@@ -71,6 +72,7 @@ import { environment } from '../environments/environment';
     MatMenuModule,
     MatRippleModule,
     MatSelectModule,
+    MatStepperModule,
     MatToolbarModule,
     ReactiveFormsModule,
     MatTabsModule,

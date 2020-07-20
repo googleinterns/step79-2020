@@ -1,0 +1,46 @@
+.other-error {
+  color: red;
+  margin-top: -20px;
+}
+
+.form-formatting {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+  margin-right: 20%;
+  margin-left: 20%;
+}
+
+#solo-next-button {
+  display:flex;
+  justify-content: flex-end;
+}
+
+.form-array-formatting {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+  margin-right: 20%;
+  margin-left: 20%;
+  // justify-content: center;
+  text-align: center;
+}
+
+.array-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: .5%;
+}
+
+.input-error {
+  display: flex;
+  flex-direction: column;
+  flex-grow: .75;
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1%;
+}

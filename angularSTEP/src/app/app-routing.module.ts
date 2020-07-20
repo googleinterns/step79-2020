@@ -16,11 +16,10 @@ const routes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
                         { path: 'login-email', component: EmailComponent },
                         { path: 'home', component: HomeComponent },
                         { path: 'username-setup', component: SetupComponent },
-                        { path: 'upload-recipe', component: UploadRecipeComponent},
-                        { path: 'confirm-upload', component: ConfirmComponent},
-                        { path: 'recipes', component: RecipesComponent},
-                        { path: 'recipes/:id', redirectTo: 'recipe/:id'}, 
-                        { path: 'recipe/:id', component: RecipePageComponent},];
+                        { path: 'upload-recipe', component: UploadRecipeComponent },
+                        { path: 'confirm-upload', component: ConfirmComponent },
+                        { path: 'recipes', component: RecipesComponent },
+                        { path: 'recipes/:id', component: RecipePageComponent },];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
