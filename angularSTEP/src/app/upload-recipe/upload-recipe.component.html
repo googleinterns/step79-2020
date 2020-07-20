@@ -2,7 +2,7 @@
 <mat-horizontal-stepper linear>
   <mat-step [stepControl]="basicsFormGroup">
     <form [formGroup]="basicsFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
-      <ng-template matStepLabel>Basic information about your recipe</ng-template>
+      <ng-template matStepLabel>Recipe Basics</ng-template>
         <mat-form-field>
           <mat-label>Recipe Name</mat-label>
           <input matInput placeholder="Ex. Mom's tamales" formControlName="name" required>
