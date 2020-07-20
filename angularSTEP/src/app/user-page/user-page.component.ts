@@ -1,5 +1,6 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {Component, OnInit} from '@angular/core';
 import {User} from '../user';
 import {Converter} from '../converter';
@@ -15,12 +16,27 @@ export class UserPageComponent implements OnInit {
   displayName = '';
   picUrl = 'assets/images/blank-profile.png';
   profileLoaded = false;
+  userFollowing = false;
+  currentUserUid!: string;
+  currentUser: User | undefined = undefined;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private afs: AngularFirestore
-  ) {}
+    private afs: AngularFirestore,
+    private fAuth: AngularFireAuth
+  ) {
+    this.fAuth.onAuthStateChanged(auth => {
+      if (auth) {
+        this.loggedIn = true;
+        this.currentUserUid = auth.uid;
+      } else {
+        this.loggedIn = false;
+        this.currentUser = undefined;
+        this.userFollowing = false;
+      }
+    });
+  }
 
   ngOnInit() {
     const username = this.activatedRoute.snapshot.paramMap.get('username');
@@ -42,6 +58,7 @@ export class UserPageComponent implements OnInit {
         .doc('/users/' + postUsername.data()?.uid + '/')
         .ref.withConverter(new Converter().userConverter)
         .get();
+      this.userFollowing = await this.isUserFollowing(postUsername.data()?.uid);
       if (postUser !== null && postUser.data() !== undefined) {
         const user: User = postUser.data()!;
         this.displayName = user.displayName !== null ? user.displayName : '';
@@ -55,4 +72,19 @@ export class UserPageComponent implements OnInit {
       }
     }
   }
+
+  async isUserFollowing(uid: string | undefined){
+    if(uid && this.loggedIn && this.currentUserUid){
+      const postUser = await this.afs.firestore
+      .doc('/users/' + this.currentUserUid + '/').withConverter(new Converter().userConverter).get();
+      if(postUser){
+        this.currentUser = postUser.data();
+        if(this.currentUser && this.currentUser.following.indexOf(uid) > -1){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 }
