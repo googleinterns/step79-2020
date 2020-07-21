@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
+import { DiscoverPageComponent } from './discover-page/discover-page.component';
 import { EmailComponent } from './email/email.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -25,6 +26,7 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'recipes', component: RecipesComponent},
                         { path: 'recipes/:id', redirectTo: 'recipe/:id'}, 
                         { path: 'recipe/:id', component: RecipePageComponent},
+                        { path: 'discover', component: DiscoverPageComponent},
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({
