@@ -1,9 +1,4 @@
-import {
-  AngularFirestore
-} from '@angular/fire/firestore';
-import { Component, OnInit } from '@angular/core';
-
-import { AngularFireAuth } from '@angular/fire/auth';
+import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +6,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-
-  constructor(public fAuth: AngularFireAuth, private afs: AngularFirestore) {}
+  
+  constructor(private zone: NgZone) {}
 
   ngOnInit() {}
 }

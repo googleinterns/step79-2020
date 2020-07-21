@@ -36,6 +36,8 @@ import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {environment} from '../environments/environment';
+import {MapComponent} from './map/map.component';
+import {GoogleMapsModule} from '@angular/google-maps';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 
@@ -55,6 +57,7 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     ViewProfilesComponent,
     UserPageComponent,
     UploadRecipeComponent,
+    MapComponent,
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
@@ -85,6 +88,7 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     MatSelectModule,
     MatToolbarModule,
     ReactiveFormsModule,
+    GoogleMapsModule,
     MatTabsModule,
   ],
   providers: [],
