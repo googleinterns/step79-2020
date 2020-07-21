@@ -17,8 +17,13 @@ export class DiscoverPageComponent implements OnInit {
     searchClient
   };
 
-  showResults = false;
+  typesOfSearch = ["All", "Recipes", "Tags", "Users"];
 
+  typesOfRecipeSorts = ["Time Created", "Number of Ingredients", "Name"];
+  typesOfUserSorts = ["Time Created", "Number of Recipes", "Name"];
+
+  showResults = false;
+  searchType: string;
   constructor(private router: Router) { }
 
   goToUser(username: string) {

@@ -16,12 +16,16 @@ import {HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './login/login.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatRadioModule} from '@angular/material/radio';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -41,7 +45,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {NgAisModule} from 'angular-instantsearch';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 import {SearchBoxComponent} from './search-box/search-box.component';
-import { DiscoverPageComponent } from './discover-page/discover-page.component';
+import {DiscoverPageComponent} from './discover-page/discover-page.component';
 
 
 @NgModule({
@@ -80,16 +84,20 @@ import { DiscoverPageComponent } from './discover-page/discover-page.component';
     MatCardModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatFormFieldModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    MatListModule,
     MatMenuModule,
     MatRippleModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
     MatSelectModule,
+    MatSidenavModule,
     MatToolbarModule,
     ReactiveFormsModule,
     MatTabsModule,
