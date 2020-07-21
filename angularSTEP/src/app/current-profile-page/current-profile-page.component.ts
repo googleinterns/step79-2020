@@ -1,12 +1,12 @@
 import {
   AngularFirestore
 } from '@angular/fire/firestore';
-import { Component, OnInit, NgZone } from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router, ActivatedRoute } from '@angular/router';
-import { User } from '../user';
-import { Converter } from '../converter'
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router, ActivatedRoute} from '@angular/router';
+import {User} from '../user';
+import {Converter} from '../converter'
 
 @Component({
   selector: 'app-current-profile-page',

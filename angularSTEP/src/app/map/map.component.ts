@@ -22,6 +22,7 @@ export class MapComponent implements OnInit {
 
   @ViewChild('mapElem', {static: true}) mapElem!: ElementRef;
   address = '';
+  
   center: google.maps.LatLngLiteral = {lat: 39.068229, lng: -94.393225};
   zoom = 11;
   options: google.maps.MapOptions = {
@@ -46,6 +47,7 @@ export class MapComponent implements OnInit {
     });
   }
 
+
   //Sets up the map and sets its center to the middle of the US. If value is entered, changes the zoom and
   //center of map and then retrieves the results
   ngAfterViewInit() {
@@ -53,6 +55,20 @@ export class MapComponent implements OnInit {
       this.map = new google.maps.Map(this.mapElem.nativeElement, this.options);
       this.infowindow = new google.maps.InfoWindow();
       this.map.setZoom(3);
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          this.clearMarkers();
+          this.zoom = 11;
+          this.map.setZoom(this.zoom);
+          this.map.setCenter(this.center);
+          this.getResults();
+        })
+      }
+      
     });
     const autocomplete = new google.maps.places.Autocomplete(
       this.addresstext.nativeElement,
