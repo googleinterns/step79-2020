@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { formattedError } from '@angular/compiler';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
+import {formattedError} from '@angular/compiler';
 
 @Component({
   selector: 'app-upload-recipe',
@@ -21,7 +21,7 @@ export class UploadRecipeComponent {
 
   recipeForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required, Validators.maxLength(200)]),
     tools: new FormControl(this.tools, [Validators.required]),
     ingredients: new FormControl(this.ingredients, [Validators.required]),
     instructions: new FormControl(this.instructions, [Validators.required]),
@@ -92,17 +92,28 @@ export class UploadRecipeComponent {
   }
 
   onSubmit() {
-    this.db.collection('recipes').add({
-      recipeName: this.autoCapitalizeName(this.recipeForm.value.name),
-      description: this.autoCapitalizeFirst(this.recipeForm.value.description),
-      ingredients: this.ingredients,
-      tools: this.tools,
-      instructions: this.instructions,
-      extraInfo: this.autoCapitalizeFirst(this.recipeForm.value.extraInfo),
-      difficulty: this.recipeForm.value.difficulty,
-      timestamp: Date.now(),
-    });
-    
+    if (this.autoCapitalizeFirst(this.recipeForm.value.extraInfo)) {
+      this.db.collection('recipes').add({
+        recipeName: this.autoCapitalizeName(this.recipeForm.value.name),
+        description: this.autoCapitalizeFirst(this.recipeForm.value.description),
+        ingredients: this.ingredients,
+        tools: this.tools,
+        instructions: this.instructions,
+        extraInfo: this.autoCapitalizeFirst(this.recipeForm.value.extraInfo),
+        difficulty: this.recipeForm.value.difficulty,
+        timestamp: Date.now(),
+      });
+    } else {
+      this.db.collection('recipes').add({
+        recipeName: this.autoCapitalizeName(this.recipeForm.value.name),
+        description: this.autoCapitalizeFirst(this.recipeForm.value.description),
+        ingredients: this.ingredients,
+        tools: this.tools,
+        instructions: this.instructions,
+        difficulty: this.recipeForm.value.difficulty,
+        timestamp: Date.now(),
+      });
+    }
     this.router.navigate(['/confirm-upload']);
   }
 }

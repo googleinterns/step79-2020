@@ -24,8 +24,7 @@ export class CurrentProfilePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private zone: NgZone,
-    private cd: ChangeDetectorRef
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -73,7 +72,7 @@ export class CurrentProfilePageComponent implements OnInit {
         } else {
           this.router.navigate(['/login']);
         }
-      });
+    });
   }
 
   editValue(form: string) {
@@ -100,7 +99,7 @@ export class CurrentProfilePageComponent implements OnInit {
         user &&
         this.displayNameForm &&
         this.displayNameForm.valid &&
-        this.displayNameForm.value !== this.user!.aboutme
+        this.displayNameForm.value !== this.user!.displayName
       ) {
         this.afs
           .collection('users')
@@ -110,6 +109,12 @@ export class CurrentProfilePageComponent implements OnInit {
           .then(() => {
             this.displayNameForm = null;
           });
+      } else if (
+        this.displayNameForm &&
+        this.displayNameForm.valid &&
+        this.displayNameForm.value === this.user!.displayName
+      ) {
+        this.displayNameForm = null;
       }
     });
   }

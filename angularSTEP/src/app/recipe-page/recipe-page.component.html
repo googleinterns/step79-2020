@@ -1,0 +1,26 @@
+<div *ngIf="pageRecipe">
+  <h3>{{pageRecipe.recipeName}}</h3>
+  <h3>{{pageRecipe.difficulty}}</h3>
+  <p>{{pageRecipe.description}}</p>
+    <br><br>
+    <mat-tab-group>
+        <mat-tab label="Ingredients">
+          <ul>
+            <li *ngFor="let ingredient of pageRecipe.ingredients">{{ingredient}}</li>
+          </ul> 
+        </mat-tab>
+        <mat-tab label="Tools">
+          <ul>
+            <li *ngFor="let tool of pageRecipe.tools">{{tool}}</li>
+          </ul> 
+        </mat-tab>
+        <mat-tab label="Instructions">
+          <ol>
+            <li *ngFor="let step of pageRecipe.instructions">{{step}}</li>
+          </ol> 
+        </mat-tab>
+        <mat-tab *ngIf="pageRecipe.extraInfo" label="Extra Information">
+          {{pageRecipe.extraInfo}}
+        </mat-tab>
+    </mat-tab-group> 
+</div>
