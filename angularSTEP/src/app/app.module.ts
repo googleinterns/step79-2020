@@ -16,6 +16,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './login/login.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -40,6 +41,7 @@ import {MapComponent} from './map/map.component';
 import {GoogleMapsModule} from '@angular/google-maps';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
+import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
 
 
 @NgModule({
@@ -61,6 +63,7 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
+    MyProfileTabComponent
   ],
 
   imports: [
@@ -75,6 +78,7 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     FormsModule,
     HttpClientModule,
     MatCardModule,
+    MatDividerModule,
     MatFormFieldModule,
     MatButtonModule,
     MatFormFieldModule,

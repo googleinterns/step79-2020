@@ -100,7 +100,8 @@ export class SignupComponent implements OnInit {
               Date.now(),
               [],
               [],
-              new Object()
+              new Object(),
+              ""
             )
           )
           .then(() => {

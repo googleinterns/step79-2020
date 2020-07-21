@@ -57,7 +57,8 @@ export class SetupComponent implements OnInit {
               Date.now(),
               [],
               [],
-              new Object()
+              new Object(),
+              ""
             )
           )
           .then(() => {

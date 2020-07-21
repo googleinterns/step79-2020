@@ -6,8 +6,8 @@ import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  
-  constructor(private zone: NgZone) {}
+
+  constructor() {}
 
   ngOnInit() {}
 }
