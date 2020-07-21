@@ -11,7 +11,8 @@ export class User {
     public time: number,
     public recipes: Array<string>,
     public wishlist: Array<string>,
-    public shoppingList: object
+    public shoppingList: object,
+    public numRecipes: number
   ) {
     this.username = username;
     this.uid = uid;
@@ -23,6 +24,7 @@ export class User {
     this.recipes = recipes;
     this.wishlist = wishlist;
     this.shoppingList = shoppingList;
+    this.numRecipes = numRecipes
   }
 }
 
