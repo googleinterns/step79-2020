@@ -64,7 +64,7 @@ export class CurrentProfilePageComponent implements OnInit {
       });
       this.zone.run(() => {
         this.user = postUser.data()!;
-      })
+      });
     } else {
       this.router.navigate(['/login']);
     }
@@ -94,7 +94,7 @@ export class CurrentProfilePageComponent implements OnInit {
         user &&
         this.displayNameForm &&
         this.displayNameForm.valid &&
-        this.displayNameForm.value !== this.user!.aboutme
+        this.displayNameForm.value !== this.user!.displayName
       ) {
         this.afs
           .collection('users')
@@ -105,6 +105,12 @@ export class CurrentProfilePageComponent implements OnInit {
             this.user!.displayName = this.displayNameForm!.value;
             this.displayNameForm = null;
           });
+      } else if (
+        this.displayNameForm &&
+        this.displayNameForm.valid &&
+        this.displayNameForm.value === this.user!.displayName
+      ) {
+        this.displayNameForm = null;
       }
     });
   }
