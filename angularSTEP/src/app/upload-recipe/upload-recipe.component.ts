@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { formattedError } from '@angular/compiler';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
+import {formattedError} from '@angular/compiler';
 
 @Component({
   selector: 'app-upload-recipe',
