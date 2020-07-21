@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Converter } from '../converter';
-import { Router } from '@angular/router';
-import { User, Username } from '../user';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Converter} from '../converter';
+import {Router} from '@angular/router';
+import {User, Username} from '../user';
 
 @Component({
   selector: 'app-signup',
@@ -58,7 +58,9 @@ export class SignupComponent implements OnInit {
               .then(success => {
                 if (success.user !== null) {
                   this.picUrl =
-                    success.user.photoURL !== null ? success.user.photoURL : 'assets/images/blank-profile.png';
+                    success.user.photoURL !== null
+                      ? success.user.photoURL
+                      : 'assets/images/blank-profile.png';
                   this.addUser(success.user.uid);
                 }
               })
