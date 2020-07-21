@@ -17,10 +17,16 @@ export class DiscoverPageComponent implements OnInit {
     searchClient
   };
 
+  showResults = false;
+
   constructor(private router: Router) { }
 
   goToUser(username: string) {
     this.router.navigate(['users/' + username]);
+  }
+
+  displayResults(noQuery: boolean){
+    this.showResults = !noQuery;
   }
 
   ngOnInit(): void {
