@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import * as algoliasearch from 'algoliasearch/lite';
 import {environment} from '../../environments/environment'
+import {MatExpansionPanel} from '@angular/material/expansion';
 
 import {Router} from '@angular/router';
 
@@ -17,24 +18,48 @@ export class DiscoverPageComponent implements OnInit {
     searchClient
   };
 
-  typesOfSearch = ["All", "Recipes", "Tags", "Users"];
+  @ViewChild("recipePanel") sortPanel: MatExpansionPanel;
 
-  typesOfRecipeSorts = ["Time Created", "Number of Ingredients", "Name"];
+  typesOfSearch = ["Recipes", "Users"]
+  typesOfRecipeSorts = ["Time Created", "Number of Ingredients", "Rating"];
   typesOfUserSorts = ["Time Created", "Number of Recipes", "Name"];
 
   showResults = false;
-  searchType: string;
-  constructor(private router: Router) { }
+  isChecked: boolean;
+  
+  searchOption: string[] = ["Recipes"];
+  recipeOption: string[] = ["Time Created"];
+  userOption: string[] = ["Time Created"];
+
+  constructor(private router: Router) {
+
+  }
+
+  onSearchChanged(event){
+    console.log(this.searchOption);
+  }
+
+  onRecipeSortChanged(event){
+    console.log(event[0]);
+  }
+
+  onUserSortChanged(event){
+    console.log(event[0]);
+  }
 
   goToUser(username: string) {
     this.router.navigate(['users/' + username]);
   }
 
   displayResults(noQuery: boolean){
+    if(!noQuery){
+      this.sortPanel.close();
+    }
     this.showResults = !noQuery;
   }
 
   ngOnInit(): void {
+    
   }
 
 }

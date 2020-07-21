@@ -42,6 +42,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {environment} from '../environments/environment';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {NgAisModule} from 'angular-instantsearch';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 import {SearchBoxComponent} from './search-box/search-box.component';
@@ -98,6 +99,7 @@ import {DiscoverPageComponent} from './discover-page/discover-page.component';
     MatRadioModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSlideToggleModule,
     MatToolbarModule,
     ReactiveFormsModule,
     MatTabsModule,

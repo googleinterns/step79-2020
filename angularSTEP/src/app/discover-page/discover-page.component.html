@@ -1,38 +1,63 @@
 <mat-sidenav-container class="sidebar">
   <mat-sidenav mode="side" opened>
     <mat-list>
-        <mat-selection-list #search [multiple]="false">
+      <div mat-subheader>Search</div>
+        <mat-selection-list [(ngModel)]="searchOption" (ngModelChange)="onSearchChanged($event)" #search [multiple]="false">
           <mat-list-option *ngFor="let search of typesOfSearch" [value]="search">
             {{search}}
           </mat-list-option>
         </mat-selection-list>
       <mat-divider></mat-divider>
-      <div mat-subheader>Sort Recipes</div>
-      <mat-selection-list #sortRecipes [multiple]="false">
-        <mat-list-option *ngFor="let recipeSort of typesOfRecipeSorts" [value]="sortRecipes">
+    </mat-list>
+    
+    <mat-expansion-panel #recipePanel [disabled]='showResults' *ngIf='searchOption[0] === "Recipes"'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Sort
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <mat-selection-list [(ngModel)]="recipeOption" (ngModelChange)="onRecipeSortChanged($event)" #sortRecipes [multiple]="false">
+        <mat-list-option *ngFor="let recipeSort of typesOfRecipeSorts" [value]="recipeSort">
           {{recipeSort}}
         </mat-list-option>
       </mat-selection-list>
-      <mat-divider></mat-divider>
-      <div mat-subheader>Sort Users</div>
-      <mat-selection-list #sortUsers [multiple]="false">
-        <mat-list-option *ngFor="let userSort of typesOfUserSorts" [value]="sortUsers">
+      <mat-list-item>
+        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Ascending' : 'Descending' }}
+        </mat-slide-toggle>
+      </mat-list-item>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [disabled]='showResults' #recipePanel *ngIf='searchOption[0] === "Users"'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Sort
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <mat-selection-list [(ngModel)]="userOption" (ngModelChange)="onUserSortChanged($event)" #sortUsers [multiple]="false">
+        <mat-list-option *ngFor="let userSort of typesOfUserSorts" [value]="userSort">
           {{userSort}}
         </mat-list-option>
       </mat-selection-list>
-    </mat-list>
+      <mat-list-item>
+        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Ascending' : 'Descending' }}
+        </mat-slide-toggle>
+      </mat-list-item>
+    </mat-expansion-panel>
+
   </mat-sidenav>
   <mat-sidenav-content>
-    <ais-instantsearch [config]="config">
-      <app-search-box (noQuery)='displayResults($event)' [delay]='500'></app-search-box>
-        <ais-hits *ngIf='showResults'>
-          <ng-template let-hits="hits">
-              <app-profile-card *ngFor="let user of hits" [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
-              </app-profile-card>
-          </ng-template>
-        </ais-hits>
-    </ais-instantsearch>
-    <div *ngIf='!showResults'></div>
+      <ais-instantsearch [config]="config">
+        <app-search-box (noQuery)='displayResults($event)' [delay]='500'></app-search-box>
+          <ais-hits *ngIf='showResults'>
+            <ng-template let-hits="hits">
+                <app-profile-card *ngFor="let user of hits" [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
+                </app-profile-card>
+            </ng-template>
+          </ais-hits>
+      </ais-instantsearch>
+      <div *ngIf='!showResults'></div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

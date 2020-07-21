@@ -1,5 +1,5 @@
 .sidebar {
-    position: absolute;
+    
     top: 0;
     bottom: 0;
     left: 0;
@@ -14,4 +14,12 @@
   
   .radio-button {
     margin: 5px;
+  }
+
+  mat-slide-toggle {
+      float: right;
+  }
+
+  mat-sidenav-content {
+    margin: 40px;
   }
