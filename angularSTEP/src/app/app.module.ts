@@ -1,5 +1,5 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
@@ -28,6 +28,8 @@ import {NgModule} from '@angular/core';
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
 import {NavbarComponent} from './navbar/navbar.component';
+import {RecipePageComponent} from './recipe-page/recipe-page.component';
+import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
@@ -38,6 +40,7 @@ import {MapComponent} from './map/map.component';
 import {GoogleMapsModule} from '@angular/google-maps';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
+
 
 @NgModule({
   declarations: [
@@ -55,6 +58,8 @@ import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
     UserPageComponent,
     UploadRecipeComponent,
     MapComponent,
+    RecipesComponent,
+    RecipePageComponent,
     CurrentProfilePageComponent,
   ],
 
