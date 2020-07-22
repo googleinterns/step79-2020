@@ -34,7 +34,7 @@
         </mat-list-option>
       </mat-selection-list>
       <mat-list-item>
-        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Ascending ' : 'Descending' }}
+        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Descending' : 'Ascending' }}
         </mat-slide-toggle>
       </mat-list-item>
     </mat-expansion-panel>
@@ -59,7 +59,7 @@
         </mat-list-option>
       </mat-selection-list>
       <mat-list-item>
-        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Ascending' : 'Descending' }}
+        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Descending' : 'Ascending' }}
         </mat-slide-toggle>
       </mat-list-item>
     </mat-expansion-panel>
@@ -77,7 +77,11 @@
             </ng-template>
           </ais-hits>
       </ais-instantsearch>
-      <div *ngIf='!showResults'></div>
+      <div *ngIf='!showResults'>
+        <app-discover-display [contentType]='this.searchOption[0]' [direction]='this.isChecked' 
+        [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
+        </app-discover-display>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -27,7 +27,7 @@ export class DiscoverPageComponent implements OnInit {
   typesOfUserSorts = ['Time Created', 'Number of Recipes', 'Name'];
 
   showResults = false;
-  isChecked: boolean;
+  isChecked: boolean = false;
 
   searchOption: string[] = ['Recipes'];
   recipeOption: string[] = ['Time Created'];
@@ -35,11 +35,11 @@ export class DiscoverPageComponent implements OnInit {
 
   constructor(private router: Router) {}
 
-  // onSearchChanged(event) {}
+  onSearchChanged(event) {}
 
-  // onRecipeSortChanged(event) {}
+  onRecipeSortChanged(event) {}
 
-  // onUserSortChanged(event) {}
+  onUserSortChanged(event) {}
 
   goToUser(username: string) {
     this.router.navigate(['users/' + username]);
