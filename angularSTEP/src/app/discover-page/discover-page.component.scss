@@ -17,9 +17,13 @@
   }
 
   mat-slide-toggle {
-      float: right;
+    float: right;
   }
 
-  mat-sidenav-content {
-    margin: 40px;
+  .content {
+    margin: 20px;
+  }
+
+  mat-sidenav{
+    max-width: 225px;
   }
