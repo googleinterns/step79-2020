@@ -47,6 +47,7 @@ import {NgAisModule} from 'angular-instantsearch';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 import {SearchBoxComponent} from './search-box/search-box.component';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
+import { DiscoverDisplayComponent } from './discover-display/discover-display.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import {DiscoverPageComponent} from './discover-page/discover-page.component';
     CurrentProfilePageComponent,
     SearchBoxComponent,
     DiscoverPageComponent,
+    DiscoverDisplayComponent,
   ],
 
   imports: [
