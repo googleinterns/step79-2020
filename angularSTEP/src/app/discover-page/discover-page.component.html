@@ -72,8 +72,10 @@
         <app-search-box (noQuery)='displayResults($event)' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
-                <app-profile-card *ngFor="let user of hits" [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
-                </app-profile-card>
+                <div class="search-content-container">
+                  <app-profile-card *ngFor="let user of hits" [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
+                  </app-profile-card>
+                </div>
             </ng-template>
           </ais-hits>
       </ais-instantsearch>

@@ -5,8 +5,6 @@ import {
 } from '@angular/fire/firestore';
 import {User} from '../user'
 import {Converter} from '../converter'
-import {Observable} from 'rxjs';
-import { getLocaleDateFormat } from '@angular/common';
 
 @Component({
   selector: 'app-discover-display',
@@ -21,6 +19,7 @@ export class DiscoverDisplayComponent implements OnInit {
   @Input() sortType: string;
   @Input() contentType: string;
   @Input() direction: string;
+  cols: number;
 
   constructor(private afs: AngularFirestore) {}
 

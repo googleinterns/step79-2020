@@ -1,19 +1,26 @@
 .profile-card {
-    max-width: 400px;
+    width: 200px;
 }
 
-.card-img {
-    margin: 0 auto;
-    margin-bottom: 16px;
+.mat-card-image {
+    margin: 0;
+    background-size: cover;
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
 }
   
-.profile-img {
-    background-size: cover;
-}
-
 .mat-card{
     padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
     margin-bottom: 10px;
+    margin-right: 32px 
+}
+
+.mat-card-header{
+    margin-top: 16px;
+    padding: 0 8px;
 }
 
 .mat-card-subtitle {
