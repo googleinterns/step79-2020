@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {AngularFireAuth} from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
@@ -145,28 +146,17 @@ export class UploadRecipeComponent implements OnInit {
     this.formatInstructions(this.instructionsArray);
     this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
 
-    if (this.extraFormGroup.value.extraInfo) {
-      this.db.collection('recipes').add({
-        recipeName: this.basicsFormGroup.value.name,
-        difficulty: this.basicsFormGroup.value.difficulty,
-        description: this.basicsFormGroup.value.description,
-        ingredients: this.ingredientsArray.value,
-        tools: this.toolsArray.value,
-        instructions: this.instructionsArray.value,
-        timestamp: Date.now(),
+
+    this.db.collection('recipes').add({
+      recipeName: this.basicsFormGroup.value.name,
+      difficulty: this.basicsFormGroup.value.difficulty,
+      description: this.basicsFormGroup.value.description,
+      ingredients: this.ingredientsArray.value,
+      tools: this.toolsArray.value,
+      instructions: this.instructionsArray.value,
+      extraInfo: this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value : '',
+      timestamp: Date.now(),
       });
-    } else {
-      this.db.collection('recipes').add({
-        recipeName: this.basicsFormGroup.value.name,
-        difficulty: this.basicsFormGroup.value.difficulty,
-        description: this.basicsFormGroup.value.description,
-        ingredients: this.ingredientsArray.value,
-        tools: this.toolsArray.value,
-        instructions: this.instructionsArray.value,
-        extraInfo: this.extraFormGroup.value.extraInfo,
-        timestamp: Date.now(),
-      });
-    }
     this.router.navigate(['/confirm-upload']);
   }
 }

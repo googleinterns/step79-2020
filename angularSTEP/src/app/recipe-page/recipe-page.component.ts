@@ -39,7 +39,6 @@ export class RecipePageComponent {
                     return { id, ...data};
                   }))
                 );
-                this.recipes.subscribe(val => console.log(val));
                 this.recipes.subscribe(
                   value => {
                     this.pageRecipe = value.find(element => element.id === this.id);

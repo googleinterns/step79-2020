@@ -41,6 +41,6 @@ export class RecipesComponent {
   }
   
   goToRecipe(id: string) {
-    this.router.navigate(['/recipe', id]);
+    this.router.navigate(['/recipes', id]);
   }
 }
