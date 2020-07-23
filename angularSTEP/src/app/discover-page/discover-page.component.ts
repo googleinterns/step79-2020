@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import * as algoliasearch from 'algoliasearch/lite';
 import {environment} from '../../environments/environment';
 import {MatExpansionPanel} from '@angular/material/expansion';
 
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -15,10 +15,11 @@ const searchClient = algoliasearch(
   styleUrls: ['./discover-page.component.scss'],
 })
 export class DiscoverPageComponent implements OnInit {
-  config = {
-    indexName: 'user_search',
-    searchClient,
-  };
+  query: string = '';
+
+  config: object;
+
+  
 
   @ViewChild('recipePanel') sortPanel: MatExpansionPanel;
 
@@ -33,7 +34,11 @@ export class DiscoverPageComponent implements OnInit {
   recipeOption: string[] = ['Time Created'];
   userOption: string[] = ['Time Created'];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      this.query = params['q'];
+    })
+  }
 
   onSearchChanged(event) {}
 
@@ -46,11 +51,26 @@ export class DiscoverPageComponent implements OnInit {
   }
 
   displayResults(noQuery: boolean) {
-    if (!noQuery) {
-      this.sortPanel.close();
-    }
     this.showResults = !noQuery;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(){
+    this.route.queryParams.subscribe(params => {
+      this.query = params['q'];
+    })
+    this.config = {
+      indexName: 'user_search',
+      searchClient,
+      searchParameters: {
+        query: this.query
+      }
+    };
+  }
+
+  ngAfterViewInit(): void {
+    if (this.showResults) {
+      this.sortPanel.close();
+    }
+    
+  }
 }

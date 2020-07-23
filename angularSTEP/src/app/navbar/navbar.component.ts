@@ -25,7 +25,6 @@ export class NavbarComponent implements OnInit {
   };
 
   public setQuery({ query }: { query: string }) {
-    console.log(query)
     this.searchParameters.query = query;
     this.router.navigate(['/discover'], { queryParams: { q: this.searchParameters.query } })
   }

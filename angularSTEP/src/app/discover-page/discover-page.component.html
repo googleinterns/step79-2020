@@ -69,7 +69,7 @@
   <mat-sidenav-content>
     <div class="content">
       <ais-instantsearch [config]="config">
-        <app-search-box (noQuery)='displayResults($event)' [delay]='500'></app-search-box>
+        <app-search-box (noQuery)='displayResults($event)' [searchField]='query'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
                 <div class="search-content-container">
