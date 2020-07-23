@@ -1,0 +1,1 @@
+<app-profile-card *ngFor="let user of users | async" (click)='goToUser(user.username)' [user]='user'></app-profile-card>
