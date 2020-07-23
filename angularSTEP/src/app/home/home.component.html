@@ -1,5 +1,6 @@
 
-<h3 (click)="logout()">Welcome {{name}}!</h3>
+<h3 (click)="logout()">Welcome {{username}}!</h3>
 <div><app-profile-card *ngFor="let user of users | async"
     [user]='user'></app-profile-card>
 </div>
+<app-recipe-card [recipe]="{recipeName:'Brownies', description: 'lhdkjfhkjsdhfkjhdskjhkkkhdsfkjhsdfsfsdfuuhihuhuihhuiuhiuhsffsfsfshuhsuhfishfishfsiu', difficulty: 'Hard'}"></app-recipe-card>
