@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-upload-recipe',
   templateUrl: './upload-recipe.component.html',
   styleUrls: ['./upload-recipe.component.scss']
 })
-export class UploadRecipeComponent implements OnInit {
+export class UploadRecipeComponent{
   constructor(private fb: FormBuilder,
               private db: AngularFirestore,
               private router: Router,) { }
@@ -112,6 +112,9 @@ export class UploadRecipeComponent implements OnInit {
     var startIndex: number = -1;
 
     for (let i = 0; i < originalString.length; i++) {
+
+      // charCodeAt(i) of 65 is A and of 90 is Z
+      // charCodeA(i) of 97 is a and of 122 is z
       var currentValue: number = originalString.charCodeAt(i);
       if ((65 <= currentValue && currentValue <= 90) || (97 <= currentValue && currentValue <= 122)) {
         return originalString.substring(i);
@@ -133,9 +136,6 @@ export class UploadRecipeComponent implements OnInit {
     for (let i = 0; i < originalArray.length; i++) {
       originalArray.at(i).setValue(this.autoCapitalizeFirst(this.removeNumsAndSymbolsAtStart(originalArray.at(i).value)));
     }
-  }
-
-  ngOnInit(): void {
   }
   
   onSubmit() {
