@@ -5,9 +5,9 @@
     <button routerLink="/discover" mat-button>Discover</button>
     <button routerLink="/upload-recipe" mat-button>Upload Recipe</button>
 
-    <div class="spacer">
-        <app-auto-complete></app-auto-complete>
-    </div>
+    <ais-instantsearch [config]="config">
+        <app-autocomplete (onQuerySuggestionClick)="setQuery($event)"></app-autocomplete>
+    </ais-instantsearch>
 
     <app-profile-menu></app-profile-menu>
 </mat-toolbar>
