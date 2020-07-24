@@ -19,7 +19,7 @@ export class CurrentProfilePageComponent implements OnInit {
   user!: User;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private route: ActivatedRoute,
     private afs: AngularFirestore,

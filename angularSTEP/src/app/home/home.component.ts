@@ -12,7 +12,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public fAuth: AngularFireAuth, private afs: AngularFirestore) {}
+  constructor(private fAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
   ngOnInit() {}
 }

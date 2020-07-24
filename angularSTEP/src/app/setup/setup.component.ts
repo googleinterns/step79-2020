@@ -21,7 +21,7 @@ export class SetupComponent implements OnInit {
   picUrl = '';
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private fb: FormBuilder,
     private afs: AngularFirestore

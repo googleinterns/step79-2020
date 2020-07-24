@@ -20,7 +20,7 @@ export class ViewProfilesComponent implements OnInit {
   users: Observable<User[]>;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private afs: AngularFirestore,
     private zone: NgZone
