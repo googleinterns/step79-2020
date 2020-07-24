@@ -29,6 +29,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
@@ -89,6 +90,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     ReactiveFormsModule,
     MatMenuModule,
     MatRippleModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatStepperModule,
     MatToolbarModule,
