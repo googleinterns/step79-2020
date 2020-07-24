@@ -30,6 +30,7 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
@@ -91,6 +92,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MatMenuModule,
     MatRippleModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatStepperModule,
     MatToolbarModule,
