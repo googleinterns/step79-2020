@@ -12,7 +12,7 @@ export class AutoCompleteComponent implements OnInit {
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
+  filteredOptions!: Observable<string[]>;
 
   constructor() { }
 
