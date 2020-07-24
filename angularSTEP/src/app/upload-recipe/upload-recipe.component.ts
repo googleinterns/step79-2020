@@ -40,6 +40,11 @@ export class UploadRecipeComponent{
     return this.fileFormGroup.get('imageArray') as FormArray;
   }
 
+  deleteImage(i: number) {
+    this.previewImgUrls.splice(i, 1);
+    this.imageArray.removeAt(i);
+  }
+
   addImageToArray(event: any) {
     if (event.target.files.length > 0) {
       const file: Blob = event.target.files[0];
@@ -203,13 +208,6 @@ export class UploadRecipeComponent{
           this.router.navigate(['/home']);
         });
       }
-    });
-  }
-
-  closeComponent() {
-    this.previewImgUrls = [];
-    this.fileFormGroup = new FormGroup({
-      image: new FormControl('', [Validators.required, requiredFileType])
     });
   }
 }
