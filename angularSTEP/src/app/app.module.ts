@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
 
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
@@ -42,7 +43,8 @@ import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
+ 
 
 @NgModule({
   declarations: [
@@ -95,6 +97,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     ReactiveFormsModule,
     GoogleMapsModule,
     MatTabsModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

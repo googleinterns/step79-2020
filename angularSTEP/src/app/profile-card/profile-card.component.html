@@ -1,8 +1,8 @@
 <mat-card class="profile-card">
     <mat-card-header>
-      <img mat-card-avatar *ngIf='picUrl != ""' [src]='picUrl' alt="Profile photo of {{ displayName }}" class="profile-img">
-      <img mat-card-avatar *ngIf='picUrl == ""' src="assets/images/blank-profile.png" alt="Profile photo of {{ displayName }}" class="profile-img">
-      <mat-card-title>{{ displayName }}</mat-card-title>
-      <mat-card-subtitle>@{{ username }}</mat-card-subtitle>
+      <img mat-card-avatar *ngIf='picUrl != ""' src={{picUrl}} alt="Profile photo of {{displayName}}" class="profile-img">
+      <img mat-card-avatar *ngIf='picUrl == ""' src="assets/images/blank-profile.png" alt="Profile photo of {{displayName}}" class="profile-img">
+      <mat-card-title>{{ user.displayName }}</mat-card-title>
+      <mat-card-subtitle>@{{ user.username }}</mat-card-subtitle>
     </mat-card-header>
   </mat-card>
