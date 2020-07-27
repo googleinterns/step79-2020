@@ -17,17 +17,18 @@ service cloud.firestore {
     'uid' in request.resource.data &&
     'username' in request.resource.data &&
     'wishlist' in request.resource.data) &&
-    request.resource.data.displayName.size() < 50 &&
-    request.resource.data.username.size() < 20 &&
-    request.resource.data.username.size() > 3 &&
-    request.resource.data.aboutme.size() < 2000 &&
-    request.resource.data.email.size() < 254 &&
-    request.resourse.data.username.lower().matches(request.resourse.data.username) &&
     request.resource.data.displayName is string &&
     request.resource.data.username is string &&
     request.resource.data.aboutme is string &&
     request.resource.data.email is string &&
-    request.resource.data.uid is string;
+    request.resource.data.uid is string &&
+    request.resource.data.displayName.size() < 50 &&
+    request.resource.data.username.size() < 20 &&
+    request.resource.data.username.size() > 2 &&
+    request.resource.data.aboutme.size() < 2000 &&
+    request.resource.data.email.size() < 254 &&
+    request.resource.data.email.size() > 0 &&
+    request.resource.data.username.lower() == request.resource.data.username;
   }
   
   match /databases/{database}/documents {
@@ -47,6 +48,7 @@ service cloud.firestore {
     match /users/{user} {
       // Applies to writes to nonexistent documents
       allow create: if !(exists(/databases/$(database)/documents/usernames/$(request.resource.data.username))) &&
+                    request.auth != null &&
                     request.auth.uid != null &&
                     request.auth.uid == request.resource.data.uid &&
                     checkUserFieldsValid();
@@ -56,12 +58,13 @@ service cloud.firestore {
             request.auth.uid == request.resource.data.uid &&
             notUpdating('username') && notUpdating('uid') &&
             (!('timestamp' in request.resource.data)
-            || resource.data.timestamp.matches(request.resource.data.timestamp))
+            || resource.data.timestamp == request.resource.data.timestamp)
             && checkUserFieldsValid();
 
       // Applies to delete operations
-      allow delete: if user == request.auth.uid &&
-        request.auth.uid == request.resource.data.uid;
+      allow delete: if request.auth != null &&
+                        user == request.auth.uid &&
+                        request.auth.uid == resource.data.uid;
     }
 
   // A write rule can be divided into create, update, and delete rules
@@ -86,7 +89,8 @@ service cloud.firestore {
       allow update: if false;
 
       // Applies to delete operations
-      allow delete: if request.auth.uid == request.resource.data.uid;
+      allow delete: if request.auth != null &&
+                  request.auth.uid == resource.data.uid;
   	}
   }
 }

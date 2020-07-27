@@ -14,6 +14,8 @@ describe("Rules Auth", () => {
     it("Understands addition", () => {
         assert.equal(2+1,3);
     });
+
+// -----------------------------------------------
     
     describe("Basic read & write rules", () => {
         let db;
@@ -57,23 +59,145 @@ describe("Rules Auth", () => {
         })
     })
 
+// -----------------------------------------------
+
     describe("Read & write rules for users with auth", () => {
         let db;
+        let myAuth;
+        let admin;
 
-        beforeEach(function(){
-            myAuth = {uid: 'odog-123456789', email: 'odog@gmail.com'};
-            db = firebase.initializeTestApp({projectId: MY_PROJECT_ID, auth: myAuth}).firestore();
+        let data = {username: "oliver",
+                    uid: "",
+                    displayName: "Oliver Lance",
+                    email: "olly.lance15@gmail.com",
+                    picUrl: "",
+                    following: [],
+                    timestamp: 1,
+                    recipes: "",
+                    wishlist: "",
+                    shoppingList: {},
+                    aboutme: ""}
+
+        async function setUpDatabase(myAuth){
+            if(myAuth) {
+                db = firebase.initializeTestApp({projectId: MY_PROJECT_ID, auth: myAuth}).firestore();
+            } else {
+                db = firebase.initializeTestApp({projectId: MY_PROJECT_ID}).firestore();
+            }
             db.settings({
                 host: "localhost:8000",
                 ssl: false
             });
+        }
+
+        //sets up database
+        before(async function(){
+            admin = firebase.initializeAdminApp({projectId: MY_PROJECT_ID}).firestore();
+            admin.settings({
+                host: "localhost:8000",
+                ssl: false
+            });
+            await admin.collection("usernames")
+                        .doc("test")
+                        .set({username: "test", uid: "oliver5"})
         })
 
-        it("Can't write items w/ just auth", async () => {
+        it("Can make a user with specific fields", async () => {
+            data.uid = "oliver1";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
             const ref = db.collection("users");
-            await firebase.assertFails(ref.add({username: 'olly'}));
+            await firebase.assertSucceeds(ref.doc(myAuth.uid)
+                .set(data));
+        })
+
+        it("Can't make user without auth", async () => {
+            data.uid = "oliver2";
+            setUpDatabase(null);
+            const ref = db.collection("users");
+            await firebase.assertFails(ref.doc(myAuth.uid)
+                .set(data));
+        })
+
+        it("Can't make user with different input uid", async () => {
+            data.uid = "oliver3";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
+            data.uid = "oliver4";
+            const ref = db.collection("users");
+            await firebase.assertFails(ref.doc(myAuth.uid)
+                .set(data));
+        })
+
+        it("Can't make user if username is taken", async () => {
+            data.uid = "oliver5";
+            data.username = "test";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
+            const ref = db.collection("users");
+            await firebase.assertFails(ref.doc(myAuth.uid)
+                .set(data));
+        })
+
+        it("Can't make user if username has capital letters", async () => {
+            data.uid = "oliver6";
+            data.username = "ODOG";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
+            const ref = db.collection("users");
+            await firebase.assertFails(ref.doc(myAuth.uid)
+                .set(data));
+        })
+
+        it("Can't update user if username changes", async () => {
+            data.uid = "oliver1";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
+            const ref = db.collection("users");
+            await firebase.assertFails(ref.doc(myAuth.uid)
+                .update({username: "bob"}));
+        })
+
+        it("Can't update user if timestamp changes", async () => {
+            data.uid = "oliver1";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
+            const ref = db.collection("users");
+            await firebase.assertFails(ref.doc(myAuth.uid)
+                .update({timestamp: 34}));
+        })
+
+        it("Can update user", async () => {
+            data.uid = "oliver1";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
+            const ref = db.collection("users");
+            await firebase.assertSucceeds(ref.doc(myAuth.uid)
+                .update({displayName: "Bobby",
+                        picUrl: "test.png",
+                        wishlist: ["hello"],
+                        aboutme: "I am him"}));
+        })
+
+        it("Can't delete user without auth", async () => {
+            data.uid = "oliver1";
+            setUpDatabase(null);
+            const ref = db.collection("users");
+            await firebase.assertFails(ref.doc(myAuth.uid)
+                .delete());
+        })
+
+        it("Can delete user with auth", async () => {
+            data.uid = "oliver1";
+            myAuth = {uid: data.uid};
+            setUpDatabase(myAuth);
+            const ref = db.collection("users");
+            await firebase.assertSucceeds(ref.doc(myAuth.uid)
+                .delete());
         })
     })
+
+// -----------------------------------------------
 
     describe("Read & write rules for usernames with auth", () => {
         let db;
@@ -174,6 +298,21 @@ describe("Rules Auth", () => {
             await firebase.assertFails(ref.doc('ofrog')
                 .set({username: 'ofrog', uid: 'odog6'}));
         })
-    })
 
+        it("Can't delete username without auth", async () => {
+            myAuth = {uid: 'odog1'};
+            setUpDatabase(null);
+            const ref = db.collection("usernames");
+            await firebase.assertFails(ref.doc('olly')
+                .delete());
+        })
+
+        it("Can delete username with auth", async () => {
+            myAuth = {uid: 'odog1'};
+            setUpDatabase(myAuth);
+            const ref = db.collection("usernames");
+            await firebase.assertSucceeds(ref.doc('olly')
+                .delete());
+        })
+    })
 })
