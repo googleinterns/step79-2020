@@ -1,9 +1,10 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 import {User} from '../user';
 import {Converter} from '../converter';
+import { templateJitUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-user-page',
@@ -25,7 +26,8 @@ export class UserPageComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private afs: AngularFirestore,
-    private fAuth: AngularFireAuth
+    private fAuth: AngularFireAuth,
+    private zone: NgZone
   ) {
     this.fAuth.onAuthStateChanged(auth => {
       if (auth) {
@@ -94,9 +96,16 @@ export class UserPageComponent implements OnInit {
     return false;
   }
 
-  follow() {
+  setFollowing(follow: boolean){
     if (this.currentUserData && this.currentUserData.following) {
-      this.currentUserData.following.push(this.currentPageUid);
+      if(follow){
+        this.currentUserData.following.push(this.currentPageUid);
+      } else {
+        const index = this.currentUserData.following.indexOf(this.currentPageUid);
+        if (index > -1) {
+          this.currentUserData.following.splice(index, 1);
+        }
+      }
       this.fAuth.currentUser.then(user => {
         if (user) {
           this.afs
@@ -105,31 +114,23 @@ export class UserPageComponent implements OnInit {
             .ref.withConverter(new Converter().userConverter)
             .update({following: this.currentUserData!.following})
             .then(() => {
-              this.userFollowing = true;
+                this.userFollowing = follow;
             });
         }
       });
     }
   }
 
+  follow() {
+    this.zone.run(() => {
+      this.setFollowing(true);
+    })
+  }
+  
+
   unfollow() {
-    if (this.currentUserData && this.currentUserData.following) {
-      const index = this.currentUserData.following.indexOf(this.currentPageUid);
-      if (index > -1) {
-        this.currentUserData.following.splice(index, 1);
-        this.fAuth.currentUser.then(user => {
-          if (user) {
-            this.afs
-              .collection('users')
-              .doc(this.currentUserUid)
-              .ref.withConverter(new Converter().userConverter)
-              .update({following: this.currentUserData!.following})
-              .then(() => {
-                this.userFollowing = false;
-              });
-          }
-        });
-      }
-    }
+    this.zone.run(() => {
+      this.setFollowing(false)
+    })
   }
 }
