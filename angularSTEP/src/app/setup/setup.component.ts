@@ -37,12 +37,6 @@ export class SetupComponent implements OnInit {
   //creates and adds a user to Firestore
   addUser(dName: string, email: string, uid: string) {
     return this.afs
-      .collection('usernames')
-      .doc(this.usernameForm.value.username)
-      .ref.withConverter(new Converter().usernameConverter)
-      .set(new Username(this.usernameForm.value.username, uid))
-      .then(() => {
-        this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
@@ -61,7 +55,13 @@ export class SetupComponent implements OnInit {
             )
           )
           .then(() => {
-            this.router.navigate(['/home']);
+            this.afs
+            .collection('usernames')
+            .doc(this.usernameForm.value.username)
+            .ref.withConverter(new Converter().usernameConverter)
+            .set(new Username(this.usernameForm.value.username, uid))
+            .then(() => {
+              this.router.navigate(['/home']);
           });
       });
   }

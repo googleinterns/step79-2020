@@ -78,12 +78,6 @@ export class SignupComponent implements OnInit {
   //creates the user and adds it to Firestore
   addUser(uid: string) {
     return this.afs
-      .collection('usernames')
-      .doc(this.signUpForm.value.username)
-      .ref.withConverter(new Converter().usernameConverter)
-      .set(new Username(this.signUpForm.value.username, uid))
-      .then(() => {
-        this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
@@ -102,7 +96,13 @@ export class SignupComponent implements OnInit {
             )
           )
           .then(() => {
-            this.router.navigate(['/home']);
+            this.afs
+            .collection('usernames')
+            .doc(this.signUpForm.value.username)
+            .ref.withConverter(new Converter().usernameConverter)
+            .set(new Username(this.signUpForm.value.username, uid))
+            .then(() => {
+              this.router.navigate(['/home']);
           });
       });
   }
