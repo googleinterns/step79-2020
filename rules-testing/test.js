@@ -1,10 +1,6 @@
 const assert = require('assert');
 const firebase = require("@firebase/testing");
 var expect = require('chai').expect;
-// const Converter = require('../angularSTEP/src/app/converter')
-// const User = require('../angularSTEP/src/app/user')
-// import {Converter} from '../angularSTEP/src/app/converter.ts';
-// import {User} from '../angularSTEP/src/app/user.ts';
 
 const MY_PROJECT_ID = "boq-devex-step-2020";
 
@@ -72,11 +68,10 @@ describe("Rules Auth", () => {
                     email: "olly.lance15@gmail.com",
                     picUrl: "",
                     following: [],
-                    timestamp: 1,
+                    time: 1,
                     recipes: "",
                     wishlist: "",
-                    shoppingList: {},
-                    aboutme: ""}
+                    shoppingList: {}}
 
         async function setUpDatabase(myAuth){
             if(myAuth) {
@@ -164,7 +159,7 @@ describe("Rules Auth", () => {
             setUpDatabase(myAuth);
             const ref = db.collection("users");
             await firebase.assertFails(ref.doc(myAuth.uid)
-                .update({timestamp: 34}));
+                .update({time: 34}));
         })
 
         it("Can update user", async () => {
@@ -176,7 +171,7 @@ describe("Rules Auth", () => {
                 .update({displayName: "Bobby",
                         picUrl: "test.png",
                         wishlist: ["hello"],
-                        aboutme: "I am him"}));
+                        following: ["julia"]}));
         })
 
         it("Can't delete user without auth", async () => {
