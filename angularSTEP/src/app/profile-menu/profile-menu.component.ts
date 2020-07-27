@@ -1,10 +1,10 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router, NavigationEnd } from '@angular/router';
-import { User } from '../user';
-import { Converter } from '../converter';
-import { Subscription } from 'rxjs';
+import {Component, OnInit, NgZone} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router, NavigationEnd} from '@angular/router';
+import {User} from '../user';
+import {Converter} from '../converter';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-profile-menu',
@@ -20,7 +20,7 @@ export class ProfileMenuComponent implements OnInit {
   routerCheck!: Subscription;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private afs: AngularFirestore,
     private zone: NgZone
@@ -76,13 +76,12 @@ export class ProfileMenuComponent implements OnInit {
   }
 
   myProfile(index: string) {
-    if(index !== "myprofile") {
-      this.router.navigate(['/myprofile'], { queryParams: {"tab" : index}});
+    if (index !== 'myprofile') {
+      this.router.navigate(['/myprofile'], {queryParams: {tab: index}});
     } else {
       this.router.navigate(['/myprofile']);
     }
   }
-
 
   signIn() {
     this.router.navigate(['/login']);
@@ -107,7 +106,7 @@ export class ProfileMenuComponent implements OnInit {
           : 'assets/images/blank-profile.png';
       this.zone.run(() => {
         this.loggedIn = true;
-      })
+      });
       if (this.routerCheck) {
         this.routerCheck.unsubscribe();
       }
