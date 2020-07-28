@@ -20,7 +20,7 @@ export class ProfileMenuComponent implements OnInit {
   routerCheck!: Subscription;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private afs: AngularFirestore,
     private zone: NgZone

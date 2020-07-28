@@ -15,7 +15,7 @@ export class EmailComponent implements OnInit {
   logInForm: FormGroup;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private fb: FormBuilder
   ) {
