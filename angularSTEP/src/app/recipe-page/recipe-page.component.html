@@ -1,26 +1,42 @@
 <div *ngIf="pageRecipe">
-  <h3>{{pageRecipe.recipeName}}</h3>
+  <h2>{{pageRecipe.recipeName}}</h2>
   <h3>{{pageRecipe.difficulty}}</h3>
   <p>{{pageRecipe.description}}</p>
-    <br><br>
-    <mat-tab-group>
-        <mat-tab label="Ingredients">
-          <ul>
-            <li *ngFor="let ingredient of pageRecipe.ingredients">{{ingredient}}</li>
-          </ul> 
-        </mat-tab>
-        <mat-tab label="Tools">
-          <ul>
-            <li *ngFor="let tool of pageRecipe.tools">{{tool}}</li>
-          </ul> 
-        </mat-tab>
-        <mat-tab label="Instructions">
-          <ol>
-            <li *ngFor="let step of pageRecipe.instructions">{{step}}</li>
-          </ol> 
-        </mat-tab>
-        <mat-tab *ngIf="pageRecipe.extraInfo" label="Extra Information">
-          {{pageRecipe.extraInfo}}
-        </mat-tab>
-    </mat-tab-group> 
+  
+  <br><br>
+
+  <mat-tab-group>
+      <mat-tab label="Ingredients">
+        <ul *ngIf="user">
+          <div *ngFor="let ingredient of pageRecipe.ingredients; let i = index;" class="item-button-pair">
+            <li>{{ingredient}}</li>
+            <button mat-raised-button color="primary" class="add-button" (click)="addItem(pageRecipe.ingredients[i])">Add To Shopping List</button>
+          </div>
+        </ul>
+        <ul class="solo-list" *ngIf="!user">
+          <li *ngFor="let ingredient of pageRecipe.ingredients" class="solo-item">{{ingredient}}</li>
+        </ul>
+      </mat-tab>
+      <mat-tab label="Tools">
+        <ul *ngIf="user">
+          <div *ngFor="let tool of pageRecipe.tools" class="item-button-pair">
+            <li>{{tool}}</li>
+            <button mat-raised-button color="primary">Add To Shopping List</button>
+          </div>
+        </ul>
+        <ul *ngIf="!user" class="solo-list">
+          <li *ngFor="let tool of pageRecipe.tools" class="solo-item">{{tool}}</li>
+        </ul>
+      </mat-tab>
+      <mat-tab label="Instructions">
+        <ol class="tab-content">
+          <li class="instruction-item" *ngFor="let step of pageRecipe.instructions">{{step}}</li>
+        </ol> 
+      </mat-tab>
+      <mat-tab *ngIf="pageRecipe.extraInfo" label="Extra Information" class="extra">
+        <div class="tab-content">
+          <p>{{pageRecipe.extraInfo}}</p>
+        </div>
+      </mat-tab>
+  </mat-tab-group> 
 </div>

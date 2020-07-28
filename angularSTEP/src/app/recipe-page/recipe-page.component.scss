@@ -1,0 +1,44 @@
+.solo-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2%;
+}
+
+.solo-item {
+  margin-bottom: .5%;
+  width: 33%
+}
+
+.item-button-pair {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; // or space-between? => aligns the button sbu  theres also a lot of extra distance
+  align-items: center;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  // margin-bottom: .5%;
+  margin-top: 1%;
+}
+
+.tab-content {
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 2%;
+  // display: flex;
+  // flex-direction: column;
+  // align-content: center;
+  // margin-left: 20%;
+  // margin-right: 20%
+}
+
+.instruction-item {
+  margin-bottom: .5%;
+}
+
+
+.extra {
+  text-align: center;
+}

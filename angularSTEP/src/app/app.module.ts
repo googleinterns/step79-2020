@@ -21,6 +21,7 @@ import {MapComponent} from './map/map.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
@@ -42,7 +43,9 @@ import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
+import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component'; 
+import { ShoppingListComponent} from './shopping-list/shopping-list.component';
 
 @NgModule({
   declarations: [
@@ -63,9 +66,13 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
-    MyProfileTabComponent
+    MyProfileTabComponent,
+    AddItemDialogComponent,
+    ShoppingListComponent,
   ],
-
+  entryComponents: [
+    AddItemDialogComponent,
+  ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -78,6 +85,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     FormsModule,
     HttpClientModule,
     MatCardModule,
+    MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
     MatButtonModule,
@@ -86,7 +94,6 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MatIconModule,
     MatFormFieldModule,
     MatAutocompleteModule,
-    ReactiveFormsModule,
     MatMenuModule,
     MatRippleModule,
     MatSelectModule,

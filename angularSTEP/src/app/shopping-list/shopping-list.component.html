@@ -1,0 +1,8 @@
+<p>proof html is loading</p>
+<div *ngIf="user">
+    <p *ngIf="secondTestMap">
+        {{secondTestMap}}
+        {{secondTestMap.get('item')[0] * secondTestMap.get('item')[3]}} + {{secondTestMap.get('item')[1]}} + {{secondTestMap.get('item')[2]}}
+    </p>
+</div>
+<button (click)="check()">button here</button>

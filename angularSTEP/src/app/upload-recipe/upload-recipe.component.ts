@@ -15,8 +15,10 @@ import {RecipeConverter} from '../recipe-converter';
 export class UploadRecipeComponent{
   constructor(private fb: FormBuilder,
               private db: AngularFirestore,
-              private router: Router,) { }
-
+              private router: Router,) {
+                this.addIngredientsField();
+              }
+            
   basicsFormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
@@ -29,17 +31,72 @@ export class UploadRecipeComponent{
 
 
 
+  // ingredientsFormGroup = new FormGroup({
+  //   ingredientsArray: new FormArray([this.fb.control('', Validators.required)], {validators: Validators.required}),
+  // });
+
+  // get ingredientsArray() {
+  //   return this.ingredientsFormGroup.get('ingredientsArray') as FormArray;
+  //   }
+  
+  // addIngredientsField() {
+  //   this.ingredientsArray.push(this.fb.control('', Validators.required));
+  // }
+
+
+  check() {
+    console.log(this.ingredientsArray);
+    console.log(this.ingredientsArray.value);
+    console.log(this.ingredientsArray.controls);
+  }
+
+
+
+
   ingredientsFormGroup = new FormGroup({
-    ingredientsArray: new FormArray([this.fb.control('', Validators.required)], {validators: Validators.required}),
+    ingredientsArray: new FormArray([
+      // new FormGroup({
+      //   quantitiy: new FormControl(''),
+      //   unit: new FormControl(''),
+      //   ingredient: new FormControl(''),
+      // }),
+    ]),
   });
+
+
+  // ingredientsFormGroup = new FormGroup({
+  //   ingredientsArray: new FormArray([
+  //     new FormArray([
+  //       new FormControl(''),
+  //       new FormControl(''),
+  //       new FormControl(''),
+  //     ]),
+  //   ]),
+  // });
+
+  // ingredientsFormGroup = new FormGroup({
+  //   ingredientsArray: new FormArray([this.fb.control('', Validators.required)], {validators: Validators.required}),
+  // });
+
 
   get ingredientsArray() {
     return this.ingredientsFormGroup.get('ingredientsArray') as FormArray;
     }
   
-  addIngredientsField() {
-    this.ingredientsArray.push(this.fb.control('', Validators.required));
+  newIngredientsField(): FormGroup {
+    return this.fb.group({
+      quantity: new FormControl(''),
+      unit: new FormControl(''),
+      ingredient: new FormControl(''),
+    })  
   }
+
+  addIngredientsField() {
+    this.ingredientsArray.push(this.newIngredientsField());
+  }
+
+
+
 
 
 

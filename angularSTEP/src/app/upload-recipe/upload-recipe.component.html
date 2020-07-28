@@ -1,4 +1,4 @@
-<div class="stepper-container">
+<!-- <div class="stepper-container">
 <mat-horizontal-stepper linear>
   <mat-step [stepControl]="basicsFormGroup">
     <form [formGroup]="basicsFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
@@ -122,4 +122,108 @@
     </form> 
   </mat-step>
 </mat-horizontal-stepper>
-</div>
+</div> -->
+
+
+
+
+<!-- <form [formGroup]="ingredientsFormGroup" (ngSubmit)="onSubmit()" class="form-array-formatting">
+  <!-- <ng-template matStepLabel required>Ingredients</ng-template> 
+  <div formArrayName="ingredientsArray">
+    <div *ngFor="let ingred of ingredientsArray.controls; let i=index" class="array-item">
+      <mat-label>Ingredient:</mat-label>
+      <div class="input-error">
+        <input autocomplete="off" matInput type="text" [formControlName]="i">
+        <!-- <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error>
+      </div>
+      <!-- <button [disabled]="ingredientsArray.length === 1" mat-raised-button color="primary" (click)="ingredientsArray.removeAt(i)">Delete</button> 
+    </div>
+    <div>
+      <button type="button" (click)="check()">button here</button>
+      <button mat-raised-button color="primary" [disabled]="!ingredientsArray.valid || checkForBlanks(ingredientsArray.value)" (click)="addIngredientsField()">Add Another</button>
+    </div>
+  </div>
+  <!-- <div class="control-buttons">
+    <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+    <button mat-raised-button color="primary" [disabled]="!ingredientsArray.valid || checkForBlanks(ingredientsArray.value)" matStepperNext type="button">Next</button>
+  </div> 
+</form> -->
+
+
+
+
+
+<form [formGroup]="ingredientsFormGroup" (ngSubmit)="onSubmit()" class="form-array-formatting">
+  <!-- <ng-template matStepLabel required>Ingredients</ng-template> -->
+  <div formArrayName="ingredientsArray">
+    <div *ngFor="let ingred of ingredientsArray.controls; let i=index" class="array-item">
+      <div [formGroupName]="i">
+        quantity:
+        <input type="number" step=".001" min="0" max="999" formControlName="quantity">
+        unit:
+        <input type="text" formControlName="unit">
+        ingredient:
+        <input type="text" formControlName="ingredient">
+      </div>
+
+
+      <!-- <div formControlName="ingredientsArray.get(i).controls.quantity">
+        <mat-label>Quantity:</mat-label>
+        <div class="input-error">
+          <input autocomplete="off" matInput type="text">
+          <!-- <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error>  
+        </div>
+      </div>
+
+      <div formControlName="ingredientsArray.get(i).controls.unit">
+        <mat-label>Unit:</mat-label>
+        <div class="input-error">
+          <input autocomplete="off" matInput type="text">
+          <!-- <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error>  
+        </div>
+      </div>
+
+      <div formControlName="ingredientsArray.get(i).controls.ingredient">
+        <mat-label>Ingredient:</mat-label>
+        <div class="input-error">
+          <input autocomplete="off" matInput type="text">
+          <!-- <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error>  
+        </div>
+      </div> -->
+      
+    </div>
+    <div>
+      <button type="button" (click)="check()">button here</button>
+      <button mat-raised-button color="primary"(click)="addIngredientsField()">Add Another</button>
+    </div>
+  </div>
+  <!-- <div class="control-buttons">
+    <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+    <button mat-raised-button color="primary" [disabled]="!ingredientsArray.valid || checkForBlanks(ingredientsArray.value)" matStepperNext type="button">Next</button>
+  </div> -->
+</form>
+
+<!-- [disabled]="!ingredientsArray.valid || checkForBlanks(ingredientsArray.value)"  -->
+
+
+
+
+<!-- <form [formGroup]="">
+  <div formArrayName="">
+    <mat-label>Quantity:</mat-label>
+    <div class="input-error">
+      <input autocomplete="off" matInput type="text" [formControlName]="quantity">
+      <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error> 
+    </div>
+    <mat-label>Quantity:</mat-label>
+    <div class="input-error">
+      <input autocomplete="off" matInput type="text" [formControlName]="unit">
+      <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error> 
+    </div>
+    <mat-label>Quantity:</mat-label>
+    <div class="input-error">
+      <input autocomplete="off" matInput type="text" [formControlName]="ingredient">
+      <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error> 
+    </div>
+  </div>
+</form> -->
