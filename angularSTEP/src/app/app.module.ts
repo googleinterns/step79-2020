@@ -41,9 +41,14 @@ import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
+
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {environment} from '../environments/environment';
+import {RecipeCardComponent} from './recipe-card/recipe-card.component';
+
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+
 
 @NgModule({
   declarations: [
@@ -60,6 +65,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     ViewProfilesComponent,
     UserPageComponent,
     UploadRecipeComponent,
+    RecipeCardComponent,
     MapComponent,
     RecipesComponent,
     RecipePageComponent,
