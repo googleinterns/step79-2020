@@ -1,0 +1,11 @@
+<mat-card class="recipe" *ngIf='recipe'>
+  <mat-card-header>
+    <mat-card-title>{{recipe.recipeName}}</mat-card-title>
+    <mat-card-subtitle>{{recipe.difficulty}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{recipe.description}}
+    </p>
+  </mat-card-content>
+</mat-card>
