@@ -1,12 +1,11 @@
-<mat-card class="example-card">
+<mat-card class="recipe" *ngIf='recipe'>
   <mat-card-header>
-    <mat-card-title>{{recipeName}}</mat-card-title>
-    <mat-card-subtitle>{{difficulty}}</mat-card-subtitle>
+    <mat-card-title>{{recipe.recipeName}}</mat-card-title>
+    <mat-card-subtitle>{{recipe.difficulty}}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
   <mat-card-content>
     <p>
-      {{description}}
+      {{recipe.description}}
     </p>
   </mat-card-content>
 </mat-card>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 interface recipeData{
   recipeName: string,
@@ -11,18 +11,9 @@ interface recipeData{
   templateUrl: './recipe-card.component.html',
   styleUrls: ['./recipe-card.component.scss']
 })
-export class RecipeCardComponent implements OnInit{
+export class RecipeCardComponent {
 
   @Input() recipe!: recipeData;
-  recipeName!: string;
-  description!: string;
-  difficulty!: string;
-
-  ngOnInit(): void {
-    this.recipeName = this.recipe.recipeName;
-    this.description = this.recipe.description;
-    this.difficulty = this.recipe.difficulty;
-  }
 
 }
 
