@@ -43,8 +43,7 @@ import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
- 
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
 
 @NgModule({
   declarations: [

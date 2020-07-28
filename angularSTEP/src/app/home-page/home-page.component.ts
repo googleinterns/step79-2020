@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CardsComponent } from './cards.component';
+//import { CardsComponent } from './cards.component';
 
 @Component({
   selector: 'app-home-page',
