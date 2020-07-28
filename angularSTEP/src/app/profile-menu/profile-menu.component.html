@@ -3,19 +3,19 @@
     [matRippleRadius]='20'
     [matRippleCentered]='true'>
     <img *ngIf='!loggedIn' src="assets/images/blank-profile.png" alt="Profile photo" class="profile-img">
-    <img *ngIf='loggedIn && (picUrl == undefined)' src="assets/images/blank-profile.png" alt="Profile photo of {{displayName}}" class="profile-img">
-    <img *ngIf='loggedIn && (picUrl != undefined)' src={{picUrl}} alt="Profile photo of {{displayName}}" class="profile-img">
+    <img *ngIf='loggedIn && (picUrl == undefined)' src="assets/images/blank-profile.png" alt="Profile photo of {{ displayName }}" class="profile-img">
+    <img *ngIf='loggedIn && (picUrl != undefined)' [src]='picUrl' alt="Profile photo of {{ displayName }}" class="profile-img">
 </div>
 <mat-menu #menu="matMenu">
-    <button *ngIf="loggedIn" mat-menu-item>
+    <button *ngIf="loggedIn" (click)='myProfile("myprofile")' mat-menu-item>
         <mat-icon>account_circle</mat-icon>
         <span>My Profile</span>
     </button>
-    <button *ngIf="loggedIn" mat-menu-item>
+    <button *ngIf="loggedIn" (click)='myProfile("wishlist")' mat-menu-item>
         <mat-icon>favorite_border</mat-icon>
         <span>My Wishlist</span>
     </button>
-    <button *ngIf="loggedIn" mat-menu-item>
+    <button *ngIf="loggedIn" (click)='myProfile("shoppinglist")' mat-menu-item>
         <mat-icon>list_alt</mat-icon>
         <span>My Shoppinglist</span>
     </button>
