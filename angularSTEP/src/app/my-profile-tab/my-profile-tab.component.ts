@@ -35,6 +35,7 @@ export class MyProfileTabComponent implements OnInit {
     this.fAuth.currentUser.then(user => {
       if (
         user &&
+        this.userData &&
         this.aboutMeForm &&
         this.aboutMeForm.valid &&
         this.aboutMeForm.value !== this.userData.aboutme
