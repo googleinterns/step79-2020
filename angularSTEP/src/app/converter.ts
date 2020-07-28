@@ -14,11 +14,12 @@ export class Converter {
         username: user.username,
         email: user.email,
         picUrl: user.picUrl,
-        timestamp: user.time,
+        time: user.time,
         recipes: user.recipes,
         wishlist: user.wishlist,
         shoppingList: user.shoppingList,
         following: user.following,
+        aboutme: user.aboutme
       };
     },
     fromFirestore: function (
@@ -36,7 +37,8 @@ export class Converter {
         data.time,
         data.recipes,
         data.wishlist,
-        data.shoppingList
+        data.shoppingList,
+        data.aboutme
       );
     },
   };
