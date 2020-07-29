@@ -45,31 +45,38 @@ export class SignupComponent implements OnInit {
       await this.afs
         .doc('/usernames/' + this.signUpForm.value.username + '/')
         .ref.get()
-        .then(doc => {
+        .then(async doc => {
           if (doc.exists) {
             this.error = 'Username ' + this.signUpForm.value.username + ' already taken.';
           } else {
-            this.fAuth
+            await this.fAuth
               .createUserWithEmailAndPassword(
                 this.signUpForm.value.email,
                 this.signUpForm.value.password
               )
-              .then(success => {
+              .then(async success => {
                 if (success.user !== null) {
                   this.picUrl =
                     success.user.photoURL !== null
                       ? success.user.photoURL
                       : 'assets/images/blank-profile.png';
                   this.addUser(success.user.uid);
+                } else {
+                  this.fAuth.currentUser.then(user => {
+                    if (user !== null) {
+                      user.delete();
+                    }
+                  })
+                  this.error = 'User not created. Please try again.';
                 }
               })
-              .catch(() => {
-                this.fAuth.currentUser.then(user => {
+              .catch(async () => {
+                await this.fAuth.currentUser.then(user => {
                   if (user !== null) {
                     user.delete();
                   }
-                  this.error = 'User not created. Please try again.';
-                });
+                })
+                this.error = 'User not created. Please try again.';
               });
           }
         }).catch(() => {
@@ -79,8 +86,8 @@ export class SignupComponent implements OnInit {
   }
 
   //creates the user and adds it to Firestore
-  addUser(uid: string) {
-    return this.afs
+  async addUser(uid: string) {
+    await this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
@@ -107,7 +114,21 @@ export class SignupComponent implements OnInit {
             .set(new Username(this.signUpForm.value.username, uid))
             .then(() => {
               this.router.navigate(['/home']);
-          });
+            }).catch(() => {
+              this.fAuth.currentUser.then(user => {
+                if (user !== null) {
+                  user.delete();
+                }
+              })
+              this.error = 'User not created. Please try again.';
+            });
+      }).catch(() => {
+        this.fAuth.currentUser.then(user => {
+          if (user !== null) {
+            user.delete();
+          }
+        })
+        this.error = 'User not created. Please try again.';
       });
   }
 
