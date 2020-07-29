@@ -38,42 +38,42 @@ export class UploadRecipeComponent{
                   map((category: string | null) => category ? this._filter(category) : this.allCategories.slice()));
                }
 
-               add(event: MatChipInputEvent): void {
-                const input = event.input;
-                const value = event.value;
+add(event: MatChipInputEvent): void {
+  const input = event.input;
+  const value = event.value;
             
-                // Add our category
-                if ((value || '').trim()) {
-                  this.categories.push(value.trim());
-                }
+  // Add our category
+  if ((value || '').trim()) {
+    this.categories.push(value.trim());
+  }
             
-                // Reset the input value
-                if (input) {
-                  input.value = '';
-                }
+  // Reset the input value
+  if (input) {
+    input.value = '';
+  }
             
-                this.categoryCtrl.setValue(null);
-              }
+  this.categoryCtrl.setValue(null);
+}
             
-              remove(category: string): void {
-                const index = this.categories.indexOf(category);
+remove(category: string): void {
+  const index = this.categories.indexOf(category);
             
-                if (index >= 0) {
-                  this.categories.splice(index, 1);
-                }
-              }
+  if (index >= 0) {
+    this.categories.splice(index, 1);
+  }
+}
             
-              selected(event: MatAutocompleteSelectedEvent): void {
-                this.categories.push(event.option.viewValue);
-                this.categoryInput.nativeElement.value = '';
-                this.categoryCtrl.setValue(null);
-              }
+selected(event: MatAutocompleteSelectedEvent): void {
+  this.categories.push(event.option.viewValue);
+  this.categoryInput.nativeElement.value = '';
+  this.categoryCtrl.setValue(null);
+}
             
-              private _filter(value: string): string[] {
-                const filterValue = value.toLowerCase();
+private _filter(value: string): string[] {
+  const filterValue = value.toLowerCase();
             
-                return this.allCategories.filter(category => category.toLowerCase().indexOf(filterValue) === 0);
-              }
+  return this.allCategories.filter(category => category.toLowerCase().indexOf(filterValue) === 0);
+}
 
   basicsFormGroup = new FormGroup({
     name: new FormControl('', Validators.required),

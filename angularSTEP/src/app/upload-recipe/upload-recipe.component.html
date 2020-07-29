@@ -31,6 +31,35 @@
           <mat-hint *ngIf="!(basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid)">{{description.value?.length}}/200 Characters</mat-hint>
           <mat-error>This is required.</mat-error>
         </mat-form-field>
+
+        <br><br>
+
+        <mat-form-field class="example-chip-list">
+          <mat-chip-list #chipList aria-label="Category selection">
+            <mat-chip
+              *ngFor="let category of categories"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(category)">
+              {{category}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="New category..."
+              #fruitInput
+              [formControl]="categoryCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let category of filteredCategories | async" [value]="catagory">
+              {{category}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
         <h5 class="other-error" *ngIf="basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid">Please enter a valid description.</h5>
         <div id="solo-next-button">
           <button mat-raised-button color="primary" matStepperNext [disabled]="!basicsFormGroup.valid || basicsFormGroup.controls.name.value.trim() === '' || basicsFormGroup.controls.description.value.trim() === ''" type="button">Next</button>
@@ -114,33 +143,6 @@
         <mat-label>Extra Information</mat-label>
         <textarea autocomplete="off" matInput placeholder="Ex. It was a crisp autumn day when I suddenly felt inspired to take a trip down memory lane and cook..." formControlName="extraInfo"></textarea>
         <mat-hint>Write anything else you may want to include about your recipe.</mat-hint>
-
-        <mat-form-field class="example-chip-list">
-          <mat-chip-list #chipList aria-label="Category selection">
-            <mat-chip
-              *ngFor="let category of categories"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(category)">
-              {{category}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-            <input
-              placeholder="New category..."
-              #fruitInput
-              [formControl]="categoryCtrl"
-              [matAutocomplete]="auto"
-              [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              (matChipInputTokenEnd)="add($event)">
-          </mat-chip-list>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let category of filteredCategories | async" [value]="catagory">
-              {{category}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-
       </mat-form-field>
       <div class="control-buttons">
         <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
