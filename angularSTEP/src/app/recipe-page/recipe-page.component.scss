@@ -13,12 +13,11 @@
 .item-button-pair {
   display: flex;
   flex-direction: row;
-  justify-content: space-between; // or space-between? => aligns the button sbu  theres also a lot of extra distance
+  justify-content: space-between;
   align-items: center;
   width: 50%;
   margin-left: 25%;
   margin-right: 25%;
-  // margin-bottom: .5%;
   margin-top: 1%;
 }
 
@@ -27,11 +26,6 @@
   margin-left: 25%;
   margin-right: 25%;
   margin-top: 2%;
-  // display: flex;
-  // flex-direction: column;
-  // align-content: center;
-  // margin-left: 20%;
-  // margin-right: 20%
 }
 
 .instruction-item {

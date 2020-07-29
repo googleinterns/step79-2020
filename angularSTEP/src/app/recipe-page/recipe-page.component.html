@@ -8,9 +8,9 @@
   <mat-tab-group>
       <mat-tab label="Ingredients">
         <ul *ngIf="user">
-          <div *ngFor="let ingredient of pageRecipe.ingredients; let i = index;" class="item-button-pair">
+          <div *ngFor="let ingredient of pageRecipe.ingredients;" class="item-button-pair">
             <li>{{ingredient}}</li>
-            <button mat-raised-button color="primary" class="add-button" (click)="addItem(pageRecipe.ingredients[i])">Add To Shopping List</button>
+            <button mat-raised-button color="primary" (click)="addItem(ingredient)">Add To Shopping List</button>
           </div>
         </ul>
         <ul class="solo-list" *ngIf="!user">
@@ -21,7 +21,7 @@
         <ul *ngIf="user">
           <div *ngFor="let tool of pageRecipe.tools" class="item-button-pair">
             <li>{{tool}}</li>
-            <button mat-raised-button color="primary">Add To Shopping List</button>
+            <button mat-raised-button color="primary" (click)="addItem(tool)">Add To Shopping List</button>
           </div>
         </ul>
         <ul *ngIf="!user" class="solo-list">

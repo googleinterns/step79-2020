@@ -6,8 +6,8 @@ import {Recipe} from '../recipe';
 import {RecipeConverter} from '../recipe-converter';
 import {User} from '../user';
 import {Converter} from '../converter';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {AddItemDialogComponent} from '../add-item-dialog/add-item-dialog.component';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
 
 @Component({
   selector: 'app-recipe-page',
@@ -24,7 +24,7 @@ export class RecipePageComponent {
     private db: AngularFirestore,
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
   ) {
     this.setRecipeData();
     this.fAuth.currentUser.then(user => {
@@ -51,93 +51,58 @@ export class RecipePageComponent {
     } 
   }
 
-  xah_obj_to_map(obj: any): Map<string, number> {
-    const mp = new Map;
-    Object.keys ( obj ). forEach (k => { mp.set(k, obj[k]) });
+  objToMap(obj: any): Map<string, number> {
+    const mp = new Map();
+    Object.keys(obj).forEach(k => {mp.set(k, obj[k])});
     return mp;
   }
 
 
   addItem(item: string) {
-    // console.log(this.xah_obj_to_map(this.user.shoppingList));
-    // var currentShoppingList: Map<string, number> = this.xah_obj_to_map(this.user.shoppingList);
-    // // var currentShoppingList: Map<string, number> = this.user.shoppingList;
-    // // console.log(this.user.shoppingList);
-    // // console.log(currentShoppingList);
-    // if (currentShoppingList.has(item)) {
-    //   var currentValue = currentShoppingList.get(item);
-    //   if (currentValue) {
-    //     currentShoppingList.set(item, (currentValue + 1));
-    //   }
-    // } else {
-    //   currentShoppingList.set(item, 1);
-    // }
+    var currentShoppingList: Map<string, number> = this.objToMap(this.user.shoppingList);
 
-    let testTuple: [number, string, string, number] = [1, 'unit', 'item', 1];
-    let testMap: Map<string, [number, string, string, number]> = new Map([
-      ['item', testTuple],
-    ]);
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = 'auto';
+    dialogConfig.width = 'auto';
+    dialogConfig.data = {
+      selectedItem: item,
+      add: true,
+      remove: false,
+      max: 0,
+    };
+
+    const dialogRef = this.dialog.open(ItemDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (currentShoppingList.has(item)) {
+          var currentValue = currentShoppingList.get(item);
+          if (currentValue) {
+            currentShoppingList.set(item, (currentValue + result));
+          }
+        } else {
+          currentShoppingList.set(item, result);
+        }  
+
+        let objectCurrentShoppingList = Array.from(currentShoppingList).reduce((objectCurrentShoppingList, [key, value]) => (
+          Object.assign(objectCurrentShoppingList, { [key]: value }) 
+        ), {});
     
-    console.log(testMap);
-
-    let obj = Array.from(testMap).reduce((obj, [key, value]) => (
-      Object.assign(obj, { [key]: value }) 
-    ), {});
-
-    console.log(obj);
-    this.db.collection('users')
-    .doc(this.user!.uid)
-    .ref.withConverter(new Converter().userConverter)
-    .update({shoppingList: obj});
-    // console.log(this.user.shoppingList);
-
-
-
-    // let obj = Array.from(currentShoppingList).reduce((obj, [key, value]) => (
-    //   Object.assign(obj, { [key]: value }) 
-    // ), {});
-
-    // // for (let [key, value] of currentShoppingList) {
-    // //   obj[key] = value;
-    // // }   
-
-    // // currentShoppingList.forEach((value, key) => (obj[key] = value));
-    // // const obj = Object.fromEntries(currentShoppingList);
-
-    // var objectCurrentShoppingList = obj;
-
-    // // Object.fromEntries(currentShoppingList);
-    // // console.log(objectCurrentShoppingList);
-
-    // this.db.collection('users')
-    // .doc(this.user!.uid)
-    // .ref.withConverter(new Converter().userConverter)
-    // .update({shoppingList: objectCurrentShoppingList});
-    // // console.log(this.user.shoppingList);
-    
-    // this.fAuth.currentUser.then(user => {
-    //   if (user) {
-    //     this.setUserData(user.uid);
-    //   }
-    // });
-    // console.log(this.user.shoppingList);
-
-
-    // const dialogRef = this.dialog.open(AddItemDialogComponent, {
-    //   data: {addedItem: item},
-    //   height: '400px',
-    //   width: '600px',
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   // this is where i add the result of the dialog to the this.user.shoppingList map 
-    // });
-
-    // console.log(this.user);
-    // console.log(item);
-    // probably pass in a string consisting of the item? idk how rn but yeah
-    // a pop-up of sorts? saying to enter a quantity? or no quantity too?
-    // pop up would also be good to learn to eventually change the confirm t
-    // this is what should execute on button click
-    // user.shoppingList.set(item, quantity) <= more or less the end result
+        this.fAuth.currentUser.then(user => {
+          if (user) {
+            this.db.collection('users')
+            .doc(this.user!.uid)
+            .ref.withConverter(new Converter().userConverter)
+            .update({shoppingList: objectCurrentShoppingList})
+            .then(() => {
+              this.setUserData(user.uid);
+            });
+          }
+        });  
+      }
+    });
   }
 }

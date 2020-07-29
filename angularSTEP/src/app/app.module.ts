@@ -16,6 +16,7 @@ import {environment} from '../environments/environment';
 import {GoogleMapsModule} from '@angular/google-maps';
 import {HomeComponent} from './home/home.component';
 import {HttpClientModule} from '@angular/common/http';
+import {ItemDialogComponent} from './item-dialog/item-dialog.component';
 import {LoginComponent} from './login/login.component';
 import {MapComponent} from './map/map.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -44,8 +45,7 @@ import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
-import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component'; 
-import { ShoppingListComponent} from './shopping-list/shopping-list.component';
+import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 
 @NgModule({
   declarations: [
@@ -67,11 +67,11 @@ import { ShoppingListComponent} from './shopping-list/shopping-list.component';
     RecipePageComponent,
     CurrentProfilePageComponent,
     MyProfileTabComponent,
-    AddItemDialogComponent,
     ShoppingListComponent,
+    ItemDialogComponent,
   ],
   entryComponents: [
-    AddItemDialogComponent,
+    ItemDialogComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),

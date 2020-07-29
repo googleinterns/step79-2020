@@ -3,68 +3,132 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {User} from '../user';
 import {Converter} from '../converter';
-import {toBase64String} from '@angular/compiler/src/output/source_map';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
 
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.scss']
 })
+
 export class ShoppingListComponent implements OnInit {
   user!: User;
-  secondTestMap: Map<string, [number, string, string, number]> = new Map();
+  shoppingListMap: Map<string, number> = new Map();
+  shoppingListMapKeys!: string[];
 
   constructor(
     private db: AngularFirestore,
     private fAuth: AngularFireAuth,
+    private dialog: MatDialog,
   ) {
     this.fAuth.currentUser.then(user => {
       if (user) {
-        // console.log(user.uid);
         this.setUserData(user.uid);
-        // console.log(user);
       }
     });
-    // this.secondTestMap = 
-    // let secondTestTuple: [number, string, string, number] = this.secondTestMap.get(item);
-    // console.log(this.user.shoppingList);
   }
 
   ngOnInit(): void {
   }
-  // OK SO ITS BACKUP PLAN TIME youre gonna have to remove this from the routing module but since nothings loading on the profile and that might be bc of olivers server validation or some dummy thing you did then youre goonnna have to try routing ot it like its a serpeate page
-
-  // ok so this is more or less what needs to happen here
-  // 1. get the data of the current user
-  // 2. display the shopping list of the current user
-  // 3. Layout idea: 
-  //   two halves to the tab (ingredients and tools)
-  //   header for each always present 
-  //   if no items say somehting like "there are no ingredients/tools on your shopping list"
-  //   then just like more centered lists like the recipe page
-  // 4. also a remove button for each item (so again like the recipe page)
 
   async setUserData(uid: string) {
     const postUser = await this.db.doc('/users/' + uid + '/')
       .ref.withConverter(new Converter().userConverter).get();
     if (postUser.data()) {
       this.user = postUser.data()!;
-      console.log(this.user);
-      console.log(this.xah_obj_to_map(this.user.shoppingList));
-      this.secondTestMap = this.xah_obj_to_map(this.user.shoppingList);
+      this.shoppingListMap = this.objToMap(this.user.shoppingList);
+      if (!this.shoppingListMapKeys) {
+        this.shoppingListMapKeys = Array.from(this.shoppingListMap.keys());
+      }
     } 
   }
 
-  xah_obj_to_map(obj: any): Map<string, [number, string, string, number]> {
+  objToMap(obj: any): Map<string, number> {
     const mp = new Map;
-    Object.keys ( obj ). forEach (k => { mp.set(k, obj[k]) });
+    Object.keys(obj).forEach(k => {mp.set(k, obj[k])});
     return mp;
   }
 
-  check() {
-    console.log(this.user);
+  removeMultiple(key: string) {
+    const currentValue: number | undefined = this.shoppingListMap.get(key);
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = 'auto';
+    dialogConfig.width = 'auto';
+    dialogConfig.data = {
+      selectedItem: key,
+      max: currentValue,
+      add: false,
+      remove: true,
+    };
+
+    const dialogRef = this.dialog.open(ItemDialogComponent, dialogConfig);
+
+    
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && currentValue) {
+        let difference: number = currentValue - result;
+        
+        if (difference === 0) {
+          this.shoppingListMap.delete(key);
+          let index = this.shoppingListMapKeys.indexOf(key);
+          this.shoppingListMapKeys.splice(index, 1);
+        } else {
+          if (currentValue) {
+            this.shoppingListMap.set(key, (currentValue - result));
+          }
+        }
+    
+        let objectUpdatedShoppingList = Array.from(this.shoppingListMap).reduce((objectUpdatedShoppingList, [key, value]) => (
+          Object.assign(objectUpdatedShoppingList, {[key]: value}) 
+        ), {});
+    
+        this.fAuth.currentUser.then(user => {
+          if (user) {
+            this.db.collection('users')
+            .doc(this.user!.uid)
+            .ref.withConverter(new Converter().userConverter)
+            .update({shoppingList: objectUpdatedShoppingList})
+            .then(() => {
+              this.setUserData(user.uid);
+            });
+          }
+        });    
+      }
+    });
+
   }
 
+  removeItem(key: string) {
+    if (this.shoppingListMap.get(key) === 1) {
+      this.shoppingListMap.delete(key);
+      let index = this.shoppingListMapKeys.indexOf(key);
+      this.shoppingListMapKeys.splice(index, 1);
+    } else {
+      let currentValue = this.shoppingListMap.get(key);
+      if (currentValue) {
+        this.shoppingListMap.set(key, (currentValue - 1));
+      }
+    }
+
+    let objectUpdatedShoppingList = Array.from(this.shoppingListMap).reduce((objectUpdatedShoppingList, [key, value]) => (
+      Object.assign(objectUpdatedShoppingList, {[key]: value}) 
+    ), {});
+
+    this.fAuth.currentUser.then(user => {
+      if (user) {
+        this.db.collection('users')
+        .doc(this.user!.uid)
+        .ref.withConverter(new Converter().userConverter)
+        .update({shoppingList: objectUpdatedShoppingList})
+        .then(() => {
+          this.setUserData(user.uid);
+        });
+      }
+    });    
+  }
 }
-
-
