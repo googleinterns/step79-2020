@@ -8,6 +8,7 @@
         <input matInput placeholder="Ex. John Doe" formControlName="displayName" autocomplete="off" required>
         <mat-error *ngIf="signUpForm.controls.displayName.invalid">
           <span *ngIf="signUpForm.controls.displayName.errors.required">This field is mandatory.</span>
+          <span *ngIf="signUpForm.controls.username.errors.maxlength">Invalid. Must be less that 50 characters long.</span>
         </mat-error>
       </mat-form-field>
       <br/>
@@ -17,6 +18,7 @@
         <mat-error *ngIf="signUpForm.controls.username.invalid">
           <span *ngIf="signUpForm.controls.username.errors.required">This field is mandatory.</span>
           <span *ngIf="signUpForm.controls.username.errors.minlength">Invalid. Must be at least 3 characters long.</span>
+          <span *ngIf="signUpForm.controls.username.errors.maxlength">Invalid. Must be less that 20 characters long.</span>
         </mat-error>
       </mat-form-field>
       <br/>
@@ -26,13 +28,14 @@
         <mat-error *ngIf="signUpForm.controls.email.invalid">
           <span *ngIf="signUpForm.controls.email.errors.required">This field is mandatory.</span>
           <span *ngIf="signUpForm.controls.email.errors.email">This must be a valid email.</span>
+          <span *ngIf="signUpForm.controls.username.errors.maxlength">Invalid. Too long.</span>
         </mat-error>
       </mat-form-field>
       <br/>
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <input [type]="hide ? 'password' : 'text'" matInput formControlName="password" required>
-        <button mat-icon-button matSuffix type="button" (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <button mat-icon-button matSuffix type="button" id="hide-button" (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
         <mat-error *ngIf="signUpForm.controls.password.invalid">
           <span *ngIf="signUpForm.controls.password.errors.required">This field is mandatory.</span>
@@ -40,7 +43,7 @@
         </mat-error>
       </mat-form-field>
       <br/>
-      <button mat-raised-button color="primary" type="submit">Create my account</button>
+      <button class="submit-button" mat-raised-button [disabled]='!signUpForm.valid' color="primary" type="submit">Create my account</button>
     </form>
     <button class="back-button" mat-button type="button" (click)="goBack()">Back</button>
   </div>

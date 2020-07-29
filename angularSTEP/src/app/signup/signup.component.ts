@@ -25,9 +25,9 @@ export class SignupComponent implements OnInit {
     private afs: AngularFirestore
   ) {
     this.signUpForm = this.fb.group({
-      displayName: [null, [Validators.required]],
-      username: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email]],
+      displayName: [null, [Validators.required, Validators.maxLength(50)]],
+      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      email: [null, [Validators.required, Validators.email, Validators.maxLength(254)]],
       password: [null, [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -38,17 +38,16 @@ export class SignupComponent implements OnInit {
   //when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
   //creates a user and updates the "displayName" of the user authentication to the username (this is for the future
   //to make it easy to find user info since the doc Id is the username).
-  onSubmit() {
+  async onSubmit() {
     if (!this.signUpForm.valid) {
       this.error = 'Please make sure the form is filled out correctly';
     } else {
-      this.afs
+      await this.afs
         .doc('/usernames/' + this.signUpForm.value.username + '/')
         .ref.get()
         .then(doc => {
           if (doc.exists) {
-            this.error =
-              'Username ' + this.signUpForm.value.username + ' already taken.';
+            this.error = 'Username ' + this.signUpForm.value.username + ' already taken.';
           } else {
             this.fAuth
               .createUserWithEmailAndPassword(
@@ -73,7 +72,9 @@ export class SignupComponent implements OnInit {
                 });
               });
           }
-        });
+        }).catch(() => {
+          this.error = "Could not create user";
+        })
     }
   }
 
