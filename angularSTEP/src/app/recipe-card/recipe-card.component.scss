@@ -23,6 +23,10 @@
   padding: 0 8px;
 }
 
+::ng-deep .mat-card-header-text {
+  width: 100%;
+}
+
 .rating {
   float: right;
 }

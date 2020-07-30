@@ -22,12 +22,12 @@ export class HomeComponent implements OnInit {
 
   constructor(private afs: AngularFirestore) {
     
-    this.userCollection.ref.orderBy("timestamp", "desc").limit(4).withConverter(new Converter().userConverter).get().
+    this.userCollection.ref.orderBy("time", "desc").limit(4).withConverter(new Converter().userConverter).get().
         then((user) => {
           this.newUsers = user.docs;
         });
     //timestamp for now. In future - change to 'ratings'
-    this.recipeCollection.ref.orderBy("images", "asc").limit(1).withConverter(new RecipeConverter().recipeConverter).get().
+    this.recipeCollection.ref.orderBy("images", "asc").limit(4).withConverter(new RecipeConverter().recipeConverter).get().
         then((recipe) => {
           this.topRecipes = recipe.docs;
         });

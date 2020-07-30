@@ -36,7 +36,7 @@ export class RecipeCardComponent implements OnInit{
   }
 
   shortenRecipeName() {
-    if(this.recipeName.length > 16){
+    if(this.recipeName.length > 14){
       this.recipeName = this.recipeName.substring(0, 13) + '...';
     }
   }
