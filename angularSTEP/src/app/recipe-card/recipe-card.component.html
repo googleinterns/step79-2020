@@ -4,7 +4,8 @@
   <mat-divider></mat-divider>
   <mat-card-header>
     <mat-card-title>{{ recipeName }}</mat-card-title>
-    <mat-card-subtitle><span>{{recipe.difficulty}}</span><span class='rating'>4/5</span></mat-card-subtitle>
-    <mat-card-subtitle></mat-card-subtitle>
+    <mat-card-subtitle><span>{{recipe.difficulty}}</span>
+      <span class='rating'>{{ averageRating }}/5</span>
+    </mat-card-subtitle>
   </mat-card-header>
 </mat-card>
