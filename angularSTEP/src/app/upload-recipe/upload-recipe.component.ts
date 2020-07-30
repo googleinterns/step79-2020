@@ -14,6 +14,9 @@ import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {v4 as uuidv4} from 'uuid';
 import {Converter} from '../converter';
 import {User} from '../user';
+import {Recipe} from '../recipe';
+import {RecipeConverter} from '../recipe-converter';
+
 
 @Component({
   selector: 'app-upload-recipe',
@@ -229,21 +232,23 @@ export class UploadRecipeComponent {
         this.uploading = true;
         await this.setUrls();
         this.db
-          .collection('recipes')
-          .add({
-            recipeName: this.basicsFormGroup.value.name,
-            difficulty: this.basicsFormGroup.value.difficulty,
-            description: this.basicsFormGroup.value.description,
-            ingredients: this.ingredientsArray.value,
-            uploaderUid: user.uid,
-            tools: this.toolsArray.value,
-            images: this.imageUrls,
-            instructions: this.instructionsArray.value,
-            extraInfo: this.extraFormGroup.value.extraInfo
+          .collection<Recipe>('recipes').ref.withConverter(new RecipeConverter().recipeConverter)
+          .add(new Recipe(
+            this.basicsFormGroup.value.name,
+            user.uid,
+            this.basicsFormGroup.value.difficulty,
+            this.basicsFormGroup.value.description,
+            this.ingredientsArray.value,
+            this.toolsArray.value,
+            this.imageUrls,
+            this.instructionsArray.value,
+            this.extraFormGroup.value.extraInfo
               ? this.extraFormGroup.value
               : '',
-            timestamp: Date.now(),
-          })
+            Date.now(),
+            [],
+            []
+          ))
           .then(async recipeRef => {
             const userData = await this.afs
               .collection('users')
