@@ -1,7 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 import * as algoliasearch from 'algoliasearch/lite';
 import {environment} from '../../environments/environment'
-
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
 
 const searchClient = algoliasearch(environment.algolia.appId, environment.algolia.apiKey);
@@ -18,10 +21,12 @@ export class ViewProfilesComponent implements OnInit {
     searchClient
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private zone: NgZone) {}
 
   goToUser(username: string) {
-    this.router.navigate(['users/' + username]);
+    this.zone.run(() => {
+      this.router.navigate(['users/', username]);
+    })
   }
 
   ngOnInit() {}

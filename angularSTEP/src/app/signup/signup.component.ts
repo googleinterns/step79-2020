@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Converter } from '../converter';
-import { Router } from '@angular/router';
-import { User, Username } from '../user';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Converter} from '../converter';
+import {Router} from '@angular/router';
+import {User, Username} from '../user';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +19,7 @@ export class SignupComponent implements OnInit {
   picUrl = '';
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private fb: FormBuilder,
     private afs: AngularFirestore
@@ -58,7 +58,9 @@ export class SignupComponent implements OnInit {
               .then(success => {
                 if (success.user !== null) {
                   this.picUrl =
-                    success.user.photoURL !== null ? success.user.photoURL : 'assets/images/blank-profile.png';
+                    success.user.photoURL !== null
+                      ? success.user.photoURL
+                      : 'assets/images/blank-profile.png';
                   this.addUser(success.user.uid);
                 }
               })
@@ -78,12 +80,6 @@ export class SignupComponent implements OnInit {
   //creates the user and adds it to Firestore
   addUser(uid: string) {
     return this.afs
-      .collection('usernames')
-      .doc(this.signUpForm.value.username)
-      .ref.withConverter(new Converter().usernameConverter)
-      .set(new Username(this.signUpForm.value.username, uid))
-      .then(() => {
-        this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
@@ -99,11 +95,18 @@ export class SignupComponent implements OnInit {
               [],
               [],
               new Object(),
-              0
+              0,
+              ""
             )
           )
           .then(() => {
-            this.router.navigate(['/home']);
+            this.afs
+            .collection('usernames')
+            .doc(this.signUpForm.value.username)
+            .ref.withConverter(new Converter().usernameConverter)
+            .set(new Username(this.signUpForm.value.username, uid))
+            .then(() => {
+              this.router.navigate(['/home']);
           });
       });
   }
