@@ -213,6 +213,7 @@ export class UploadRecipeComponent {
     }
   }
 
+  //this function gets called when form gets submitted
   async onSubmit() {
     this.basicsFormGroup.controls.name.setValue(
       this.autoCapitalizeName(this.basicsFormGroup.value.name)
@@ -226,10 +227,11 @@ export class UploadRecipeComponent {
     this.extraFormGroup.controls.extraInfo.setValue(
       this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo)
     );
-
+      //checks to see if user is signed it
     this.fAuth.currentUser.then(async user => {
       if (user) {
         this.uploading = true;
+        //sets the urls fro the image and waits for that to be done before proceeding
         await this.setUrls();
         this.db
           .collection<Recipe>('recipes').ref.withConverter(new RecipeConverter().recipeConverter)
@@ -250,6 +252,7 @@ export class UploadRecipeComponent {
             []
           ))
           .then(async recipeRef => {
+            //then it connects the recipe to the user signed in and adds it to their array
             const userData = await this.afs
               .collection('users')
               .doc(user.uid)
@@ -282,6 +285,7 @@ export class UploadRecipeComponent {
 
   //image functions
 
+  //adds each image to storage and retreivs their url to add to the array of urls
   async addImage(image: Blob, name: string) {
     await new Promise((resolve, reject) => {
       this.fAuth.currentUser.then(async user => {
@@ -290,6 +294,7 @@ export class UploadRecipeComponent {
             .ref('recipe-images/' + name + 'RecipeImage')
             .put(image)
             .then(async () => {
+              //gets the images download url after upploaded
               await this.storage
                 .ref('recipe-images/' + name + 'RecipeImage')
                 .getDownloadURL()
@@ -315,12 +320,14 @@ export class UploadRecipeComponent {
   }
 
   async setUrls() {
+    //loops through images to upload them
     for await (const image of this.imageFiles) {
       await this.addImage(image, uuidv4());
     }
   }
 }
 
+//validator to make sure each image is a specific type
 function requiredFileType(control: FormControl) {
   const imageTypes: Array<string> = ['png', 'jpg', 'jpeg', 'gif'];
   const file = control.value;
