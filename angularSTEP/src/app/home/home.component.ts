@@ -5,6 +5,8 @@ import {
 } from '@angular/fire/firestore';
 import {User} from '../user'
 import {Converter} from '../converter'
+import {Recipe} from '../recipe'
+import {RecipeConverter} from '../recipe-converter'
 
 @Component({
   selector: 'app-home',
@@ -12,25 +14,26 @@ import {Converter} from '../converter'
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-
+  recipeCollection: AngularFirestoreCollection<Recipe> = this.afs.collection('recipes');
   userCollection: AngularFirestoreCollection<User> = this.afs.collection('users');
-  newUsers: firebase.firestore.QueryDocumentSnapshot<User>[];
-  topRecipes: firebase.firestore.QueryDocumentSnapshot<User>[];
-  newRecipes: firebase.firestore.QueryDocumentSnapshot<User>[];
+  newUsers!: firebase.firestore.QueryDocumentSnapshot<User>[];
+  topRecipes!: firebase.firestore.QueryDocumentSnapshot<Recipe>[];
+  newRecipes!: firebase.firestore.QueryDocumentSnapshot<Recipe>[];
 
   constructor(private afs: AngularFirestore) {
+    
     this.userCollection.ref.orderBy("timestamp", "desc").limit(4).withConverter(new Converter().userConverter).get().
-        then((users) => {
-          this.newUsers = users.docs;
+        then((user) => {
+          this.newUsers = user.docs;
         });
-    //temporary until recipe card gets made.
-    this.userCollection.ref.orderBy("timestamp", "asc").limit(4).withConverter(new Converter().userConverter).get().
-        then((users) => {
-          this.topRecipes = users.docs;
+    //timestamp for now. In future - change to 'ratings'
+    this.recipeCollection.ref.orderBy("images", "asc").limit(1).withConverter(new RecipeConverter().recipeConverter).get().
+        then((recipe) => {
+          this.topRecipes = recipe.docs;
         });
-    this.userCollection.ref.orderBy("username", "desc").limit(4).withConverter(new Converter().userConverter).get().
-        then((users) => {
-          this.newRecipes = users.docs;
+    this.recipeCollection.ref.orderBy("timestamp", "desc").limit(4).withConverter(new RecipeConverter().recipeConverter).get().
+        then((recipe) => {
+          this.newRecipes = recipe.docs;
         });
   }
 
