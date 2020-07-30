@@ -1,12 +1,10 @@
-<mat-card class="example-card">
+<mat-card *ngIf='recipe' class="recipe-card">
+  <img mat-card-image *ngIf='recipe.images && recipe.images.length != 0' [src]='recipe.images[0]' alt="Photo of {{ recipe.recipeName }}" class="card-img">
+  <img mat-card-image *ngIf='recipe.images == null || recipe.images.length == 0' src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of stock food" class="card-img">
+  <mat-divider></mat-divider>
   <mat-card-header>
-    <mat-card-title>{{recipeName}}</mat-card-title>
-    <mat-card-subtitle>{{difficulty}}</mat-card-subtitle>
+    <mat-card-title>{{ recipeName }}</mat-card-title>
+    <mat-card-subtitle><span>{{recipe.difficulty}}</span><span class='rating'>4/5</span></mat-card-subtitle>
+    <mat-card-subtitle></mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-content>
-    <p>
-      {{description}}
-    </p>
-  </mat-card-content>
 </mat-card>

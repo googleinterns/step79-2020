@@ -3,7 +3,10 @@ import { Component, OnInit, Input } from '@angular/core';
 interface recipeData{
   recipeName: string,
   description: string,
-  difficulty: string
+  difficulty: string,
+  tags: string[],
+  images: string[],
+  ratings: number[]
 }
 
 @Component({
@@ -12,17 +15,18 @@ interface recipeData{
   styleUrls: ['./recipe-card.component.scss']
 })
 export class RecipeCardComponent implements OnInit{
-
   @Input() recipe!: recipeData;
-  recipeName!: string;
-  description!: string;
-  difficulty!: string;
-
+  recipeName: string = '';
+  
   ngOnInit(): void {
     this.recipeName = this.recipe.recipeName;
-    this.description = this.recipe.description;
-    this.difficulty = this.recipe.difficulty;
+    this.shortenRecipeName();
   }
 
+  shortenRecipeName(){
+    if(this.recipeName.length > 16){
+      this.recipeName = this.recipeName.substring(0, 13) + '...';
+    }
+  }
 }
 

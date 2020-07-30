@@ -42,7 +42,6 @@ import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
 
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
-import {environment} from '../environments/environment';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 
 import {UserPageComponent} from './user-page/user-page.component'; 
