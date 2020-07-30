@@ -279,24 +279,34 @@ export class UploadRecipeComponent {
 
   async addImage(image: Blob, name: string) {
     await new Promise((resolve, reject) => {
-      this.storage
-        .ref('recipe-images/' + name + 'RecipeImage')
-        .put(image)
-        .then(() => {
+      this.fAuth.currentUser.then(async user => {
+        if (user) {
           this.storage
             .ref('recipe-images/' + name + 'RecipeImage')
-            .getDownloadURL()
-            .subscribe(url => {
-              if (url) {
-                this.imageUrls.push(url);
-                resolve();
-              }
+            .put(image)
+            .then(async () => {
+              await this.storage
+                .ref('recipe-images/' + name + 'RecipeImage')
+                .getDownloadURL()
+                .subscribe(url => {
+                  if (url) {
+                    this.imageUrls.push(url);
+                    resolve();
+                  } else {
+                    this.error = 'Not able to upload images.'
+                    reject();
+                  }
+                });
+            }).catch(() => {
+              this.error = 'Not able to upload images.'
+              reject()
             });
-        })
-        .catch(() => {
-          resolve();
-        });
-    });
+        } else {
+          this.loggedIn = false;
+          reject();
+        }
+      })
+    })
   }
 
   async setUrls() {
