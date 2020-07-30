@@ -46,6 +46,8 @@ import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+ 
+
 
 @NgModule({
   declarations: [
