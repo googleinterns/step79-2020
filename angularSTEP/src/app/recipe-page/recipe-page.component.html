@@ -4,7 +4,7 @@
   <div *ngIf="pageRecipe.baseRecipeId ">
     <h3 *ngIf="!baseUser">Based on An Unknown Recipe by An Unknown User</h3>  
     <h3 *ngIf="baseRecipe && baseUser">
-      Based on "{{baseRecipe.recipeName}}" by<a mat-button (click)="toUser()">@{{baseUser.username}}</a></h3>
+      Based on "{{baseRecipe.recipeName}}" by<button mat-button (click)="toUser()">@{{baseUser.username}}</button></h3>
     <h3 *ngIf="!baseRecipe && baseUser">Based on An Unknown Recipe by<a mat-button (click)="toUser()">@{{baseUser.username}}</a></h3>
   </div>
   

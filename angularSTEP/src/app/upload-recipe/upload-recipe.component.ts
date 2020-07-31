@@ -164,8 +164,6 @@ export class UploadRecipeComponent{
     this.formatInstructions(this.instructionsArray);
     this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
 
-    let newRecipeId :string = '';
-
     this.fAuth.currentUser.then(user => {
       if (user) {        
         this.db.collection('recipes')
