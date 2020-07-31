@@ -13,6 +13,7 @@ import {CurrentProfilePageComponent} from './current-profile-page/current-profil
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 
+import {BranchingRecipeFormComponent} from './branching-recipe-form/branching-recipe-form.component';
 
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'confirm-upload', component: ConfirmComponent},
                         { path: 'recipes', component: RecipesComponent},
                         { path: 'recipes/:id', component: RecipePageComponent },
+                        { path: 'branch-recipe/:id', component: BranchingRecipeFormComponent },
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({

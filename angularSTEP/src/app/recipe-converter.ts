@@ -17,6 +17,8 @@ export class RecipeConverter {
         timestamp: recipe.timestamp,
         ratings: recipe.ratings,
         tags: recipe.tags,
+        baseRecipeId: recipe.baseRecipeId,
+        baseUploaderUid: recipe.baseUploaderUid,
       };
     },
     fromFirestore: function (
@@ -36,6 +38,8 @@ export class RecipeConverter {
         data.timestamp,
         data.ratings,
         data.tags,
+        data.baseRecipeId,
+        data.baseUploaderUid,
       );
     },
   };

@@ -1,10 +1,12 @@
 import {Component} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
 import {Recipe} from '../recipe';
 import {RecipeConverter} from '../recipe-converter';
-
+import {User} from '../user';
+import {Converter} from '../converter';
 
 @Component({
   selector: 'app-upload-recipe',
@@ -13,16 +15,19 @@ import {RecipeConverter} from '../recipe-converter';
 })
 
 export class UploadRecipeComponent{
-  constructor(private fb: FormBuilder,
-              private db: AngularFirestore,
-              private router: Router,) {
-                this.addIngredientsField();
-              }
+  user!: User;
+
+  constructor(
+    private fb: FormBuilder,
+    private fAuth: AngularFireAuth,
+    private db: AngularFirestore,
+    private router: Router,
+  ) { }
             
   basicsFormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
     difficulty: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
   });
 
   extraFormGroup = new FormGroup({
@@ -143,6 +148,14 @@ export class UploadRecipeComponent{
     }
   }
   
+  async setUserData(uid: string) {
+    const postUser = await this.db.doc('/users/' + uid + '/')
+      .ref.withConverter(new Converter().userConverter).get();
+    if (postUser && postUser.data()) {
+      this.user = postUser.data()!;
+    }
+  }
+
   onSubmit() {
     this.basicsFormGroup.controls.name.setValue(this.autoCapitalizeName(this.basicsFormGroup.value.name));
     this.basicsFormGroup.controls.description.setValue(this.autoCapitalizeFirst(this.basicsFormGroup.value.description));
@@ -151,21 +164,30 @@ export class UploadRecipeComponent{
     this.formatInstructions(this.instructionsArray);
     this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
 
-    this.db.collection('recipes')
-      .ref.withConverter(new RecipeConverter().recipeConverter)
-      .add(new Recipe(
-        this.basicsFormGroup.value.name,
-        '',
-        this.basicsFormGroup.value.difficulty,
-        this.basicsFormGroup.value.description,
-        this.ingredientsArray.value,
-        this.toolsArray.value,
-        this.instructionsArray.value,
-        this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value.extraInfo : '',
-        Date.now(),
-        [], 
-        [],
-    ));
-    this.router.navigate(['/confirm-upload']);
+    let newRecipeId :string = '';
+
+    this.fAuth.currentUser.then(user => {
+      if (user) {        
+        this.db.collection('recipes')
+        .ref.withConverter(new RecipeConverter().recipeConverter)
+        .add(new Recipe(
+          this.basicsFormGroup.value.name, 
+          user.uid,
+          this.basicsFormGroup.value.difficulty,
+          this.basicsFormGroup.value.description,
+          this.ingredientsArray.value,
+          this.toolsArray.value,
+          this.instructionsArray.value,
+          this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value.extraInfo : '',
+          Date.now(),
+          [], 
+          [],
+          '',
+          '',
+        )).then(() => {
+          this.router.navigate(['/confirm-upload']);
+        });
+      }
+    });
   }
 }

@@ -18,37 +18,67 @@ import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
 export class RecipePageComponent {
   id: string | null = this.route.snapshot.paramMap.get('id');
   pageRecipe!: Recipe;
-  user!: User;
+  baseRecipe!: Recipe;
+  currentUser!: User;
+  baseUser!: User;
+  loggedIn: boolean = false;
 
   constructor(
     private db: AngularFirestore,
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
+    private router: Router,
   ) {
-    this.setRecipeData();
-    this.fAuth.currentUser.then(user => {
-      if (user) {
-        this.setUserData(user.uid);
+    this.setPageData();
+    this.fAuth.onAuthStateChanged(auth => {
+      if (auth) {
+        this.setPageData();
+        this.setUserData(auth.uid);
+        this.loggedIn = true;
+      } else {
+        this.setPageData();
+        this.loggedIn = false;
       }
     });
   }
 
-  async setRecipeData() {
+  async setPageData() {
     const postRecipe = await this.db.doc('/recipes/' + this.id + '/')
       .ref.withConverter(new RecipeConverter().recipeConverter).get();
     const recipeClassData = postRecipe.data();
+
     if (recipeClassData) {
+
+
+      if (recipeClassData.baseUploaderUid) {
+        const postBaseUser = await this.db.doc('/users/' + recipeClassData.baseUploaderUid + '/')
+          .ref.withConverter(new Converter().userConverter).get();
+        const baseUserData = postBaseUser.data();
+      
+        if (baseUserData) {
+          this.baseUser = baseUserData;
+
+          const postBaseRecipe = await this.db.doc('/recipes/' + recipeClassData.baseRecipeId + '/')
+            .ref.withConverter(new RecipeConverter().recipeConverter).get();
+          const baseRecipeData = postBaseRecipe.data();
+
+          if (baseRecipeData) {
+            this.baseRecipe = baseRecipeData;
+          }
+        }
+      }
+
       this.pageRecipe = recipeClassData;
     }
-  } 
+  }
 
   async setUserData(uid: string) {
     const postUser = await this.db.doc('/users/' + uid + '/')
       .ref.withConverter(new Converter().userConverter).get();
-    if (postUser.data()) {
-      this.user = postUser.data()!;
-    } 
+    if (postUser && postUser.data()) {
+      this.currentUser = postUser.data()!;
+    }
   }
 
   objToMap(obj: any): Map<string, number> {
@@ -57,9 +87,8 @@ export class RecipePageComponent {
     return mp;
   }
 
-
   addItem(item: string) {
-    var currentShoppingList: Map<string, number> = this.objToMap(this.user.shoppingList);
+    var currentShoppingList: Map<string, number> = this.objToMap(this.currentUser.shoppingList);
 
     const dialogConfig = new MatDialogConfig();
 
@@ -94,7 +123,7 @@ export class RecipePageComponent {
         this.fAuth.currentUser.then(user => {
           if (user) {
             this.db.collection('users')
-            .doc(this.user!.uid)
+            .doc(this.currentUser!.uid)
             .ref.withConverter(new Converter().userConverter)
             .update({shoppingList: objectCurrentShoppingList})
             .then(() => {
@@ -104,5 +133,13 @@ export class RecipePageComponent {
         });  
       }
     });
+  }
+
+  branchRecipe() {
+    this.router.navigate(['/branch-recipe', this.id]);
+  }
+
+  toUser() {
+    this.router.navigate(['/users', this.baseUser.username]);
   }
 }

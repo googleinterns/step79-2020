@@ -1,30 +1,42 @@
 <div *ngIf="pageRecipe">
   <h2>{{pageRecipe.recipeName}}</h2>
+  
+  <div *ngIf="pageRecipe.baseRecipeId ">
+    <h3 *ngIf="!baseUser">Based on An Unknown Recipe by An Unknown User</h3>  
+    <h3 *ngIf="baseRecipe && baseUser">
+      Based on "{{baseRecipe.recipeName}}" by<a mat-button (click)="toUser()">@{{baseUser.username}}</a></h3>
+    <h3 *ngIf="!baseRecipe && baseUser">Based on An Unknown Recipe by<a mat-button (click)="toUser()">@{{baseUser.username}}</a></h3>
+  </div>
+  
   <h3>{{pageRecipe.difficulty}}</h3>
   <p>{{pageRecipe.description}}</p>
   
   <br><br>
 
+  <button *ngIf="loggedIn" mat-raised-button color="primary" (click)="branchRecipe()">Branch Recipe</button>
+
+  <br><br>
+
   <mat-tab-group>
       <mat-tab label="Ingredients">
-        <ul *ngIf="user">
+        <ul *ngIf="loggedIn">
           <div *ngFor="let ingredient of pageRecipe.ingredients;" class="item-button-pair">
             <li>{{ingredient}}</li>
             <button mat-raised-button color="primary" (click)="addItem(ingredient)">Add To Shopping List</button>
           </div>
         </ul>
-        <ul class="solo-list" *ngIf="!user">
+        <ul class="solo-list" *ngIf="!loggedIn">
           <li *ngFor="let ingredient of pageRecipe.ingredients" class="solo-item">{{ingredient}}</li>
         </ul>
       </mat-tab>
       <mat-tab label="Tools">
-        <ul *ngIf="user">
+        <ul *ngIf="loggedIn">
           <div *ngFor="let tool of pageRecipe.tools" class="item-button-pair">
             <li>{{tool}}</li>
             <button mat-raised-button color="primary" (click)="addItem(tool)">Add To Shopping List</button>
           </div>
         </ul>
-        <ul *ngIf="!user" class="solo-list">
+        <ul *ngIf="!loggedIn" class="solo-list">
           <li *ngFor="let tool of pageRecipe.tools" class="solo-item">{{tool}}</li>
         </ul>
       </mat-tab>

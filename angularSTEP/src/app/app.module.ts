@@ -9,6 +9,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
+import {BranchingRecipeFormComponent} from './branching-recipe-form/branching-recipe-form.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
 import {EmailComponent} from './email/email.component';
@@ -38,19 +39,15 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {NgModule} from '@angular/core';
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
+import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
+import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
-
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
-import {environment} from '../environments/environment';
-import {RecipeCardComponent} from './recipe-card/recipe-card.component';
-
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
-import {ShoppingListComponent} from './shopping-list/shopping-list.component';
-
 
 @NgModule({
   declarations: [
@@ -69,12 +66,13 @@ import {ShoppingListComponent} from './shopping-list/shopping-list.component';
     UploadRecipeComponent,
     RecipeCardComponent,
     MapComponent,
-    RecipesComponent,
     RecipePageComponent,
+    RecipesComponent,
     CurrentProfilePageComponent,
     MyProfileTabComponent,
     ShoppingListComponent,
     ItemDialogComponent,
+    BranchingRecipeFormComponent,
   ],
   entryComponents: [
     ItemDialogComponent,
@@ -89,25 +87,23 @@ import {ShoppingListComponent} from './shopping-list/shopping-list.component';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    GoogleMapsModule,
     HttpClientModule,
+    MatAutocompleteModule,
+    MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatButtonModule,
-    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatAutocompleteModule,
     MatMenuModule,
     MatRippleModule,
     MatSelectModule,
     MatStepperModule,
+    MatTabsModule,
     MatToolbarModule,
     ReactiveFormsModule,
-    GoogleMapsModule,
-    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
