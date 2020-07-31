@@ -7,7 +7,7 @@
         #input
         (keyup)="onChangeDebounced(input.value)"
         [value]="this.state.query"
-        placeholder='Search for profiles'
+        [placeholder]='contentType'
         >
         <mat-spinner [diameter]='24' *ngIf='loading' matPrefix></mat-spinner>
         <mat-icon *ngIf='!loading' matPrefix>search</mat-icon>

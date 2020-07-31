@@ -20,6 +20,7 @@ export class SearchBoxComponent extends BaseWidget {
   };
   loading = false;
 
+  @Input() contentType;
   @Input() delay = 0;
   @Output() noQuery = new EventEmitter<boolean>();
 
@@ -54,5 +55,6 @@ export class SearchBoxComponent extends BaseWidget {
 
   clearSearchField() {
     this.searchField = '';
+    this.noQuery.emit(true);
   }
 }

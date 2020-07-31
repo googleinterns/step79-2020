@@ -11,7 +11,7 @@ import {RecipeConverter} from '../recipe-converter';
 })
 
 export class RecipePageComponent {
-  id: string | null = this.route.snapshot.paramMap.get('id');
+  id: string | null = this.route.snapshot.paramMap.get('recipeid');
   pageRecipe!: Recipe;
 
   constructor(private db: AngularFirestore,

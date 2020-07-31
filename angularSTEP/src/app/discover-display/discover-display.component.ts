@@ -3,8 +3,11 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
+import {Router} from '@angular/router'
 import {User} from '../user';
 import {Converter} from '../converter';
+import {Recipe} from '../recipe';
+import {RecipeConverter} from '../recipe-converter'
 
 @Component({
   selector: 'app-discover-display',
@@ -12,6 +15,11 @@ import {Converter} from '../converter';
   styleUrls: ['./discover-display.component.scss'],
 })
 export class DiscoverDisplayComponent implements OnInit {
+  recipeCollection: AngularFirestoreCollection<Recipe> = this.afs.collection(
+    'recipes'
+  );
+  recipes: firebase.firestore.QueryDocumentSnapshot<Recipe>[];
+
   userCollection: AngularFirestoreCollection<User> = this.afs.collection(
     'users'
   );
@@ -20,7 +28,7 @@ export class DiscoverDisplayComponent implements OnInit {
   @Input() contentType: string;
   @Input() direction: string;
 
-  constructor(private afs: AngularFirestore) {}
+  constructor(private afs: AngularFirestore, private router: Router) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes && changes.sortType) {
@@ -55,14 +63,78 @@ export class DiscoverDisplayComponent implements OnInit {
     }
   }
 
-  getRecipes() {}
+  getRecipes() {
+    switch (this.sortType) {
+      case 'Time Created': {
+        if (this.direction) {
+          this.recipeCollection.ref
+            .orderBy('timestamp', 'asc')
+            .withConverter(new RecipeConverter().recipeConverter)
+            .get()
+            .then(recipes => {
+              this.recipes = recipes.docs;
+            });
+        } else {
+          this.recipeCollection.ref
+            .orderBy('timestamp', 'desc')
+            .withConverter(new RecipeConverter().recipeConverter)
+            .get()
+            .then(recipes => {
+              this.recipes = recipes.docs;
+            });
+        }
+        break;
+      }
+      case 'Number of Ingredients': {
+        //temporary until num of recipes are actually added
+        if (this.direction) {
+          this.recipeCollection.ref
+            .orderBy('timestamp', 'asc')
+            .withConverter(new RecipeConverter().recipeConverter)
+            .get()
+            .then(recipes => {
+              this.recipes = recipes.docs;
+            });
+        } else {
+          this.recipeCollection.ref
+            .orderBy('timestamp', 'desc')
+            .withConverter(new RecipeConverter().recipeConverter)
+            .get()
+            .then(recipes => {
+              this.recipes = recipes.docs;
+            });
+        }
+        break;
+      }
+      case 'Name': {
+        if (this.direction) {
+          this.recipeCollection.ref
+            .orderBy('recipeName', 'desc')
+            .withConverter(new RecipeConverter().recipeConverter)
+            .get()
+            .then(recipes => {
+              this.recipes = recipes.docs;
+            });
+        } else {
+          this.recipeCollection.ref
+            .orderBy('recipeName', 'asc')
+            .withConverter(new RecipeConverter().recipeConverter)
+            .get()
+            .then(recipes => {
+              this.recipes = recipes.docs;
+            });
+        }
+        break;
+      }
+    }
+  }
 
   getUsers() {
     switch (this.sortType) {
       case 'Time Created': {
         if (this.direction) {
           this.userCollection.ref
-            .orderBy('timestamp', 'asc')
+            .orderBy('time', 'asc')
             .withConverter(new Converter().userConverter)
             .get()
             .then(users => {
@@ -70,7 +142,7 @@ export class DiscoverDisplayComponent implements OnInit {
             });
         } else {
           this.userCollection.ref
-            .orderBy('timestamp', 'desc')
+            .orderBy('time', 'desc')
             .withConverter(new Converter().userConverter)
             .get()
             .then(users => {
@@ -121,5 +193,14 @@ export class DiscoverDisplayComponent implements OnInit {
         break;
       }
     }
+  }
+
+  goToUser(username: string) {
+    console.log(username)
+    this.router.navigate(['discover/users/' + username]);
+  }
+
+  goToRecipe(id: string) {
+    this.router.navigate(['discover/recipes', id]);
   }
 }

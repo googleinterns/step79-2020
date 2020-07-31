@@ -19,15 +19,12 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'signup', component: SignupComponent },
                         { path: 'login-email', component: EmailComponent },
                         { path: 'home', component: HomeComponent },
-                        { path: 'users', component: ViewProfilesComponent },
-                        { path: 'users/:username', component: UserPageComponent },
                         { path: 'upload-recipe', component: UploadRecipeComponent},
                         { path: 'confirm-upload', component: ConfirmComponent},
-                        { path: 'recipes', component: RecipesComponent},
-                        { path: 'recipes/:id', redirectTo: 'recipe/:id'}, 
-                        { path: 'recipe/:id', component: RecipePageComponent},
                         { path: 'discover', component: DiscoverPageComponent},
-                        { path: 'recipes/:id', component: RecipePageComponent },
+                        { path: 'discover/:type', component: DiscoverPageComponent},
+                        { path: 'discover/users/:username', component: UserPageComponent},
+                        { path: 'discover/recipes/:recipeid', component: RecipePageComponent},
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({
