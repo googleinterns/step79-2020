@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Converter } from '../converter';
-import { Router } from '@angular/router';
-import { User, Username } from '../user';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Converter} from '../converter';
+import {Router} from '@angular/router';
+import {User, Username} from '../user';
 
 //this component gets called when signing into a google account. Changes the "display name"
 //to the username
@@ -21,7 +21,7 @@ export class SetupComponent implements OnInit {
   picUrl = '';
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private fb: FormBuilder,
     private afs: AngularFirestore
@@ -37,12 +37,6 @@ export class SetupComponent implements OnInit {
   //creates and adds a user to Firestore
   addUser(dName: string, email: string, uid: string) {
     return this.afs
-      .collection('usernames')
-      .doc(this.usernameForm.value.username)
-      .ref.withConverter(new Converter().usernameConverter)
-      .set(new Username(this.usernameForm.value.username, uid))
-      .then(() => {
-        this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
@@ -58,11 +52,18 @@ export class SetupComponent implements OnInit {
               [],
               [],
               new Object(),
-              0
+              0,
+              ""
             )
           )
           .then(() => {
-            this.router.navigate(['/home']);
+            this.afs
+            .collection('usernames')
+            .doc(this.usernameForm.value.username)
+            .ref.withConverter(new Converter().usernameConverter)
+            .set(new Username(this.usernameForm.value.username, uid))
+            .then(() => {
+              this.router.navigate(['/home']);
           });
       });
   }
