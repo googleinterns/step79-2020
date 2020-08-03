@@ -31,6 +31,7 @@
           <mat-hint *ngIf="!(basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid)">{{description.value?.length}}/200 Characters</mat-hint>
           <mat-error>This is required.</mat-error>
         </mat-form-field>
+        <h5 class="other-error" *ngIf="basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid">Please enter a valid description.</h5>
 
         <br><br>
         
@@ -60,7 +61,6 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <h5 class="other-error" *ngIf="basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid">Please enter a valid description.</h5>
         <div id="solo-next-button">
           <button mat-raised-button color="primary" matStepperNext [disabled]="!basicsFormGroup.valid || basicsFormGroup.controls.name.value.trim() === '' || basicsFormGroup.controls.description.value.trim() === ''" type="button">Next</button>
         </div>
