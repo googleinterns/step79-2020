@@ -95,11 +95,11 @@ export class DiscoverDisplayComponent implements OnInit {
           }
           break;
         }
-        case 'Number of Ingredients': {
+        case 'Rating': {
           //temporary until num of recipes are actually added
           if (this.direction) {
             this.recipeCollection.ref
-              .orderBy('timestamp', 'asc')
+              .orderBy('rating', 'desc')
               .withConverter(new RecipeConverter().recipeConverter)
               .get()
               .then(recipes => {
@@ -107,7 +107,7 @@ export class DiscoverDisplayComponent implements OnInit {
               });
           } else {
             this.recipeCollection.ref
-              .orderBy('timestamp', 'desc')
+              .orderBy('rating', 'asc')
               .withConverter(new RecipeConverter().recipeConverter)
               .get()
               .then(recipes => {

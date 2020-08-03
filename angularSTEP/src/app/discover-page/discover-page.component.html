@@ -26,8 +26,8 @@
         <mat-list-option value='Time Created'>
           <mat-icon mat-list-icon>access_time</mat-icon> Time Created
         </mat-list-option>
-        <mat-list-option value='Number of Ingredients'>
-          <mat-icon mat-list-icon>list_alt</mat-icon> Number of Ingredients
+        <mat-list-option value='Rating'>
+          <mat-icon mat-list-icon>star</mat-icon> Rating
         </mat-list-option>
         <mat-list-option value='Name'>
           <mat-icon mat-list-icon>text_format</mat-icon> Name
@@ -51,12 +51,7 @@
           <input matInput (keyup)='checkEmpty()' formControlName="query" #tagQuery autocomplete="off" placeholder="Ex. Vegetarian">
         </mat-form-field>
       </form>
-
     </mat-expansion-panel>
-
-    
-    
-   
 
     <!-- sort options for users -->
     <mat-expansion-panel [disabled]='showResults' #recipePanel *ngIf='searchOption[0] === "Users"'>
@@ -93,7 +88,7 @@
             <ng-template let-hits="hits">
                 <div class="search-content-container">
                   <app-profile-card *ngFor="let user of hits" (click)='goToUser(user.username)'
-                    [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
+                    [user]='user'>
                   </app-profile-card>
                 </div>
             </ng-template>
@@ -107,7 +102,7 @@
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
                 <div class="search-content-container">
-                  <app-recipe-card *ngFor="let recipe of hits" [recipe]='{recipeName: recipe.recipeName, difficulty: recipe.difficulty, description: recipe.description}'>
+                  <app-recipe-card *ngFor="let recipe of hits" [recipe]='recipe'>
                   </app-recipe-card>
                 </div>
             </ng-template>
@@ -115,7 +110,7 @@
       </ais-instantsearch>
     </div>
 
-    <div *ngIf='!showResults'>
+    <div *ngIf='!showResults' class="content">
       <app-discover-display [contentType]='this.searchOption[0]' [direction]='this.isChecked' 
       [query]='tagQuery' [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
       </app-discover-display>

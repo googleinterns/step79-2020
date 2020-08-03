@@ -32,8 +32,8 @@ export class DiscoverPageComponent implements OnInit {
   tagSearch: FormGroup;
 
   typesOfSearch = ['Recipes', 'Users'];
-  typesOfRecipeSorts = ['Time Created', 'Number of Ingredients', 'Rating'];
-  typesOfUserSorts = ['Time Created', 'Number of Recipes', 'Name'];
+  typesOfRecipeSorts = ['Time Created', 'Rating', 'Name'];
+  typesOfUserSorts = ['Time Created', 'Name'];
 
   tagQuery = '';
 
@@ -60,8 +60,23 @@ export class DiscoverPageComponent implements OnInit {
       const type = params.get('type');
       if (type === 'recipes') {
         this.searchOption = ['Recipes'];
+        const sort = this.activatedRoute.snapshot.queryParamMap.get("sort");
+        console.log(sort);
+        if (sort === 'rating') {
+          this.recipeOption = ['Rating'];
+        } else if (sort === 'timestamp') {
+          this.recipeOption = ['Time Created'];
+        } else if (sort === 'name') {
+          this.recipeOption = ['Name'];
+        } 
       } else if (type === 'users') {
         this.searchOption = ['Users'];
+        const sort = this.activatedRoute.snapshot.queryParamMap.get("sort");
+        if (sort === 'timestamp') {
+          this.recipeOption = ['Time Created'];
+        } else if (sort === 'name') {
+          this.recipeOption = ['Name'];
+        } 
       }
     });
   }
@@ -97,7 +112,9 @@ export class DiscoverPageComponent implements OnInit {
   displayResults(noQuery: boolean) {
     if (!noQuery) {
       this.sortPanel.close();
-      this.tagPanel.close();
+      if(this.searchOption === ['Recipes']){
+        this.tagPanel.close();
+      }
     }
     this.showResults = !noQuery;
   }
