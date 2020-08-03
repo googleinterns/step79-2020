@@ -20,14 +20,14 @@ export class DiscoverPageComponent implements OnInit {
     searchClient,
   };
 
-  @ViewChild('recipePanel') sortPanel: MatExpansionPanel;
+  @ViewChild('recipePanel') sortPanel: MatExpansionPanel | undefined;
 
   typesOfSearch = ['Recipes', 'Users'];
   typesOfRecipeSorts = ['Time Created', 'Number of Ingredients', 'Rating'];
   typesOfUserSorts = ['Time Created', 'Number of Recipes', 'Name'];
 
   showResults = false;
-  isChecked: boolean;
+  isChecked: boolean = false;
 
   searchOption: string[] = ['Recipes'];
   recipeOption: string[] = ['Time Created'];
@@ -46,7 +46,7 @@ export class DiscoverPageComponent implements OnInit {
   }
 
   displayResults(noQuery: boolean) {
-    if (!noQuery) {
+    if (!noQuery && this.sortPanel) {
       this.sortPanel.close();
     }
     this.showResults = !noQuery;
