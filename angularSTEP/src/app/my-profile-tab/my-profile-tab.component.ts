@@ -1,9 +1,12 @@
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {User} from '../user';
 import {Converter} from '../converter';
+import {Recipe} from '../recipe';
+import {RecipeConverter} from '../recipe-converter';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-my-profile-tab',
@@ -14,11 +17,13 @@ export class MyProfileTabComponent implements OnInit {
   @Input() userData!: User;
   aboutMeForm: FormControl | null = null;
   usersFollowing: User[] = [];
+  myRecipes: Recipe[] = [];
 
-  constructor(private afs: AngularFirestore, private fAuth: AngularFireAuth) {}
+  constructor(private afs: AngularFirestore, private fAuth: AngularFireAuth, private zone: NgZone, private router: Router) {}
 
   ngOnInit() {
     this.getFollowing();
+    this.getRecipes();
   }
 
   editValue(form: string) {
@@ -57,13 +62,32 @@ export class MyProfileTabComponent implements OnInit {
 
   async getFollowing(){
     for(let i = 0; i < this.userData!.following.length; i++){
-    const user = await this.afs
-          .collection('users')
-          .doc(this.userData!.following[i])
-          .ref.withConverter(new Converter().userConverter).get();
-    if(user && user.data()){
-      this.usersFollowing.push(user.data()!);
+      const user = await this.afs
+            .collection('users')
+            .doc(this.userData!.following[i])
+            .ref.withConverter(new Converter().userConverter).get();
+      if(user && user.data()){
+        this.usersFollowing.push(user.data()!);
+      }
     }
   }
+
+  async getRecipes(){
+    console.log(this.userData!.recipes)
+    for(let i = 0; i < this.userData!.recipes.length; i++){
+      const recipe = await this.afs
+            .collection('recipes')
+            .doc(this.userData!.recipes[i])
+            .ref.withConverter(new RecipeConverter().recipeConverter).get();
+      if(recipe && recipe.data()){
+        this.myRecipes.push(recipe.data()!);
+      }
+    }
+  }
+
+  goToUser(username: string) {
+    this.zone.run(() => {
+      this.router.navigate(['users/', username]);
+    })
   }
 }
