@@ -27,6 +27,7 @@ export class DiscoverDisplayComponent implements OnInit {
   @Input() sortType: string;
   @Input() contentType: string;
   @Input() direction: string;
+  @Input() query: string;
 
   constructor(private afs: AngularFirestore, private router: Router) {}
 
@@ -64,67 +65,77 @@ export class DiscoverDisplayComponent implements OnInit {
   }
 
   getRecipes() {
-    switch (this.sortType) {
-      case 'Time Created': {
-        if (this.direction) {
-          this.recipeCollection.ref
-            .orderBy('timestamp', 'asc')
-            .withConverter(new RecipeConverter().recipeConverter)
-            .get()
-            .then(recipes => {
-              this.recipes = recipes.docs;
-            });
-        } else {
-          this.recipeCollection.ref
-            .orderBy('timestamp', 'desc')
-            .withConverter(new RecipeConverter().recipeConverter)
-            .get()
-            .then(recipes => {
-              this.recipes = recipes.docs;
-            });
+    if(this.query){
+      this.recipeCollection.ref
+              .where('tags', 'array-contains', this.query)
+              .withConverter(new RecipeConverter().recipeConverter)
+              .get()
+              .then(recipes => {
+                this.recipes = recipes.docs;
+              });
+    } else {
+      switch (this.sortType) {
+        case 'Time Created': {
+          if (this.direction) {
+            this.recipeCollection.ref
+              .orderBy('timestamp', 'asc')
+              .withConverter(new RecipeConverter().recipeConverter)
+              .get()
+              .then(recipes => {
+                this.recipes = recipes.docs;
+              });
+          } else {
+            this.recipeCollection.ref
+              .orderBy('timestamp', 'desc')
+              .withConverter(new RecipeConverter().recipeConverter)
+              .get()
+              .then(recipes => {
+                this.recipes = recipes.docs;
+              });
+          }
+          break;
         }
-        break;
-      }
-      case 'Number of Ingredients': {
-        //temporary until num of recipes are actually added
-        if (this.direction) {
-          this.recipeCollection.ref
-            .orderBy('timestamp', 'asc')
-            .withConverter(new RecipeConverter().recipeConverter)
-            .get()
-            .then(recipes => {
-              this.recipes = recipes.docs;
-            });
-        } else {
-          this.recipeCollection.ref
-            .orderBy('timestamp', 'desc')
-            .withConverter(new RecipeConverter().recipeConverter)
-            .get()
-            .then(recipes => {
-              this.recipes = recipes.docs;
-            });
+        case 'Number of Ingredients': {
+          //temporary until num of recipes are actually added
+          if (this.direction) {
+            this.recipeCollection.ref
+              .orderBy('timestamp', 'asc')
+              .withConverter(new RecipeConverter().recipeConverter)
+              .get()
+              .then(recipes => {
+                this.recipes = recipes.docs;
+              });
+          } else {
+            this.recipeCollection.ref
+              .orderBy('timestamp', 'desc')
+              .withConverter(new RecipeConverter().recipeConverter)
+              .get()
+              .then(recipes => {
+                this.recipes = recipes.docs;
+              });
+          }
+          break;
         }
-        break;
-      }
-      case 'Name': {
-        if (this.direction) {
-          this.recipeCollection.ref
-            .orderBy('recipeName', 'desc')
-            .withConverter(new RecipeConverter().recipeConverter)
-            .get()
-            .then(recipes => {
-              this.recipes = recipes.docs;
-            });
-        } else {
-          this.recipeCollection.ref
-            .orderBy('recipeName', 'asc')
-            .withConverter(new RecipeConverter().recipeConverter)
-            .get()
-            .then(recipes => {
-              this.recipes = recipes.docs;
-            });
+        case 'Name': {
+          if (this.direction) {
+            this.recipeCollection.ref
+              .orderBy('recipeName', 'desc')
+              .withConverter(new RecipeConverter().recipeConverter)
+              .get()
+              .then(recipes => {
+                this.recipes = recipes.docs;
+              });
+          } else {
+            this.recipeCollection.ref
+              .orderBy('recipeName', 'asc')
+              .withConverter(new RecipeConverter().recipeConverter)
+              .get()
+              .then(recipes => {
+                this.recipes = recipes.docs;
+              });
+          }
+          break;
         }
-        break;
       }
     }
   }

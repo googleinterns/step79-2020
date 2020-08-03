@@ -39,6 +39,25 @@
       </mat-list-item>
     </mat-expansion-panel>
 
+    <mat-expansion-panel #tagPanel [disabled]='showResults' *ngIf='searchOption[0] === "Recipes"'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Seach Tags
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <form [formGroup]="tagSearch" (submit)="getTags()">
+        <mat-form-field appearance="outline">
+          <input matInput (keyup)='checkEmpty()' formControlName="query" #tagQuery autocomplete="off" placeholder="Ex. Vegetarian">
+        </mat-form-field>
+      </form>
+
+    </mat-expansion-panel>
+
+    
+    
+   
+
     <!-- sort options for users -->
     <mat-expansion-panel [disabled]='showResults' #recipePanel *ngIf='searchOption[0] === "Users"'>
       <mat-expansion-panel-header>
@@ -98,11 +117,9 @@
 
     <div *ngIf='!showResults'>
       <app-discover-display [contentType]='this.searchOption[0]' [direction]='this.isChecked' 
-      [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
+      [query]='tagQuery' [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
       </app-discover-display>
     </div>
-
-   
   </mat-sidenav-content>
 </mat-sidenav-container>
 
