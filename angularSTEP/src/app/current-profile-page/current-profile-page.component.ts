@@ -22,7 +22,7 @@ export class CurrentProfilePageComponent implements OnInit {
   displayNameForm: FormControl | null = null;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private route: ActivatedRoute,
     private afs: AngularFirestore,
