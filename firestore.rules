@@ -33,8 +33,7 @@ service cloud.firestore {
   //  request.resource.data.aboutme.size() < 2000;
   
   match /databases/{database}/documents {
-  
-  	match /{document=**}{
+  	match /{document=**} {
     	allow read: if false;
       allow write: if false;
     }
