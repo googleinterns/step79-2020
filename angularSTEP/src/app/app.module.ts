@@ -27,6 +27,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatRippleModule} from '@angular/material/core';
+import {MatChipsModule} from '@angular/material/chips';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -42,7 +43,8 @@ import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {MatExpansionModule} from '@angular/material/expansion';
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
@@ -109,6 +111,8 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     ReactiveFormsModule,
     GoogleMapsModule,
     MatTabsModule,
+    MatExpansionModule,
+    MatChipsModule,
     NgAisModule.forRoot(),
     MatDialogModule
   ],
