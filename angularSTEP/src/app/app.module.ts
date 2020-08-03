@@ -101,6 +101,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MatMenuModule,
     MatProgressBarModule,
     MatRippleModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatStepperModule,
