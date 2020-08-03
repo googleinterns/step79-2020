@@ -59,12 +59,14 @@ export class UploadRecipeComponent {
     return this.fileFormGroup.get('imageArray') as FormArray;
   }
 
+  //deletes the image from the blob array, preview, and the form
   deleteImage(i: number) {
     this.imageFiles.splice(i, 1);
     this.previewImgUrls.splice(i, 1);
     this.imageArray.removeAt(i);
   }
 
+  //adds preview image to array
   addImageToArray(event: any) {
     if (event.target.files.length > 0) {
       const file: Blob = event.target.files[0];
@@ -283,7 +285,7 @@ export class UploadRecipeComponent {
     });
   }
 
-  //image functions
+  //---------------image functions-----------------
 
   //adds each image to storage and retreivs their url to add to the array of urls
   async addImage(image: Blob, name: string) {
