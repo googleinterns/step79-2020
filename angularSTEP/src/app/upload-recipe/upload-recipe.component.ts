@@ -1,11 +1,12 @@
 import {Component, Output, NgZone, EventEmitter} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {Converter} from '../converter';
+import {AngularFireAuth} from '@angular/fire/auth'
+import {Recipe} from '../recipe';
+import {RecipeConverter} from '../recipe-converter';
 
 
 @Component({
@@ -13,6 +14,7 @@ import {Converter} from '../converter';
   templateUrl: './upload-recipe.component.html',
   styleUrls: ['./upload-recipe.component.scss']
 })
+
 export class UploadRecipeComponent{
   error = '';
   hide = true;
@@ -186,17 +188,21 @@ export class UploadRecipeComponent{
     this.formatInstructions(this.instructionsArray);
     this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
 
-
-    this.db.collection('recipes').add({
-      recipeName: this.basicsFormGroup.value.name,
-      difficulty: this.basicsFormGroup.value.difficulty,
-      description: this.basicsFormGroup.value.description,
-      ingredients: this.ingredientsArray.value,
-      tools: this.toolsArray.value,
-      instructions: this.instructionsArray.value,
-      extraInfo: this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value : '',
-      timestamp: Date.now(),
-      });
+    this.db.collection('recipes')
+      .ref.withConverter(new RecipeConverter().recipeConverter)
+      .add(new Recipe(
+        this.basicsFormGroup.value.name,
+        '',
+        this.basicsFormGroup.value.difficulty,
+        this.basicsFormGroup.value.description,
+        this.ingredientsArray.value,
+        this.toolsArray.value,
+        this.instructionsArray.value,
+        this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value.extraInfo : '',
+        Date.now(),
+        [], 
+        [],
+    ));
     this.router.navigate(['/confirm-upload']);
   }
 
