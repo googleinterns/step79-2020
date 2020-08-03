@@ -1,10 +1,12 @@
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Component, OnInit, NgZone, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Inject, NgZone, ChangeDetectorRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router, ActivatedRoute} from '@angular/router';
 import {User} from '../user';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Converter} from '../converter';
+import {ChangeProfileImgComponent} from '../change-profile-img/change-profile-img.component'
 
 @Component({
   selector: 'app-current-profile-page',
@@ -24,16 +26,15 @@ export class CurrentProfilePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private zone: NgZone
+    private zone: NgZone,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
     this.fAuth.onAuthStateChanged(auth => {
       if (auth) {
         this.uid = auth.uid;
-        
           this.setUserData();
-        
       } else {
         this.zone.run(() => {
           this.router.navigate(['/login']);
@@ -124,6 +125,8 @@ export class CurrentProfilePageComponent implements OnInit {
   }
 
   changeProfileImage() {
-    this.changeImage = !this.changeImage;
+    const dialogRef = this.dialog.open(ChangeProfileImgComponent, {
+      width: '300px'
+    });
   }
 }

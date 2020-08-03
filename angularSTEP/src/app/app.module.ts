@@ -26,6 +26,7 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog';
 import {NgModule} from '@angular/core';
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
@@ -98,6 +99,7 @@ import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img
     ReactiveFormsModule,
     GoogleMapsModule,
     MatTabsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

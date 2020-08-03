@@ -4,6 +4,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {Converter} from '../converter';
 
@@ -29,15 +30,12 @@ export class ChangeProfileImgComponent implements OnInit {
     private afs: AngularFirestore,
     private router: Router,
     private _ngZone: NgZone,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public dialogRef: MatDialogRef<ChangeProfileImgComponent>
   ) {
     this.fileForm = this.fb.group({
       image: [null, [requiredFileType]],
     });
-  }
-
-  logout() {
-    this.fAuth.signOut();
   }
 
   ngOnInit() {}
@@ -76,7 +74,7 @@ export class ChangeProfileImgComponent implements OnInit {
               .ref.withConverter(new Converter().userConverter)
               .update({picUrl: url})
               .then(() => {
-                this.uploadDone.emit(true);
+                this.dialogRef.close(true);
               });
           }
         });
@@ -97,7 +95,7 @@ export class ChangeProfileImgComponent implements OnInit {
   }
 
   closeComponent() {
-    this.uploadDone.emit(true);
+    this.dialogRef.close(false);
   }
 }
 
