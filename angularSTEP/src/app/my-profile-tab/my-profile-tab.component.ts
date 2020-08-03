@@ -61,26 +61,29 @@ export class MyProfileTabComponent implements OnInit {
   }
 
   async getFollowing(){
-    for(let i = 0; i < this.userData!.following.length; i++){
-      const user = await this.afs
-            .collection('users')
-            .doc(this.userData!.following[i])
-            .ref.withConverter(new Converter().userConverter).get();
-      if(user && user.data()){
-        this.usersFollowing.push(user.data()!);
+    if(this.userData && this.userData.following){
+      for(let i = 0; i < this.userData.following.length; i++){
+        const user = await this.afs
+              .collection('users')
+              .doc(this.userData.following[i])
+              .ref.withConverter(new Converter().userConverter).get();
+        if(user && user.data()){
+          this.usersFollowing.push(user.data()!);
+        }
       }
     }
   }
 
   async getRecipes(){
-    console.log(this.userData!.recipes)
-    for(let i = 0; i < this.userData!.recipes.length; i++){
-      const recipe = await this.afs
-            .collection('recipes')
-            .doc(this.userData!.recipes[i])
-            .ref.withConverter(new RecipeConverter().recipeConverter).get();
-      if(recipe && recipe.data()){
-        this.myRecipes.push(recipe.data()!);
+    if(this.userData && this.userData.recipes){
+      for(let i = 0; i < this.userData.recipes.length; i++){
+        const recipe = await this.afs
+              .collection('recipes')
+              .doc(this.userData.recipes[i])
+              .ref.withConverter(new RecipeConverter().recipeConverter).get();
+        if(recipe && recipe.data()){
+          this.myRecipes.push(recipe.data()!);
+        }
       }
     }
   }
