@@ -35,6 +35,7 @@ export class DiscoverPageComponent implements OnInit {
 
   constructor(private router: Router) {}
 
+  //these functions are for future event changes
   onSearchChanged(event: any) {}
 
   onRecipeSortChanged(event: any) {}
