@@ -6,6 +6,7 @@ export class Recipe {
     public description: string,
     public ingredients: string[],
     public tools: string[],
+    public images: string[],
     public instructions: string[],
     public extraInfo: string,
     public timestamp: number,
@@ -18,6 +19,7 @@ export class Recipe {
     this.description = description;
     this.ingredients = ingredients;
     this.tools = tools;
+    this.images = images;
     this.instructions = instructions;
     this.extraInfo = extraInfo;
     this.timestamp = timestamp;

@@ -136,6 +136,33 @@
     </form>
   </mat-step>
 
+  <mat-step [stepControl]="fileFormGroup">
+    <ng-template matStepLabel>Upload Photos</ng-template>
+    <div class="form-container">
+        <h1>Upload Recipe Photos</h1>
+        <h4 class="error" *ngIf="error">{{ error }}</h4>
+        <form [formGroup]="fileFormGroup">
+          <div class='images-container'>
+            <div class='image-container' formArrayName="imageArray" *ngFor="let image of imageArray.controls; let i=index">
+              <img *ngIf='previewImgUrls[i]' [src]="previewImgUrls[i]" alt="Photo">
+              <button *ngIf='previewImgUrls[i]' id="delete-icon" mat-icon-button (click)='deleteImage(i)'><mat-icon>remove_circle_outline</mat-icon></button>
+            </div>
+          </div>
+          <br>
+          <div>
+            <label for="upload-photo"><span><h3 class="upload">Upload Photo...<mat-icon>add_photo_alternate</mat-icon></h3></span></label>
+            <input type="file" autocomplete="off" accept="image/*" id="upload-photo" (change)="addImageToArray($event)" required>
+            <mat-error *ngIf="fileFormGroup.controls.imageArray.invalid">
+                <span>Allowed types: png, jpg, jpeg, gif</span>
+            </mat-error>
+          </div>
+        </form>
+    </div>
+    <div id="solo-next-button">
+      <button mat-raised-button color="primary" matStepperNext [disabled]="!imageArray.length || fileFormGroup.controls.imageArray.invalid" type="button">Next</button>
+    </div>
+  </mat-step>
+
   <mat-step [stepControl]="extraFormGroup" [optional]="true">
     <form [formGroup]="extraFormGroup" (ngSubmit)="onSubmit()" class ="form-formatting">
       <ng-template matStepLabel>Extra Information</ng-template>
