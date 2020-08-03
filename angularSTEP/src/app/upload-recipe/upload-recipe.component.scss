@@ -1,0 +1,89 @@
+.other-error {
+  color: red;
+  margin-top: -20px;
+}
+
+.form-formatting {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+  margin-right: 20%;
+  margin-left: 20%;
+}
+
+#solo-next-button {
+  display:flex;
+  justify-content: flex-end;
+}
+
+.form-array-formatting {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+  margin-right: 20%;
+  margin-left: 20%;
+  text-align: center;
+}
+
+.array-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: .5%;
+}
+
+.input-error {
+  display: flex;
+  flex-direction: column;
+  flex-grow: .75;
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1%;
+}
+
+img{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background-size: cover;
+}
+
+.form-container{
+  text-align: center;
+  width: 300px;
+}
+
+#upload-photo {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.upload:hover {
+  color: red;
+  cursor: pointer;
+} 
+
+.image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.images-container {
+  display: flex;
+  justify-content: center;
+}
+
+#delete-icon{
+  position: absolute;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}

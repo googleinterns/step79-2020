@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
-import { auth } from 'firebase';
+import {Component, OnInit} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router} from '@angular/router';
+import {auth} from 'firebase';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   //and there is no user in the database linked to the account
   //it will delete the user (in case user refreshes page before
   //setting a username but after signing in with Google
-  constructor(public fAuth: AngularFireAuth, public router: Router) {}
+  constructor(private fAuth: AngularFireAuth, private router: Router) {}
 
   //checks if google user is new, if so, calls setup component to
   //allow the user to create a username, if not new, redirects to home page

@@ -1,10 +1,12 @@
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Component, OnInit, NgZone} from '@angular/core';
+import {Component, OnInit, Inject, NgZone, ChangeDetectorRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router, ActivatedRoute} from '@angular/router';
 import {User} from '../user';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Converter} from '../converter';
+import {ChangeProfileImgComponent} from '../change-profile-img/change-profile-img.component'
 
 @Component({
   selector: 'app-current-profile-page',
@@ -15,20 +17,24 @@ export class CurrentProfilePageComponent implements OnInit {
   selected = 0;
   uid = '';
   stillLoading = true;
+  changeImage = false;
   user: User | null = null;
   displayNameForm: FormControl | null = null;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private zone: NgZone
-  ) {
+    private zone: NgZone,
+    private dialog: MatDialog
+  ) {}
+
+  ngOnInit() {
     this.fAuth.onAuthStateChanged(auth => {
       if (auth) {
         this.uid = auth.uid;
-        this.setUserData();
+          this.setUserData();
       } else {
         this.zone.run(() => {
           this.router.navigate(['/login']);
@@ -37,37 +43,37 @@ export class CurrentProfilePageComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
   //gets the current users information and stores it
   async setUserData() {
-    const postUser = await this.afs
+    //actively listens for data change, and then reloads the user.
+    this.afs.firestore
       .doc('/users/' + this.uid + '/')
-      .ref.withConverter(new Converter().userConverter)
-      .get();
-    if (postUser !== null && postUser.data() !== undefined) {
-      this.route.queryParams.subscribe(params => {
-        const tab = params['tab'];
-        switch (tab) {
-          case 'wishlist': {
-            this.selected = 1;
-            break;
-          }
-          case 'shoppinglist': {
-            this.selected = 2;
-            break;
-          }
-          default: {
-            this.selected = 0;
-          }
+      .withConverter(new Converter().userConverter)
+      .onSnapshot(postUser => {
+        if (postUser !== null && postUser.data() !== undefined) {
+          this.route.queryParams.subscribe(params => {
+            const tab = params['tab'];
+            switch (tab) {
+              case 'wishlist': {
+                this.selected = 1;
+                break;
+              }
+              case 'shoppinglist': {
+                this.selected = 2;
+                break;
+              }
+              default: {
+                this.selected = 0;
+              }
+            }
+          });
+          this.zone.run(() => {
+            this.user = postUser.data()!;
+          })
+        } else {
+          this.router.navigate(['/login']);
         }
-      });
-      this.zone.run(() => {
-        this.user = postUser.data()!;
-      })
-    } else {
-      this.router.navigate(['/login']);
-    }
+    });
   }
 
   editValue(form: string) {
@@ -94,7 +100,7 @@ export class CurrentProfilePageComponent implements OnInit {
         user &&
         this.displayNameForm &&
         this.displayNameForm.valid &&
-        this.displayNameForm.value !== this.user!.aboutme
+        this.displayNameForm.value !== this.user!.displayName
       ) {
         this.afs
           .collection('users')
@@ -102,10 +108,25 @@ export class CurrentProfilePageComponent implements OnInit {
           .ref.withConverter(new Converter().userConverter)
           .update({displayName: this.displayNameForm.value})
           .then(() => {
-            this.user!.displayName = this.displayNameForm!.value;
             this.displayNameForm = null;
           });
+      } else if (
+        this.displayNameForm &&
+        this.displayNameForm.valid &&
+        this.displayNameForm.value === this.user!.displayName
+      ) {
+        this.displayNameForm = null;
       }
+    });
+  }
+
+  closeImgChanger(close: boolean) {
+    this.changeImage = !close;
+  }
+
+  changeProfileImage() {
+    const dialogRef = this.dialog.open(ChangeProfileImgComponent, {
+      width: '300px'
     });
   }
 }

@@ -1,1 +1,61 @@
-<button mat-button routerLink="/users">Go to users!</button>
+
+<div class="welcome-page-container">
+    <!-- this image is completely free to use with no attribution from https://www.pexels.com/photo/top-view-of-food-1640772/ -->
+    <img class='food-image' src='assets/images/food-homepage.jpg'>
+    <mat-card class="welcome-card">
+        <mat-card-title>Welcome to <b>Basil</b></mat-card-title>
+        <mat-card-subtitle>Three reciPEAS in a STEP Pod</mat-card-subtitle>
+        <mat-divider></mat-divider><br>
+        <mat-card-content><h3><b>Basil</b> is a cooking recipe website that allows cooks to find homemade/existing recipes and 
+            get the ingredients they need to make homemade meals in an easy to navigate flow without the exesive blog information! ALL while being sheltered in place! <br/>
+            </h3>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-stroked-button color="primary" routerLink="/discover">Find Recipes!</button>
+            <button mat-stroked-button color="accent" routerLink="/upload-recipe">Upload your own recipe!</button>
+        </mat-card-actions>
+   
+    </mat-card>
+</div>
+<mat-divider></mat-divider>
+<div class="all-content">
+    <div class="content-container">
+        <div class="widget-header">
+            <h1>Top Recipes</h1>
+            <a>See More</a><br>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-card class='widget-container'>
+            <div class='info-container'>
+                <app-recipe-card *ngFor="let recipe of topRecipes" [recipe]='recipe.data()'></app-recipe-card>
+            </div>
+        </mat-card>
+        <div class="widget-header">
+            <h1>Newest Recipes</h1>
+            <a>See More</a><br>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-card class='widget-container'>
+            <div class='info-container'>
+                <app-recipe-card *ngFor="let recipe of newRecipes" [recipe]='recipe.data()'></app-recipe-card>
+            </div>
+        </mat-card>
+        <div class="widget-header">
+            <h1>Users</h1>
+            <a>See More</a><br>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-card class='widget-container'>
+            <div class='info-container'>
+                <app-profile-card *ngFor="let user of newUsers" [user]='user.data()'></app-profile-card>
+            </div>
+        </mat-card>
+    </div>
+    <div class='map-container'>
+        <!-- don't need to use until end, since it will just take up quota every time the page loads -->
+        <!-- the temp mat card simulates the design of the map -->
+        <app-map addressType="geocode"></app-map>
+        <!-- <mat-card class="map-card"></mat-card> -->
+    </div>
+</div>
+

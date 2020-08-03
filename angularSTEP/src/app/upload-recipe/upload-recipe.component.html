@@ -1,85 +1,152 @@
-<h3>Upload a Recipe</h3>
+<div class="stepper-container">
+<mat-horizontal-stepper linear>
+  <mat-step [stepControl]="basicsFormGroup">
+    <form [formGroup]="basicsFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
+      <ng-template matStepLabel>Recipe Basics</ng-template>
+        <mat-form-field>
+          <mat-label>Recipe Name</mat-label>
+          <input matInput placeholder="Ex. Mom's tamales" formControlName="name" autocomplete="off" required>
+          <mat-error>This is required.</mat-error>
+        </mat-form-field>
+        <h5 class="other-error" *ngIf="basicsFormGroup.controls.name.value.trim() === '' && basicsFormGroup.controls.name.touched && basicsFormGroup.controls.name.valid">Please enter a valid name.</h5>
 
-<form [formGroup]="recipeForm" (submit)="onSubmit()">
-  <mat-form-field>
-    <mat-label>Recipe Name</mat-label>
-    <input matInput placeholder="Ex. Mom's tamales" formControlName="name" required>
-    <mat-error>This is required.</mat-error>
-  </mat-form-field>
+        <br><br>
 
-  <br><br>
+        <mat-form-field>
+          <mat-label>Recipe Difficulty</mat-label>
+          <mat-select formControlName="difficulty" required>
+            <mat-option value="Beginner">Beginner</mat-option>
+            <mat-option value="Intermediate">Intermediate</mat-option>
+            <mat-option value="Advanced">Advanced</mat-option>
+            <mat-option value="Professional">Professional</mat-option>
+          </mat-select>
+          <mat-error>This is required.</mat-error>
+        </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Recipe Difficulty</mat-label>
-    <mat-select formControlName="difficulty" required>
-      <mat-option value="Beginner">Beginner</mat-option>
-      <mat-option value="Intermediate">Intermediate</mat-option>
-      <mat-option value="Advanced">Advanced</mat-option>
-      <mat-option value="Professional">Professional</mat-option>
-    </mat-select>
-    <mat-error>This is required.</mat-error>
-  </mat-form-field>
+        <br><br>
 
-  <br><br>
+        <mat-form-field>
+          <mat-label>Short Description</mat-label>
+          <textarea matInput autocomplete="off" #description placeholder="Ex. Best Chicken tamales ever. NOT for vegetarians!" formControlName="description" required></textarea>
+          <mat-hint *ngIf="!(basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid)">{{description.value?.length}}/200 Characters</mat-hint>
+          <mat-error>This is required.</mat-error>
+        </mat-form-field>
+        <h5 class="other-error" *ngIf="basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid">Please enter a valid description.</h5>
+        <div id="solo-next-button">
+          <button mat-raised-button color="primary" matStepperNext [disabled]="!basicsFormGroup.valid || basicsFormGroup.controls.name.value.trim() === '' || basicsFormGroup.controls.description.value.trim() === ''" type="button">Next</button>
+        </div>
+    </form>
+  </mat-step>
 
-  <mat-form-field>
-    <mat-label>Short Description</mat-label>
-    <textarea matInput #description placeholder="Ex. Best Chicken tamales ever. NOT for vegetarians!" formControlName="description" maxlength="200" required></textarea>
-    <mat-hint>{{description.value?.length}}/200 Characters</mat-hint>
-    <mat-error>This is required.</mat-error>
-  </mat-form-field>
+  <mat-step [stepControl]="ingredientsFormGroup">
+    <form [formGroup]="ingredientsFormGroup" (ngSubmit)="onSubmit()" class="form-array-formatting">
+      <ng-template matStepLabel required>Ingredients</ng-template>
+      <div formArrayName="ingredientsArray">
+        <div *ngFor="let ingred of ingredientsArray.controls; let i=index" class="array-item">
+          <mat-label>Ingredient:</mat-label>
+          <div class="input-error">
+            <input autocomplete="off" matInput type="text" [formControlName]="i">
+            <mat-error *ngIf="(ingredientsArray.at(i).value.trim() === '' || ingredientsArray.at(i).invalid) && ingredientsArray.at(i).touched">Please enter a valid item.</mat-error>
+          </div>
+          <button [disabled]="ingredientsArray.length === 1" mat-raised-button color="primary" (click)="ingredientsArray.removeAt(i)">Delete</button>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" [disabled]="!ingredientsArray.valid || checkForBlanks(ingredientsArray.value)" (click)="addIngredientsField()">Add Another</button>
+        </div>
+      </div>
+      <div class="control-buttons">
+        <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+        <button mat-raised-button color="primary" [disabled]="!ingredientsArray.valid || checkForBlanks(ingredientsArray.value)" matStepperNext type="button">Next</button>
+      </div>
+    </form>
+  </mat-step>
 
-  <br><br>
+  <mat-step [stepControl]="toolsFormGroup">
+    <form [formGroup]="toolsFormGroup" (ngSubmit)="onSubmit()" class ="form-array-formatting">
+      <ng-template matStepLabel>Tools</ng-template>
+      <div formArrayName="toolsArray">
+        <div *ngFor="let tool of toolsArray.controls; let i=index" class="array-item">
+          <mat-label>Tool:</mat-label>
+          <div class="input-error">
+            <input autocomplete="off" matInput type="text" [formControlName]="i" class="input-field">
+            <mat-error *ngIf="(toolsArray.at(i).invalid || toolsArray.at(i).value.trim() === '') && toolsArray.at(i).touched">Please enter a valid item.</mat-error>
+          </div>
+          <button [disabled]="toolsArray.length === 1" mat-raised-button color="primary" (click)="toolsArray.removeAt(i)">Delete</button>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" [disabled]="!toolsArray.valid || checkForBlanks(toolsArray.value)" (click)="addToolsField()">Add Another</button>
+        </div>
+      </div>
+      <div class="control-buttons">
+        <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+        <button mat-raised-button color="primary" [disabled]="!toolsArray.valid || checkForBlanks(toolsArray.value)" matStepperNext type="button">Next</button>
+      </div>
+    </form>
+  </mat-step>
 
-  <mat-form-field>
-    <mat-label>Tools</mat-label>
-    <input matInput #tool placeholder="Ex. Tamale Steamer" formControlName="tools" required>
-    <mat-error>This is required.</mat-error>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="button" (click)="addTool(tool.value); tool.value = ''">Add</button>
-  <br>
+  <mat-step [stepControl]="instructionsFormGroup">
+    <form [formGroup]="instructionsFormGroup" (ngSubmit)="onSubmit()" class ="form-array-formatting">
+      <ng-template matStepLabel>Instructions</ng-template>
+      <div formArrayName="instructionsArray">
+        <div *ngFor="let instruction of instructionsArray.controls; let i=index" class="array-item">
+          <mat-label>{{i + 1}}.</mat-label>          
+          <div class="input-error">
+            <input autocomplete="off" matInput type="text" [formControlName]="i">
+            <mat-error *ngIf="(instructionsArray.at(i).invalid || (removeNumsAndSymbolsAtStart(instructionsArray.at(i).value) === '')) && instructionsArray.at(i).touched">Please enter a valid item.</mat-error>
+          </div>
+          <button [disabled]="instructionsArray.length === 1" mat-raised-button color="primary" (click)="instructionsArray.removeAt(i)">Delete</button>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" [disabled]="!instructionsArray.valid || checkInstructions(instructionsArray.value)" (click)="addInstructionsField()">Add Another</button>
+        </div>
+      </div>
+      <div class="control-buttons">
+        <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+        <button mat-raised-button color="primary" [disabled]="!instructionsArray.valid || checkInstructions(instructionsArray.value)" matStepperNext type="button">Next</button>
+      </div>
+    </form>
+  </mat-step>
 
-  <ul><li *ngFor="let tool of tools">{{tool}}</li></ul>
-  
-  <br><br>
+  <mat-step [stepControl]="fileFormGroup">
+    <ng-template matStepLabel>Upload Photos</ng-template>
+    <div class="form-container">
+        <h1>Upload Recipe Photos</h1>
+        <h4 class="error" *ngIf="error">{{ error }}</h4>
+        <form [formGroup]="fileFormGroup">
+          <div class='images-container'>
+            <div class='image-container' formArrayName="imageArray" *ngFor="let image of imageArray.controls; let i=index">
+              <img *ngIf='previewImgUrls[i]' [src]="previewImgUrls[i]" alt="Photo">
+              <button *ngIf='previewImgUrls[i]' id="delete-icon" mat-icon-button (click)='deleteImage(i)'><mat-icon>remove_circle_outline</mat-icon></button>
+            </div>
+          </div>
+          <br>
+          <div>
+            <label for="upload-photo"><span><h3 class="upload">Upload Photo...<mat-icon>add_photo_alternate</mat-icon></h3></span></label>
+            <input type="file" autocomplete="off" accept="image/*" id="upload-photo" (change)="addImageToArray($event)" required>
+            <mat-error *ngIf="fileFormGroup.controls.imageArray.invalid">
+                <span>Allowed types: png, jpg, jpeg, gif</span>
+            </mat-error>
+          </div>
+        </form>
+    </div>
+    <div id="solo-next-button">
+      <button mat-raised-button color="primary" matStepperNext [disabled]="!imageArray.length || fileFormGroup.controls.imageArray.invalid" type="button">Next</button>
+    </div>
+  </mat-step>
 
-  <mat-form-field>
-    <mat-label>Ingredients</mat-label>
-    <input matInput #ingredient placeholder="Ex. Masa" formControlName="ingredients" required>
-    <mat-error>This is required.</mat-error>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="button" (click)="addIngredient(ingredient.value); ingredient.value = ''">Add</button>
-  <br>
-
-  <ul><li *ngFor="let ingredient of ingredients">{{ingredient}}</li></ul>
-  
-  <br><br>
-
-  <mat-form-field>
-    <mat-label>Instructions</mat-label>
-    <textarea matInput #instruction placeholder="Ex. Mix the chili and tomato blend into the pulled chicken" formControlName="instructions" required></textarea>
-    <mat-hint align="start">Do not number the steps</mat-hint>
-    <mat-error>This is required.</mat-error>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="button" (click)="addInstruction(instruction.value); instruction.value = '';">Add</button>
-  
-  <br>
-
-  <ol><li *ngFor="let instruction of instructions">{{instruction}}</li></ol>
-  
-
-  <br><br>
-
-  <mat-form-field>
-    <mat-label>Extra Information</mat-label>
-    <textarea matInput placeholder="Ex. It was a crisp autumn day when I suddenly felt inspired to take a trip down memory lane and cook..." formControlName="extraInfo"></textarea>
-    <mat-hint>Write anything else you may want to include about your recipe</mat-hint>
-  </mat-form-field>
-
-  <br><br>
-
-  <button mat-raised-button color="primary" type="submit" [disabled]="!recipeForm.valid">Upload Recipe</button>
-</form>
-
-
-
+  <mat-step [stepControl]="extraFormGroup" [optional]="true">
+    <form [formGroup]="extraFormGroup" (ngSubmit)="onSubmit()" class ="form-formatting">
+      <ng-template matStepLabel>Extra Information</ng-template>
+      <mat-form-field>
+        <mat-label>Extra Information</mat-label>
+        <textarea autocomplete="off" matInput placeholder="Ex. It was a crisp autumn day when I suddenly felt inspired to take a trip down memory lane and cook..." formControlName="extraInfo"></textarea>
+        <mat-hint>Write anything else you may want to include about your recipe.</mat-hint>
+      </mat-form-field>
+      <div class="control-buttons">
+        <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+        <button mat-raised-button color="primary" type="submit">Upload Recipe</button>
+      </div>
+    </form> 
+  </mat-step>
+</mat-horizontal-stepper>
+</div>
