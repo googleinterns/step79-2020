@@ -7,6 +7,7 @@ import {RecipeConverter} from '../recipe-converter';
 import {User} from '../user';
 import {Converter} from '../converter';
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
 
 @Component({
@@ -25,6 +26,7 @@ export class RecipePageComponent {
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {
     this.setRecipeData();
     this.fAuth.currentUser.then(user => {
@@ -94,12 +96,20 @@ export class RecipePageComponent {
         this.fAuth.currentUser.then(user => {
           if (user) {
             this.db.collection('users')
-            .doc(this.user!.uid)
+            .doc(this.user.uid)
             .ref.withConverter(new Converter().userConverter)
             .update({shoppingList: objectCurrentShoppingList})
             .then(() => {
               this.setUserData(user.uid);
-            });
+              let snackBarRef = this.snackBar.open('Item Added!', undefined, {
+                duration: 1500,
+              });
+            })
+            .catch((error) => {
+              let snackBarRef = this.snackBar.open('Something went wrong:' + error, undefined, {
+                duration: 1500,
+              });
+            })
           }
         });  
       }

@@ -30,6 +30,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -38,18 +39,15 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {NgModule} from '@angular/core';
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
+import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
+import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
-
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
-import {environment} from '../environments/environment';
-import {RecipeCardComponent} from './recipe-card/recipe-card.component';
-
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
-import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 
 
 @NgModule({
@@ -90,24 +88,23 @@ import {ShoppingListComponent} from './shopping-list/shopping-list.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    MatAutocompleteModule,
+    MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatAutocompleteModule,
+    MatInputModule,
     MatMenuModule,
     MatRippleModule,
     MatSelectModule,
+    MatSnackBarModule,
     MatStepperModule,
+    MatTabsModule,
     MatToolbarModule,
     ReactiveFormsModule,
     GoogleMapsModule,
-    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
