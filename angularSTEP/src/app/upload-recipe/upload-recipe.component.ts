@@ -50,6 +50,9 @@ export class UploadRecipeComponent{
       const file: Blob = event.target.files[0];
       this.imgFile = file;
       //uploads preview of image
+      //BypasssecuirtyTrustUrl creates a temporary URL for the known blob.
+      //This image/blob is one the user has just uploaded.
+      //It does not change the actual security of the URL, but allows the website to just display it temporarily. 
       this.previewImgUrls.push(this.sanitizer.bypassSecurityTrustUrl(
         URL.createObjectURL(file)
       ));
