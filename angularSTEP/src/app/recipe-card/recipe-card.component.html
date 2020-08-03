@@ -1,11 +1,10 @@
 <mat-card *ngIf='recipe' class="recipe-card">
   <div class='card-info'>
-    <img mat-card-image *ngIf='!showDescription && recipe.images && recipe.images.length != 0' [src]='recipe.images[0]' alt="Photo of {{ recipe.recipeName }}" class="card-img">
-    <img mat-card-image *ngIf='!showDescription && recipe.images == null || recipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food" class="card-img">
+    <img *ngIf='!showDescription && recipe.images && recipe.images.length != 0' [src]='recipe.images[0]' alt="Photo of {{ recipe.recipeName }}" class="card-img">
+    <img *ngIf='!showDescription && recipe.images == null || recipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food" class="card-img">
+    <button mat-mini-fab color="primary" (click)='cardClicked()' id="photo-icon"><mat-icon>open_in_new</mat-icon></button>
   </div>
-  
   <mat-divider></mat-divider>
-  
   <mat-expansion-panel>
     <mat-expansion-panel-header collapsedHeight='60px' expandedHeight='60px'>
       <mat-card-header>
@@ -20,5 +19,4 @@
       <mat-chip *ngFor="let tag of tags">{{ tag }}</mat-chip>
     </mat-chip-list>
   </mat-expansion-panel>
-
 </mat-card>

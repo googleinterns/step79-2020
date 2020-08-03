@@ -164,7 +164,7 @@ export class DiscoverDisplayComponent implements OnInit {
         } else {
           this.userCollection.ref
             .orderBy('displayName', 'asc')
-            .withConverter(new Converter().userConverter)
+            .withConverter(new Converter().userConverter).limit(10)
             .get()
             .then(users => {
               this.users = users.docs;
@@ -176,7 +176,7 @@ export class DiscoverDisplayComponent implements OnInit {
         if (this.direction) {
           this.userCollection.ref
             .orderBy('displayName', 'desc')
-            .withConverter(new Converter().userConverter)
+            .withConverter(new Converter().userConverter).limit(10)
             .get()
             .then(users => {
               this.users = users.docs;
@@ -184,7 +184,7 @@ export class DiscoverDisplayComponent implements OnInit {
         } else {
           this.userCollection.ref
             .orderBy('displayName', 'asc')
-            .withConverter(new Converter().userConverter)
+            .withConverter(new Converter().userConverter).limit(10)
             .get()
             .then(users => {
               this.users = users.docs;
@@ -201,6 +201,8 @@ export class DiscoverDisplayComponent implements OnInit {
   }
 
   goToRecipe(id: string) {
-    this.router.navigate(['discover/recipes', id]);
+    if(id){
+      this.router.navigate(['discover/recipes', id]);
+    }
   }
 }

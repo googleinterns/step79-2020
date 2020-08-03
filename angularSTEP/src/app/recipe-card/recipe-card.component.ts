@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 interface recipeData{
   recipeName: string,
@@ -16,11 +16,13 @@ interface recipeData{
 })
 export class RecipeCardComponent implements OnInit{
   @Input() recipe!: recipeData;
+  @Input() recipeId!: string;
   recipeName: string = '';
   tags!: string[];
   averageRating: number = 0;
   recipeDescription: string = '';
   showDescription: boolean = false;
+  @Output() clicked = new EventEmitter<string>();
   
   ngOnInit(): void {
     //these values are temporary
@@ -50,6 +52,10 @@ export class RecipeCardComponent implements OnInit{
     if(this.recipeName.length > 100){
       this.recipeDescription = this.recipeName.substring(0, 97) + '...';
     }
+  }
+
+  cardClicked() {
+    this.clicked.emit(this.recipeId);
   }
 }
 
