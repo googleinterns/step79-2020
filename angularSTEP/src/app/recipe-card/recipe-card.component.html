@@ -1,11 +1,24 @@
 <mat-card *ngIf='recipe' class="recipe-card">
-  <img mat-card-image *ngIf='recipe.images && recipe.images.length != 0' [src]='recipe.images[0]' alt="Photo of {{ recipe.recipeName }}" class="card-img">
-  <img mat-card-image *ngIf='recipe.images == null || recipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food" class="card-img">
+  <div class='card-info'>
+    <img mat-card-image *ngIf='!showDescription && recipe.images && recipe.images.length != 0' [src]='recipe.images[0]' alt="Photo of {{ recipe.recipeName }}" class="card-img">
+    <img mat-card-image *ngIf='!showDescription && recipe.images == null || recipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food" class="card-img">
+  </div>
+  
   <mat-divider></mat-divider>
-  <mat-card-header>
-      <mat-card-title>{{ recipeName }}</mat-card-title>
-      <mat-card-subtitle><span>{{recipe.difficulty}}</span>
-        <span class='rating'>{{ averageRating }}/5</span>
-      </mat-card-subtitle>
-  </mat-card-header>
+  
+  <mat-expansion-panel>
+    <mat-expansion-panel-header collapsedHeight='60px' expandedHeight='60px'>
+      <mat-card-header>
+        <mat-card-title>{{ recipeName }}</mat-card-title>
+        <mat-card-subtitle><span>{{recipe.difficulty}}</span>
+          <span class='rating'>{{ averageRating }}/5</span>
+        </mat-card-subtitle>
+    </mat-card-header>
+    </mat-expansion-panel-header>
+    <p>{{recipe.description}}</p>
+    <mat-chip-list aria-label="Tags">
+      <mat-chip *ngFor="let tag of tags">{{ tag }}</mat-chip>
+    </mat-chip-list>
+  </mat-expansion-panel>
+
 </mat-card>

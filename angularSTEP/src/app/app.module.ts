@@ -27,6 +27,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
+import {MatChipsModule} from '@angular/material/chips';
 import {MatSelectModule} from '@angular/material/select';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -40,7 +41,7 @@ import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 
@@ -100,6 +101,8 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     ReactiveFormsModule,
     GoogleMapsModule,
     MatTabsModule,
+    MatExpansionModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

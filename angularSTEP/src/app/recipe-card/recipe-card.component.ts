@@ -17,12 +17,17 @@ interface recipeData{
 export class RecipeCardComponent implements OnInit{
   @Input() recipe!: recipeData;
   recipeName: string = '';
+  tags!: string[];
   averageRating: number = 0;
+  recipeDescription: string = '';
+  showDescription: boolean = false;
   
   ngOnInit(): void {
+    //these values are temporary
     this.recipe.ratings = [2, 3, 4, 5, 5, 5, 5, 2, 4, 1];
-    this.recipe.tags = ["Vegetarian", "Lowfat", "Easytomake"]
+    this.tags = ["Vegetarian", "Lowfat", "Easy"]
     this.recipeName = this.recipe.recipeName;
+    this.recipeDescription = this.recipe.description;
     this.shortenRecipeName();
     this.getAverageRating();
   }
@@ -36,8 +41,14 @@ export class RecipeCardComponent implements OnInit{
   }
 
   shortenRecipeName() {
-    if(this.recipeName.length > 14){
-      this.recipeName = this.recipeName.substring(0, 13) + '...';
+    if(this.recipeName.length > 13){
+      this.recipeName = this.recipeName.substring(0, 12) + '...';
+    }
+  }
+
+  shortenDescription() {
+    if(this.recipeName.length > 100){
+      this.recipeDescription = this.recipeName.substring(0, 97) + '...';
     }
   }
 }
