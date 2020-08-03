@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireModule} from '@angular/fire';
@@ -26,12 +25,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatRippleModule} from '@angular/material/core';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgModule} from '@angular/core';
@@ -42,10 +44,13 @@ import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
+import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
-
 import {UserPageComponent} from './user-page/user-page.component'; 
+import {NgAisModule} from 'angular-instantsearch';
+import {SearchBoxComponent} from './search-box/search-box.component';
+
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
 
 
@@ -69,7 +74,9 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
-    MyProfileTabComponent
+    SearchBoxComponent,
+    MyProfileTabComponent,
+    ChangeProfileImgComponent
   ],
 
   imports: [
@@ -94,7 +101,10 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatRippleModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatStepperModule,
     MatToolbarModule,
@@ -102,7 +112,9 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     GoogleMapsModule,
     MatTabsModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    NgAisModule.forRoot(),
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],
