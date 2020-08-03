@@ -1,8 +1,80 @@
 rules_version = '2';
 service cloud.firestore {
+	function notUpdating(field) {
+    return !(field in request.resource.data)
+          || resource.data[field].matches(request.resource.data[field])
+  }
+  
+  function checkUserFieldsValid() {
+  	return ('aboutme' in request.resource.data &&
+    'displayName' in request.resource.data &&
+    'email' in request.resource.data &&
+    'following' in request.resource.data &&
+    'picUrl' in request.resource.data &&
+    'recipes' in request.resource.data &&
+    'shoppingList' in request.resource.data &&
+    'timestamp' in request.resource.data &&
+    'uid' in request.resource.data &&
+    'username' in request.resource.data &&
+    'wishlist' in request.resource.data) &&
+    request.resource.data.displayName.size() < 20 &&
+    request.resource.data.username.size() < 10 &&
+    request.resource.data.aboutme.size() < 2000 &&
+    request.resource.data.email.size() < 254 &&
+    request.resourse.data.username.lower().matches(request.resourse.data.username) &&
+    request.resource.data.displayName is string &&
+    request.resource.data.username is string &&
+    request.resource.data.aboutme is string &&
+    request.resource.data.email is string &&
+    request.resource.data.uid is string;
+  }
+  
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+  	match /{document=**} {
+    	allow read: if false;
+      allow write: if false;
     }
+  
+    // A read rule can be divided into get and list rules
+    match /users/{user} {
+      // Applies to single document read requests
+      allow read: if true;
+    }
+
+    // A write rule can be divided into create, update, and delete rules
+    match /users/{user} {
+      // Applies to writes to nonexistent documents
+      allow create: if !exists(/databases/$(database)/documents/usernames/$(request.resource.data.username)) &&
+                    request.auth.uid != null &&
+                    request.auth.uid == request.resource.data.uid &&
+                    checkUserFieldsValid();
+                    
+      // Applies to writes to existing documents
+      allow update: if user == request.auth.uid &&
+            request.auth.uid == request.resource.data.uid &&
+            notUpdating('username') && notUpdating('uid') &&
+            (!('timestamp' in request.resource.data)
+            || resource.data.timestamp.matches(request.resource.data.timestamp))
+            && checkUserFieldsValid();
+
+      // Applies to delete operations
+      allow delete: if user == request.auth.uid &&
+        request.auth.uid == request.resource.data.uid;
+    }
+
+  // A write rule can be divided into create, update, and delete rules
+    match /usernames/{username} {
+      allow read: if true;
+      // Applies to writes to nonexistent documents
+      allow create: if !exists(/databases/$(database)/documents/usernames/$(request.resource.data.username)) &&
+                    request.auth.uid != null &&
+                    request.auth.uid == request.resource.data.uid
+                    
+      // Applies to writes to existing documents
+      allow update: if false;
+
+      // Applies to delete operations
+      allow delete: if request.auth.uid == request.resource.data.uid;
+  	}
   }
 }

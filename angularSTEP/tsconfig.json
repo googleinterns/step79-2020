@@ -3,6 +3,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "allowJs": true,
+    "strict": false,
     "rootDir": ".",
     "outDir": "build",
     "target": "es2015",

@@ -72,9 +72,12 @@ export class UploadRecipeComponent {
       const file: Blob = event.target.files[0];
       this.imageFiles.push(file);
       //uploads preview of image
-      this.previewImgUrls.push(
-        this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file))
-      );
+      //BypasssecuirtyTrustUrl creates a temporary URL for the known blob.
+      //This image/blob is one the user has just uploaded.
+      //It does not change the actual security of the URL, but allows the website to just display it temporarily. 
+      this.previewImgUrls.push(this.sanitizer.bypassSecurityTrustUrl(
+        URL.createObjectURL(file)
+      ));
     }
     this.imageArray.push(
       this.fb.control(event.target.value, [
@@ -226,14 +229,12 @@ export class UploadRecipeComponent {
     this.formatArrays(this.ingredientsArray);
     this.formatArrays(this.toolsArray);
     this.formatInstructions(this.instructionsArray);
-    this.extraFormGroup.controls.extraInfo.setValue(
-      this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo)
-    );
-      //checks to see if user is signed it
+    this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
+
     this.fAuth.currentUser.then(async user => {
       if (user) {
         this.uploading = true;
-        //sets the urls fro the image and waits for that to be done before proceeding
+        //sets the urls from the image and waits for that to be done before proceeding
         await this.setUrls();
         this.db
           .collection<Recipe>('recipes').ref.withConverter(new RecipeConverter().recipeConverter)
@@ -270,6 +271,7 @@ export class UploadRecipeComponent {
                 .update({recipes: tempUser.recipes})
                 .then(() => {
                   this.uploading = false;
+                  console.log("why????");
                   this.router.navigate(['/confirm-upload']);
                 });
             } else {
@@ -295,9 +297,9 @@ export class UploadRecipeComponent {
           this.storage
             .ref('recipe-images/' + name + 'RecipeImage')
             .put(image)
-            .then(async () => {
-              //gets the images download url after upploaded
-              await this.storage
+            .then(() => {
+              //gets the images download url after uploaded
+              this.storage
                 .ref('recipe-images/' + name + 'RecipeImage')
                 .getDownloadURL()
                 .subscribe(url => {
@@ -325,6 +327,7 @@ export class UploadRecipeComponent {
     //loops through images to upload them
     for await (const image of this.imageFiles) {
       await this.addImage(image, uuidv4());
+      console.log("hi");
     }
   }
 }

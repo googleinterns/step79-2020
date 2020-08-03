@@ -19,7 +19,7 @@ export class Recipe {
     this.description = description;
     this.ingredients = ingredients;
     this.tools = tools;
-    this.images = images
+    this.images = images;
     this.instructions = instructions;
     this.extraInfo = extraInfo;
     this.timestamp = timestamp;
