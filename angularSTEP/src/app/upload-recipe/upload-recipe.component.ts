@@ -1,7 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, Output, NgZone, EventEmitter} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {AngularFireAuth} from '@angular/fire/auth'
 import {Recipe} from '../recipe';
 import {RecipeConverter} from '../recipe-converter';
 
@@ -13,9 +16,51 @@ import {RecipeConverter} from '../recipe-converter';
 })
 
 export class UploadRecipeComponent{
+  error = '';
+  hide = true;
+  imgFile!: Blob;
+  pictureUrl = '';
+  progress = 0;
+  previewImgUrls: SafeUrl[] = [];
+  imageFiles: Blob[] = [];
+  @Output() uploadDone = new EventEmitter<boolean>();
+
   constructor(private fb: FormBuilder,
               private db: AngularFirestore,
-              private router: Router,) { }
+              private router: Router,
+              private storage: AngularFireStorage,
+              private afs: AngularFirestore,
+              private _ngZone: NgZone,
+              private sanitizer: DomSanitizer,
+              private fAuth: AngularFireAuth) {}
+
+  fileFormGroup = new FormGroup({
+    imageArray: new FormArray([], {validators: Validators.required} )
+  });
+
+  get imageArray() {
+    return this.fileFormGroup.get('imageArray') as FormArray;
+  }
+
+  deleteImage(i: number) {
+    this.previewImgUrls.splice(i, 1);
+    this.imageArray.removeAt(i);
+  }
+
+  addImageToArray(event: any) {
+    if (event.target.files.length > 0) {
+      const file: Blob = event.target.files[0];
+      this.imgFile = file;
+      //uploads preview of image
+      //BypasssecuirtyTrustUrl creates a temporary URL for the known blob.
+      //This image/blob is one the user has just uploaded.
+      //It does not change the actual security of the URL, but allows the website to just display it temporarily. 
+      this.previewImgUrls.push(this.sanitizer.bypassSecurityTrustUrl(
+        URL.createObjectURL(file)
+      ));
+    }
+    this.imageArray.push(this.fb.control(event.target.value, [Validators.required, requiredFileType]));
+  }
 
   basicsFormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -27,21 +72,17 @@ export class UploadRecipeComponent{
     extraInfo: new FormControl(''),
   });
 
-
-
   ingredientsFormGroup = new FormGroup({
     ingredientsArray: new FormArray([this.fb.control('', Validators.required)], {validators: Validators.required}),
   });
 
   get ingredientsArray() {
     return this.ingredientsFormGroup.get('ingredientsArray') as FormArray;
-    }
+  }
   
   addIngredientsField() {
     this.ingredientsArray.push(this.fb.control('', Validators.required));
   }
-
-
 
   toolsFormGroup = new FormGroup({
     toolsArray: new FormArray([this.fb.control('', Validators.required)]),
@@ -54,8 +95,6 @@ export class UploadRecipeComponent{
   addToolsField() {
     this.toolsArray.push(this.fb.control('', Validators.required));
   }
-
-
 
   instructionsFormGroup = new FormGroup({
     instructionsArray: new FormArray([this.fb.control('', Validators.required)]),
@@ -158,6 +197,7 @@ export class UploadRecipeComponent{
         this.basicsFormGroup.value.description,
         this.ingredientsArray.value,
         this.toolsArray.value,
+        [],
         this.instructionsArray.value,
         this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value.extraInfo : '',
         Date.now(),
@@ -166,4 +206,30 @@ export class UploadRecipeComponent{
     ));
     this.router.navigate(['/confirm-upload']);
   }
+
+  //image functions
+
+  onFileSubmit() {
+    this.fAuth.currentUser.then(user => {
+      if (user) {
+        //this.addImage(user.uid);
+      } else {
+        this._ngZone.run(() => {
+          this.router.navigate(['/home']);
+        });
+      }
+    });
+  }
+}
+
+function requiredFileType(control: FormControl) {
+  const imageTypes: Array<string> = ['png', 'jpg', 'jpeg', 'gif'];
+  const file = control.value;
+  if (file && file.split('.')[1]) {
+    const type = file.split('.')[1].toLowerCase();
+    if (imageTypes.indexOf(type) > -1) {
+      return null;
+    }
+  }
+  return {fileType: true};
 }

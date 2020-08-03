@@ -5,6 +5,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
+
 import {Router} from '@angular/router';
 
 const searchClient = algoliasearch(environment.algolia.appId, environment.algolia.apiKey);

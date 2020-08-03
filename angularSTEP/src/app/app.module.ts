@@ -1,5 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common'
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
@@ -28,7 +28,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatRippleModule} from '@angular/material/core';
+import {MatChipsModule} from '@angular/material/chips';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatRadioModule} from '@angular/material/radio';
@@ -36,6 +38,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgModule} from '@angular/core';
@@ -45,7 +48,6 @@ import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SetupComponent} from './setup/setup.component';
 import {SignupComponent} from './signup/signup.component';
-
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {NgAisModule} from 'angular-instantsearch';
@@ -53,7 +55,7 @@ import {SearchBoxComponent} from './search-box/search-box.component';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
 import {DiscoverDisplayComponent} from './discover-display/discover-display.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
-
+import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
 
@@ -81,7 +83,8 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     SearchBoxComponent,
     DiscoverPageComponent,
     DiscoverDisplayComponent,
-    MyProfileTabComponent
+    MyProfileTabComponent,
+    ChangeProfileImgComponent
   ],
 
   imports: [
@@ -108,7 +111,9 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     ReactiveFormsModule,
     MatListModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatRippleModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSelectModule,
@@ -119,7 +124,10 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     ReactiveFormsModule,
     GoogleMapsModule,
     MatTabsModule,
-    NgAisModule.forRoot()
+    MatExpansionModule,
+    MatChipsModule,
+    NgAisModule.forRoot(),
+    MatDialogModule
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
