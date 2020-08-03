@@ -28,6 +28,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -45,6 +46,9 @@ import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
+import {NgAisModule} from 'angular-instantsearch';
+import {SearchBoxComponent} from './search-box/search-box.component';
+
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
 
 
@@ -68,6 +72,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
+    SearchBoxComponent,
     MyProfileTabComponent,
     ChangeProfileImgComponent
   ],
@@ -96,12 +101,14 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MatMenuModule,
     MatProgressBarModule,
     MatRippleModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatStepperModule,
     MatToolbarModule,
     ReactiveFormsModule,
     GoogleMapsModule,
     MatTabsModule,
+    NgAisModule.forRoot(),
     MatDialogModule
   ],
   providers: [],
