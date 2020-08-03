@@ -62,7 +62,6 @@ export class DiscoverPageComponent implements OnInit {
   onUserSortChanged(event) {}
 
   goToUser(username: string) {
-    console.log(username)
     this.router.navigate(['discover/users/' + username]);
   }
 
