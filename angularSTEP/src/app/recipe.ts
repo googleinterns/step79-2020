@@ -10,7 +10,7 @@ export class Recipe {
     public instructions: string[],
     public extraInfo: string,
     public timestamp: number,
-    public ratings: number[],
+    public ratings: Object,
     public tags: string[],
   ) {
     this.recipeName = recipeName;
