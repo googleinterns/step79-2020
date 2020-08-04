@@ -9,11 +9,11 @@ import {RecipeConverter} from '../recipe-converter';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-my-profile-tab',
-  templateUrl: './my-profile-tab.component.html',
-  styleUrls: ['./my-profile-tab.component.scss'],
+  selector: 'app-current-profile-tab',
+  templateUrl: './current-profile-tab.component.html',
+  styleUrls: ['./current-profile-tab.component.scss'],
 })
-export class MyProfileTabComponent implements OnInit {
+export class CurrentProfileTabComponent implements OnInit {
   @Input() userData!: User;
   aboutMeForm: FormControl | null = null;
   usersFollowing: User[] = [];

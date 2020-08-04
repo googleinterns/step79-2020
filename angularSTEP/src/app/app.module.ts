@@ -34,7 +34,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDialogModule} from '@angular/material/dialog';
-import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
+import {CurrentProfileTabComponent} from './current-profile-tab/current-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgModule} from '@angular/core';
 import {ProfileCardComponent} from './profile-card/profile-card.component';
@@ -75,7 +75,7 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     RecipePageComponent,
     CurrentProfilePageComponent,
     SearchBoxComponent,
-    MyProfileTabComponent,
+    CurrentProfileTabComponent,
     ChangeProfileImgComponent
   ],
 
