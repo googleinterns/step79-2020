@@ -52,7 +52,8 @@ import {UserPageComponent} from './user-page/user-page.component';
 import {NgAisModule} from 'angular-instantsearch';
 import {SearchBoxComponent} from './search-box/search-box.component';
 
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
+import { RecipeWishlistComponent } from './recipe-wishlist/recipe-wishlist.component'; 
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     CurrentProfilePageComponent,
     SearchBoxComponent,
     MyProfileTabComponent,
-    ChangeProfileImgComponent
+    ChangeProfileImgComponent,
+    RecipeWishlistComponent
   ],
 
   imports: [
