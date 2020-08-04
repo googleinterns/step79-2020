@@ -31,6 +31,7 @@ export class StarRatingComponent implements OnInit {
     const newRating = Math.round(rating) + 1;
     if(newRating !== this.currentRating){
       this.newRating.emit(newRating);
+      this.openSnackBar(newRating);
     }
     this.currentRating = newRating;
     for(let i = 0; i < newRating; i++){
@@ -39,11 +40,11 @@ export class StarRatingComponent implements OnInit {
     for(let i = newRating; i < this.ratingsArray.length; i++){
       this.ratingsArray[i] = false;
     }
-    this.openSnackBar();
+    
   }
 
-  openSnackBar() {
-    this._snackBar.open('You rated ' + this.currentRating + " / 5", "", {
+  openSnackBar(rating: number) {
+    this._snackBar.open('You rated ' + rating + " / 5", "", {
       duration: 2000,
       panelClass: 'simple-snack-bar'
     });

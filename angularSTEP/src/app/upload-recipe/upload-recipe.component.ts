@@ -263,6 +263,7 @@ private _filter(value: string): string[] {
         Date.now(),
         {}, 
         [],
+        0
     ));
     this.router.navigate(['/confirm-upload']);
   }

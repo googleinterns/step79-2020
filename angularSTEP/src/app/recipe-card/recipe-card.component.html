@@ -11,7 +11,7 @@
       <mat-card-header>
         <mat-card-title>{{ recipeName }}</mat-card-title>
         <mat-card-subtitle><span>{{recipe.difficulty}}</span>
-          <span *ngIf='!noRatings' class='rating'>{{ averageRating }}/5</span>
+          <span *ngIf='!noRatings' class='rating'>{{ recipe.averageRating }}/5</span>
           <span *ngIf='noRatings' class='rating'>--/5</span>
         </mat-card-subtitle>
     </mat-card-header>

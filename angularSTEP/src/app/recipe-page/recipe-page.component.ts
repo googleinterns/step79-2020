@@ -58,8 +58,17 @@ export class RecipePageComponent {
             .collection('recipes')
             .doc(this.id)
             .ref.withConverter(new RecipeConverter().recipeConverter)
-            .update({ratings: this.currentRatings})
+            .update({ratings: this.currentRatings, averageRating: this.getAverageRating()})
       }
     })
+  }
+
+  getAverageRating() {
+    let sum = 0;
+    for(let key of Object.keys(this.currentRatings)){
+      sum += this.currentRatings[key];
+    }
+    this.pageRecipe.averageRating = Math.round((sum / Object.keys(this.currentRatings).length)*2)/2;
+    return this.pageRecipe.averageRating;
   }
 }

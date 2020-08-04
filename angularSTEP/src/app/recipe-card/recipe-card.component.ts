@@ -6,7 +6,8 @@ interface recipeData{
   difficulty: string,
   tags: string[],
   images: string[],
-  ratings: {}
+  ratings: {},
+  averageRating: number
 }
 
 @Component({
@@ -19,15 +20,13 @@ export class RecipeCardComponent implements OnInit{
   noRatings: boolean = true;
   recipeName: string = '';
   tags!: string[];
-  averageRating: number = 0;
   recipeDescription: string = '';
   showDescription: boolean = false;
   
   ngOnInit(): void {
     //these values are temporary
-    if(Object.keys(this.recipe.ratings).length > 0){
+    if(this.recipe.averageRating && this.recipe.averageRating !== 0){
       this.noRatings = false;
-      this.getAverageRating();
     }
     this.tags = this.recipe.tags;
     this.recipeName = this.recipe.recipeName;
@@ -36,13 +35,7 @@ export class RecipeCardComponent implements OnInit{
     
   }
 
-  getAverageRating() {
-    let sum = 0;
-    for(let key of Object.keys(this.recipe.ratings)){
-      sum += this.recipe.ratings[key];
-    }
-    this.averageRating = Math.round((sum / Object.keys(this.recipe.ratings).length)*2)/2;
-  }
+  
 
   shortenRecipeName() {
     if(this.recipeName.length > 13){

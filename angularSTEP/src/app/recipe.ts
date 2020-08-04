@@ -12,6 +12,7 @@ export class Recipe {
     public timestamp: number,
     public ratings: Object,
     public tags: string[],
+    public averageRating: number
   ) {
     this.recipeName = recipeName;
     this.uploaderUid = uploaderUid;
@@ -25,5 +26,6 @@ export class Recipe {
     this.timestamp = timestamp;
     this.ratings = ratings;
     this.tags = tags;
+    this.averageRating = averageRating;
   }
 }
