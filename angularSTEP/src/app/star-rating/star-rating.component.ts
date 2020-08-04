@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-star-rating',
@@ -8,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class StarRatingComponent implements OnInit {
   maxRating: number = 5;
   ratingsArray: boolean[] = Array(this.maxRating).fill(false);
-  currentRating: number = 0;
+  @Input() currentRating: number;
+  @Output() newRating = new EventEmitter<number>();
 
-  constructor() { }
+  constructor(private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    if(!this.currentRating){
+      this.currentRating = 0;
+    }
   }
 
   changeRating(rating: number) {
@@ -24,5 +29,14 @@ export class StarRatingComponent implements OnInit {
     for(let i = newRating; i < this.ratingsArray.length; i++){
       this.ratingsArray[i] = false;
     }
+    this.openSnackBar();
+    this.newRating.emit(this.currentRating);
+  }
+
+  openSnackBar() {
+    this._snackBar.open('You rated ' + this.currentRating + " / 5", "", {
+      duration: 2000,
+      panelClass: 'simple-snack-bar'
+    });
   }
 }

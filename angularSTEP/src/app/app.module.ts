@@ -51,7 +51,7 @@ import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 import {NgAisModule} from 'angular-instantsearch';
 import {SearchBoxComponent} from './search-box/search-box.component';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar'
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
 import { StarRatingComponent } from './star-rating/star-rating.component'; 
 
@@ -118,7 +118,8 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
     MatExpansionModule,
     MatChipsModule,
     NgAisModule.forRoot(),
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],
