@@ -32,7 +32,7 @@ export class UploadRecipeComponent{
   categories: string[] = ['Delicious'];
   allCategories: string[] = ['Vegan', 'Gluten Free', 'Vegetarian', 'Low Calorie', 'High Protein'];
 
-  @ViewChild('catagoryInput') categoryInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('categoryInput') categoryInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(private fb: FormBuilder,
@@ -261,7 +261,7 @@ private _filter(value: string): string[] {
         this.instructionsArray.value,
         this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value.extraInfo : '',
         Date.now(),
-        [], 
+        {}, 
         [],
     ));
     this.router.navigate(['/confirm-upload']);

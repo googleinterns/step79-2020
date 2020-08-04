@@ -3,6 +3,9 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedRoute} from '@angular/router';
 import {Recipe} from '../recipe';
 import {RecipeConverter} from '../recipe-converter';
+import {User} from '../user';
+import {Converter} from '../converter';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Component({
   selector: 'app-recipe-page',
@@ -13,10 +16,15 @@ import {RecipeConverter} from '../recipe-converter';
 export class RecipePageComponent {
   id: string | null = this.route.snapshot.paramMap.get('id');
   pageRecipe!: Recipe;
+  signedIn: boolean = false;
+  currentRating: number = 0;
+  currentRatings: object = {};
 
   constructor(private db: AngularFirestore,
-              private route: ActivatedRoute,) {
-                this.setRecipeData();
+              private route: ActivatedRoute, private fAuth: AngularFireAuth) {}
+
+  ngOnInit() {
+    this.setRecipeData();
   }
 
   async setRecipeData() {
@@ -25,5 +33,33 @@ export class RecipePageComponent {
     if (recipeClassData) {
       this.pageRecipe = recipeClassData;
     }
+    this.fAuth.onAuthStateChanged(async user => {
+      if(user) {
+        this.signedIn = true;
+        if(this.pageRecipe.ratings && this.pageRecipe.ratings.hasOwnProperty(user.uid)){
+          console.log("hi");
+          this.currentRatings = this.pageRecipe.ratings;
+          this.currentRating = this.currentRatings[user.uid];
+          console.log(this.currentRating);
+        } else {
+          this.currentRating = 0;
+        }
+      } else {
+        this.signedIn = false;
+      }
+    })
   } 
+
+  updateRating(rating: number){
+    this.fAuth.currentUser.then(user => {
+      if(this.signedIn && user) {
+        this.currentRatings[user.uid] = rating;
+        this.db
+            .collection('recipes')
+            .doc(this.id)
+            .ref.withConverter(new RecipeConverter().recipeConverter)
+            .update({ratings: this.currentRatings})
+      }
+    })
+  }
 }

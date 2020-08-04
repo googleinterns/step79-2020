@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
@@ -17,6 +17,13 @@ export class StarRatingComponent implements OnInit {
   ngOnInit(): void {
     if(!this.currentRating){
       this.currentRating = 0;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.currentRating){
+      this.currentRating = changes.currentRating.currentValue;
+      this.changeRating(this.currentRating - 1);
     }
   }
 
