@@ -271,7 +271,6 @@ export class UploadRecipeComponent {
                 .update({recipes: tempUser.recipes})
                 .then(() => {
                   this.uploading = false;
-                  console.log("why????");
                   this.router.navigate(['/confirm-upload']);
                 });
             } else {
@@ -327,7 +326,6 @@ export class UploadRecipeComponent {
     //loops through images to upload them
     for await (const image of this.imageFiles) {
       await this.addImage(image, uuidv4());
-      console.log("hi");
     }
   }
 }
