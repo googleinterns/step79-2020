@@ -1,0 +1,96 @@
+$icon-size: 20px;
+mat-icon {
+    margin-right: 8px;
+    margin-left: 8px;
+    font-size: $icon-size;
+    cursor: pointer;
+}
+h1 {
+    margin-bottom: 0;
+}
+
+form {
+    display: flex;
+}
+
+.sidebar {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+}
+
+.side-card {
+    margin: 10px 10px 0 10px;
+}
+
+input{
+    border: 2px solid #3f51b5;
+    border-radius: 8px;
+    padding: 0px 10px;
+}
+
+.recipe-header{
+    display: flex;
+    margin: 10px;
+}
+
+.recipe-name-header{
+    display: block;
+    margin-left: 10px;
+}
+
+.recipe-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.main-info {
+    width: 100%;
+}
+
+.sidenav{
+    width: 250px;
+    margin-right: 0;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-bottom: 10px;
+}
+
+.image-holder {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.food-image {
+    max-width: 300px;
+    max-height: 300px;
+    margin: 0 15px 30px 15px;
+}
+
+.mat-card-content {
+    margin-top: 20px;
+}
+
+.recipe-info-card {
+    margin: 10px;
+}
+
+.profile-card {
+    max-width: 200px;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}
+
+.card-img {
+    margin: 0 auto;
+    margin-bottom: 16px;
+}
+
+.profile-img {
+    background-size: cover;
+}
