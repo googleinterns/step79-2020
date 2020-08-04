@@ -35,18 +35,20 @@ export class UploadRecipeComponent{
   @ViewChild('catagoryInput') categoryInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
-  constructor(private fb: FormBuilder,
-              private db: AngularFirestore,
-              private router: Router,
-              private storage: AngularFireStorage,
-              private afs: AngularFirestore,
-              private _ngZone: NgZone,
-              private sanitizer: DomSanitizer,
-              private fAuth: AngularFireAuth) {
-                this.filteredCategories = this.categoryCtrl.valueChanges.pipe(
-                  startWith(null),
-                  map((category: string | null) => category ? this._filter(category) : this.allCategories.slice()));
-               }
+  constructor(
+    private fb: FormBuilder,
+    private db: AngularFirestore,
+    private router: Router,
+    private storage: AngularFireStorage,
+    private afs: AngularFirestore,
+    private _ngZone: NgZone,
+    private sanitizer: DomSanitizer,
+    private fAuth: AngularFireAuth
+  ) {
+      this.filteredCategories = this.categoryCtrl.valueChanges.pipe(
+      startWith(null),
+      map((category: string | null) => category ? this._filter(category) : this.allCategories.slice()));
+  }
 
 add(event: MatChipInputEvent): void {
   const input = event.input;
