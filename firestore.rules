@@ -27,10 +27,6 @@ service cloud.firestore {
     request.resource.data.email.size() > 0 &&
     request.resource.data.username.lower() == request.resource.data.username;
   }
-
-  // 'aboutme' in request.resource.data &&
-  //  request.resource.data.aboutme is string &&
-  //  request.resource.data.aboutme.size() < 2000;
   
   match /databases/{database}/documents {
   	match /{document=**} {
