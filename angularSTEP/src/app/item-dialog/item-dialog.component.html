@@ -1,18 +1,15 @@
 <div *ngIf="add"> 
   <h1 mat-dialog-title>Add Item to Shopping List</h1>
-<!-- <div mat-dialog-content>
-    {{data.value}}
-</div> -->
   <p>How many times would you like to add "{{selectedItem}}" to your Shopping List?</p>
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
-      <input matInput type="number" min="1" formControlName="quantity" required>
+      <input matInput type="number" min="1" max="999" formControlName="quantity" required>
     </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions>
     <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="close()">Add</button>
+    <button mat-raised-button color="primary" (click)="addItem()">Add</button>
   </mat-dialog-actions>
 </div>
 
@@ -27,6 +24,6 @@
 
   <mat-dialog-actions>
     <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="close()">Remove</button>
+    <button mat-raised-button color="primary" (click)="removeItem()">Remove</button>
   </mat-dialog-actions>
 </div>

@@ -27,7 +27,11 @@ export class ItemDialogComponent {
     this.max = data.max;
   }
 
-  close() {
+  removeItem() {
+    this.dialogRef.close(this.form.controls.quantity.value);
+  }
+
+  addItem() {
     this.dialogRef.close(this.form.controls.quantity.value);
   }
 

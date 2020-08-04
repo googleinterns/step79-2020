@@ -98,8 +98,8 @@ export class ShoppingListComponent implements OnInit {
             .then(() => {
               this.setUserData(user.uid);
             })
-            .catch((error) => {
-              let snackBarRef = this.snackBar.open('There was a problem updating your Shopping List', undefined, {
+            .catch(() => {
+              this.snackBar.open('There was a problem updating your Shopping List', undefined, {
                 duration: 3000,
               });
             });
@@ -135,8 +135,8 @@ export class ShoppingListComponent implements OnInit {
         .then(() => {
           this.setUserData(user.uid);
         })
-        .catch((error) => {
-          let snackBarRef = this.snackBar.open('There was a problem updating your Shopping List', undefined, {
+        .catch(() => {
+          this.snackBar.open('There was a problem updating your Shopping List', undefined, {
             duration: 3000,
           });
         });
