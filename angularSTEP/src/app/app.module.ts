@@ -118,7 +118,6 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MatSlideToggleModule,
     MatStepperModule,
     MatToolbarModule,
-    ReactiveFormsModule,
     GoogleMapsModule,
     MatTabsModule,
     MatExpansionModule,
