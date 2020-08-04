@@ -32,15 +32,15 @@ export class RecipePageComponent {
     const recipeClassData = postRecipe.data();
     if (recipeClassData) {
       this.pageRecipe = recipeClassData;
+      if(this.pageRecipe.ratings){
+        this.currentRatings = this.pageRecipe.ratings;
+      }
     }
     this.fAuth.onAuthStateChanged(async user => {
       if(user) {
         this.signedIn = true;
-        if(this.pageRecipe.ratings && this.pageRecipe.ratings.hasOwnProperty(user.uid)){
-          console.log("hi");
-          this.currentRatings = this.pageRecipe.ratings;
+        if(this.currentRatings && this.currentRatings.hasOwnProperty(user.uid)){
           this.currentRating = this.currentRatings[user.uid];
-          console.log(this.currentRating);
         } else {
           this.currentRating = 0;
         }

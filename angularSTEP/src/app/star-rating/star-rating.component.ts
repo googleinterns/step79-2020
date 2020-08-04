@@ -29,6 +29,9 @@ export class StarRatingComponent implements OnInit {
 
   changeRating(rating: number) {
     const newRating = Math.round(rating) + 1;
+    if(newRating !== this.currentRating){
+      this.newRating.emit(newRating);
+    }
     this.currentRating = newRating;
     for(let i = 0; i < newRating; i++){
       this.ratingsArray[i] = true;
@@ -37,7 +40,6 @@ export class StarRatingComponent implements OnInit {
       this.ratingsArray[i] = false;
     }
     this.openSnackBar();
-    this.newRating.emit(this.currentRating);
   }
 
   openSnackBar() {
