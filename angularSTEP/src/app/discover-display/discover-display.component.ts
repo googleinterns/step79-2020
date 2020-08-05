@@ -196,12 +196,12 @@ export class DiscoverDisplayComponent implements OnInit {
   }
 
   goToUser(username: string) {
-    this.router.navigate(['discover/users/' + username]);
+    this.router.navigate(['discover/users/', username]);
   }
 
   goToRecipe(id: string) {
-    if(id){
-      this.router.navigate(['discover/recipes', id]);
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
     }
   }
 }

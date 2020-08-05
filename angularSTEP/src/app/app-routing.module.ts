@@ -26,6 +26,8 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'discover/recipes/:recipeid', component: RecipePageComponent},
                         { path: 'recipes', redirectTo: 'discover/recipes'}, 
                         { path: 'recipe', redirectTo: 'discover/recipes'},
+                        { path: 'users', redirectTo: 'discover/users'}, 
+                        { path: 'user', redirectTo: 'discover/user'},
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({
