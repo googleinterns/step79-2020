@@ -141,7 +141,6 @@ export class RecipePageComponent {
         const index = this.user.wishlist.indexOf(this.id);
         if(index > -1){
           this.user.wishlist.splice(index,1);
-          
         }
       }
       this.fAuth.currentUser.then(user => {

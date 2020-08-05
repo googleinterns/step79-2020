@@ -42,7 +42,7 @@ export class WishlistComponent implements OnInit {
 
   goToRecipe(username: string) {
     this.zone.run(() => {
-      this.router.navigate(['recipes/', username]);
+      this.router.navigate(['discover/recipes', username]);
     })
   }
 
