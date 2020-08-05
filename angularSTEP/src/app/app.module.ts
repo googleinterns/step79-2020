@@ -38,7 +38,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
+import {CurrentProfileTabComponent} from './current-profile-tab/current-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgAisModule} from 'angular-instantsearch';
 import {NgModule} from '@angular/core';
@@ -76,9 +76,11 @@ import {UserPageComponent} from './user-page/user-page.component';
     RecipePageComponent,
     CurrentProfilePageComponent,
     ChangeProfileImgComponent,
-    MyProfileTabComponent,
+    CurrentProfileTabComponent,
     ViewProfilesComponent,
     SearchBoxComponent,
+    CurrentProfileTabComponent,
+    ChangeProfileImgComponent,
     ShoppingListComponent,
     ItemDialogComponent,
   ],

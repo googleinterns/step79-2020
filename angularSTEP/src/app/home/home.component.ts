@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -7,6 +7,7 @@ import {User} from '../user'
 import {Converter} from '../converter'
 import {Recipe} from '../recipe'
 import {RecipeConverter} from '../recipe-converter'
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   topRecipes!: firebase.firestore.QueryDocumentSnapshot<Recipe>[];
   newRecipes!: firebase.firestore.QueryDocumentSnapshot<Recipe>[];
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private zone: NgZone, private router: Router) {
     
     this.userCollection.ref.orderBy("time", "desc").limit(4).withConverter(new Converter().userConverter).get().
         then((user) => {
@@ -38,4 +39,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  goToUser(username: string) {
+    this.zone.run(() => {
+      this.router.navigate(['users/', username]);
+    })
+  }
 }
