@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
           this.newUsers = user.docs;
         });
     //timestamp for now. In future - change to 'ratings'
-    this.recipeCollection.ref.orderBy("images", "asc").limit(4).withConverter(new RecipeConverter().recipeConverter).get().
+    this.recipeCollection.ref.orderBy("averageRating", "desc").limit(4).withConverter(new RecipeConverter().recipeConverter).get().
         then((recipe) => {
           this.topRecipes = recipe.docs;
         });

@@ -61,6 +61,7 @@ import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
+import {StarRatingComponent} from './star-rating/star-rating.component'; 
 
 
 @NgModule({
@@ -86,6 +87,8 @@ import {UserPageComponent} from './user-page/user-page.component';
     CurrentProfileTabComponent,
     ViewProfilesComponent,
     SearchBoxComponent,
+    ChangeProfileImgComponent,
+    StarRatingComponent,
     DiscoverPageComponent,
     DiscoverDisplayComponent,
     ChangeProfileImgComponent,
@@ -111,17 +114,17 @@ import {UserPageComponent} from './user-page/user-page.component';
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
-    MatDialogModule,
     MatDividerModule,
     MatExpansionModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatListModule,
-    MatIconModule,
     MatInputModule,
+    MatDialogModule,
+    MatIconModule,
     MatMenuModule,
     MatRippleModule,
     MatProgressBarModule,
+    MatListModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSelectModule,

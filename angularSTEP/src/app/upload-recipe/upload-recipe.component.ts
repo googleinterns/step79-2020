@@ -41,7 +41,7 @@ export class UploadRecipeComponent{
   categories: string[] = ['Delicious'];
   allCategories: string[] = ['Vegan', 'Gluten Free', 'Vegetarian', 'Low Calorie', 'High Protein'];
 
-  @ViewChild('catagoryInput') categoryInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('categoryInput') categoryInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(
@@ -275,19 +275,9 @@ private _filter(value: string): string[] {
     }
   }
 
-  //this function gets called when form gets submitted
-  async onSubmit() {
-    this.basicsFormGroup.controls.name.setValue(
-      this.autoCapitalizeName(this.basicsFormGroup.value.name)
-    );
-    this.basicsFormGroup.controls.description.setValue(
-      this.autoCapitalizeFirst(this.basicsFormGroup.value.description)
-    );
-    this.formatArrays(this.ingredientsArray);
-    this.formatArrays(this.toolsArray);
-    this.formatInstructions(this.instructionsArray);
-    this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
+  //image functions
 
+  onFileSubmit() {
     this.fAuth.currentUser.then(async user => {
       if (user) {
         this.uploading = true;
@@ -308,8 +298,9 @@ private _filter(value: string): string[] {
               ? this.extraFormGroup.value
               : '',
             Date.now(),
-            [],
-            this.categories
+            {},
+            this.categories,
+            0
           ))
           .then(async recipeRef => {
             //then it connects the recipe to the user signed in and adds it to their array
