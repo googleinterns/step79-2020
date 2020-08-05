@@ -8,7 +8,7 @@
         class='ais-search-box--input'
         (keyup)="onSearchChanged(input.value)"
         [value]="this.state.query"
-        placeholder='Search for profiles'
+        [placeholder]='contentType'
         >
         <mat-icon matPrefix>search</mat-icon>
         <button mat-button mat-icon-button matSuffix (click)="this.state.clear(); clearSearchField()" *ngIf="searchField">

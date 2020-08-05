@@ -1,0 +1,62 @@
+.recipe-card {
+  width: 200px;
+}
+
+.card-info img {
+  margin: 0;
+  background-size: cover;
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+}
+
+.mat-card{
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 10px;
+  margin-right: 32px 
+}
+
+.card-info {
+  margin: 0;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#photo-icon{
+  position: absolute;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+.mat-expansion-panel-header {
+  margin-top: 0;
+  padding: 0 16px 0 0px;
+}
+
+.mat-card-header{
+  margin-top: 16px;
+  padding: 0 16px;
+}
+
+::ng-deep .mat-card-header-text {
+  width: 100%;
+  margin: 0;
+}
+
+::ng-deep .mat-card-header {
+  width: 100%;
+  margin: 0;
+}
+
+.rating {
+  float: right;
+}

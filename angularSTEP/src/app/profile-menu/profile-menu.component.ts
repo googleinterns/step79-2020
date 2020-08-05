@@ -1,10 +1,10 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router, NavigationEnd } from '@angular/router';
-import { User } from '../user';
-import { Converter } from '../converter';
-import { Subscription } from 'rxjs';
+import {Component, OnInit, NgZone} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router, NavigationEnd} from '@angular/router';
+import {User} from '../user';
+import {Converter} from '../converter';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-profile-menu',
@@ -20,7 +20,7 @@ export class ProfileMenuComponent implements OnInit {
   routerCheck!: Subscription;
 
   constructor(
-    public fAuth: AngularFireAuth,
+    private fAuth: AngularFireAuth,
     private router: Router,
     private afs: AngularFirestore,
     private zone: NgZone
@@ -76,13 +76,12 @@ export class ProfileMenuComponent implements OnInit {
   }
 
   myProfile(index: string) {
-    if(index !== "myprofile") {
-      this.router.navigate(['/myprofile'], { queryParams: {"tab" : index}});
+    if (index !== 'myprofile') {
+      this.router.navigate(['/myprofile'], {queryParams: {tab: index}});
     } else {
       this.router.navigate(['/myprofile']);
     }
   }
-
 
   signIn() {
     this.router.navigate(['/login']);
@@ -91,37 +90,37 @@ export class ProfileMenuComponent implements OnInit {
   //this method sets the users data and then injects it
   //into the profile menu dropdown. It waits until all of the
   //information is set and then displays the menu.
+  //Also actively listens for data change, and then reloads the user.
   async setUserData(uid: string) {
-    const postUser = await this.afs
-      .doc('/users/' + uid + '/')
-      .ref.withConverter(new Converter().userConverter)
-      .get();
-    if (postUser.data()) {
-      this.user = postUser.data()!;
-      this.username = this.user.username !== null ? this.user.username : '';
-      this.displayName =
-        this.user.displayName !== null ? this.user.displayName : '';
-      this.picUrl =
-        this.user.picUrl !== null && this.user.picUrl !== ''
-          ? this.user.picUrl
-          : 'assets/images/blank-profile.png';
-      this.zone.run(() => {
-        this.loggedIn = true;
-      })
-      if (this.routerCheck) {
-        this.routerCheck.unsubscribe();
-      }
-    } else {
-      this.fAuth.currentUser.then(user => {
-        if (
-          user &&
-          this.router.url !== '/login' &&
-          this.router.url !== '/signup'
-        ) {
-          this.routerCheck.unsubscribe();
-          user.delete();
+    this.afs.firestore.collection('users')
+      .doc(uid).withConverter(new Converter().userConverter).onSnapshot(doc => {
+        if (doc.data()) {
+          this.user = doc.data()!;
+          this.username = this.user.username !== null ? this.user.username : '';
+          this.displayName =
+            this.user.displayName !== null ? this.user.displayName : '';
+          this.picUrl =
+            this.user.picUrl !== null && this.user.picUrl !== ''
+              ? this.user.picUrl
+              : 'assets/images/blank-profile.png';
+          this.zone.run(()=>{
+            this.loggedIn = true;
+          })
+          if (this.routerCheck) {
+            this.routerCheck.unsubscribe();
+          }
+        } else {
+          this.fAuth.currentUser.then(user => {
+            if (
+              user &&
+              this.router.url !== '/login' &&
+              this.router.url !== '/signup'
+            ) {
+              this.routerCheck.unsubscribe();
+              user.delete();
+            }
+          });
         }
-      });
-    }
+      })
   }
 }

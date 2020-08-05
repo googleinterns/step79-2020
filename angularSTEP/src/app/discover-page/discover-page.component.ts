@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChild, NgZone} from '@angular/core';
 import * as algoliasearch from 'algoliasearch/lite';
 import {environment} from '../../environments/environment';
 import {MatExpansionPanel} from '@angular/material/expansion';
@@ -17,9 +17,8 @@ const searchClient = algoliasearch(
 export class DiscoverPageComponent implements OnInit {
   query: string = '';
 
-  config: object;
-
-  
+  configUsers = {};
+  configRecipes = {}
 
   @ViewChild('recipePanel') sortPanel: MatExpansionPanel;
 
@@ -34,43 +33,69 @@ export class DiscoverPageComponent implements OnInit {
   recipeOption: string[] = ['Time Created'];
   userOption: string[] = ['Time Created'];
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(params => {
-      this.query = params['q'];
+  constructor(private router: Router, private zone: NgZone, private activatedRoute: ActivatedRoute) {}
+  
+  ngOnInit(){
+    this.activatedRoute.paramMap.subscribe(params => {
+      const type = params.get('type')
+      if(type == 'recipes'){
+        this.searchOption = ['Recipes'];
+      } else if (type == 'users') {
+        this.searchOption = ['Users'];
+      }
+      this.query = params.get('q');
     })
+    this.configUsers = {
+      indexName: 'user_search',
+      searchClient
+    };
+    if(this.query){
+      this.searchOption = ['Recipes'];
+      this.configRecipes = {
+        indexName: 'recipe_search',
+        searchClient,
+        searchParameters: {
+          query: this.query
+        }
+      };
+    } else {
+      this.configRecipes = {
+        indexName: 'recipe_search',
+        searchClient,
+        searchParameters: {
+          query: this.query
+        }
+      };
+    }
   }
 
-  onSearchChanged(event) {}
+  onSearchChanged(event: any) {
+    this.showResults = false;
+    this.router.navigate(['discover/' + this.searchOption[0].toLowerCase()]);
+  }
 
-  onRecipeSortChanged(event) {}
+  onRecipeSortChanged(event: any) {}
 
-  onUserSortChanged(event) {}
+  onUserSortChanged(event: any) {}
 
   goToUser(username: string) {
-    this.router.navigate(['users/' + username]);
+    this.router.navigate(['discover/users/' + username]);
+  }
+
+  goToRecipe(id: string) {
+    this.router.navigate(['/recipes', id]);
   }
 
   displayResults(noQuery: boolean) {
+    if (!noQuery && this.sortPanel) {
+      this.sortPanel.close();
+    }
     this.showResults = !noQuery;
   }
-
-  ngOnInit(){
-    this.route.queryParams.subscribe(params => {
-      this.query = params['q'];
-    })
-    this.config = {
-      indexName: 'user_search',
-      searchClient,
-      searchParameters: {
-        query: this.query
-      }
-    };
-  }
-
+  
   ngAfterViewInit(): void {
     if (this.showResults) {
       this.sortPanel.close();
     }
-    
   }
 }

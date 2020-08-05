@@ -1,11 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import * as algoliasearch from 'algoliasearch/lite';
-import { Router } from '@angular/router';
-
-const searchClient = algoliasearch(
-  'V08ADOG4XV',
-  'ecb34c8995e01645a76f886db732f9dd'
-);
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -13,10 +7,6 @@ const searchClient = algoliasearch(
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  config = {
-    indexName: 'user_search',
-    searchClient
-  };
 
   constructor(private router: Router) {}
 
@@ -26,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
   public setQuery({ query }: { query: string }) {
     this.searchParameters.query = query;
-    this.router.navigate(['/discover'], { queryParams: { q: this.searchParameters.query } })
+    this.router.navigate(['/discover/recipes'], { queryParams: { q: this.searchParameters.query } })
   }
   
   ngOnInit() {}

@@ -1,3 +1,4 @@
+
 import { Component, Input, OnInit } from '@angular/core';
 
 interface UserData {
@@ -13,7 +14,7 @@ interface UserData {
 })
 export class ProfileCardComponent implements OnInit {
   @Input() user!: UserData;
-  displayName: string;
+  displayName: string = '';
   constructor() {}
 
   ngOnInit(): void {
