@@ -39,7 +39,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
+import {CurrentProfileTabComponent} from './current-profile-tab/current-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgAisModule} from 'angular-instantsearch';
 import {NgModule} from '@angular/core';
@@ -76,9 +76,9 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
-    ChangeProfileImgComponent
-    MyProfileTabComponent,
     SearchBoxComponent,
+    CurrentProfileTabComponent,
+    ChangeProfileImgComponent,
     ShoppingListComponent,
     ItemDialogComponent,
   ],
