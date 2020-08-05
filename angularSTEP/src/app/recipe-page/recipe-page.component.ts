@@ -47,7 +47,7 @@ export class RecipePageComponent {
       } else {
         this.signedIn = false;
       }
-    })
+    });
   } 
 
   updateRating(rating: number){
@@ -60,7 +60,7 @@ export class RecipePageComponent {
             .ref.withConverter(new RecipeConverter().recipeConverter)
             .update({ratings: this.currentRatings, averageRating: this.getAverageRating()})
       }
-    })
+    });
   }
 
   getAverageRating() {
@@ -68,6 +68,7 @@ export class RecipePageComponent {
     for(let key of Object.keys(this.currentRatings)){
       sum += this.currentRatings[key];
     }
+    // round to the nearest half star just to give a little more different variation in the ratings
     this.pageRecipe.averageRating = Math.round((sum / Object.keys(this.currentRatings).length)*2)/2;
     return this.pageRecipe.averageRating;
   }

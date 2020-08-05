@@ -1,14 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-
-interface recipeData{
-  recipeName: string,
-  description: string,
-  difficulty: string,
-  tags: string[],
-  images: string[],
-  ratings: {},
-  averageRating: number
-}
+import {Component, OnInit, Input} from '@angular/core';
+import {Recipe} from '../recipe'
 
 @Component({
   selector: 'app-recipe-card',
@@ -16,7 +7,7 @@ interface recipeData{
   styleUrls: ['./recipe-card.component.scss']
 })
 export class RecipeCardComponent implements OnInit{
-  @Input() recipe!: recipeData;
+  @Input() recipe!: Recipe;
   noRatings: boolean = true;
   recipeName: string = '';
   tags!: string[];

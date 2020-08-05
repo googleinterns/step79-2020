@@ -1,7 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatChipsModule } from '@angular/material/chips';
-
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatChipsModule} from '@angular/material/chips';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireModule} from '@angular/fire';
@@ -53,7 +52,7 @@ import {NgAisModule} from 'angular-instantsearch';
 import {SearchBoxComponent} from './search-box/search-box.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar'
 import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
-import { StarRatingComponent } from './star-rating/star-rating.component'; 
+import {StarRatingComponent} from './star-rating/star-rating.component'; 
 
 
 @NgModule({

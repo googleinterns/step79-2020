@@ -9,17 +9,16 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header collapsedHeight='60px' expandedHeight='60px'>
       <mat-card-header>
-        <mat-card-title>{{ recipeName }}</mat-card-title>
+        <mat-card-title>{{recipeName}}</mat-card-title>
         <mat-card-subtitle><span>{{recipe.difficulty}}</span>
-          <span *ngIf='!noRatings' class='rating'>{{ recipe.averageRating }}/5</span>
+          <span *ngIf='!noRatings' class='rating'>{{recipe.averageRating}}/5</span>
           <span *ngIf='noRatings' class='rating'>--/5</span>
         </mat-card-subtitle>
     </mat-card-header>
     </mat-expansion-panel-header>
     <p>{{recipe.description}}</p>
     <mat-chip-list aria-label="Tags">
-      <mat-chip *ngFor="let tag of tags">{{ tag }}</mat-chip>
+      <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
     </mat-chip-list>
   </mat-expansion-panel>
-
 </mat-card>
