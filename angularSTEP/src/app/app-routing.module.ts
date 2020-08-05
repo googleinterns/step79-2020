@@ -13,6 +13,7 @@ import {CurrentProfilePageComponent} from './current-profile-page/current-profil
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 
+
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
                         { path: 'signup', component: SignupComponent },
