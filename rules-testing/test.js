@@ -279,7 +279,7 @@ describe("Rules Auth", () => {
                 .set({username: 'olsdafdsfdsafdsfsdafdsafdsafdsfasfdsa', uid: myAuth.uid}));
         })
 
-        it("Won't make username with capitol letters", async () => {
+        it("Won't make username with capital letters", async () => {
             myAuth = {uid: 'odog5'};
             setUpDatabase(myAuth);
             const ref = db.collection("usernames");
