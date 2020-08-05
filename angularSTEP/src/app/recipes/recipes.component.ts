@@ -13,9 +13,11 @@ import {Recipe} from '../recipe';
 export class RecipesComponent {
   recipes: Observable<Recipe[]>;
 
-  constructor(private db: AngularFirestore,
-              private router: Router,) {
-                this.recipes = this.db.collection<Recipe>('recipes').valueChanges({idField: 'id'});
+  constructor(
+    private db: AngularFirestore,
+    private router: Router,
+  ) {
+    this.recipes = this.db.collection<Recipe>('recipes').valueChanges({idField: 'id'});
   }
   
   goToRecipe(id: string) {

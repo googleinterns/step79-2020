@@ -15,6 +15,7 @@ import {RecipesComponent} from './recipes/recipes.component';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
 
 
+
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
                         { path: 'signup', component: SignupComponent },
