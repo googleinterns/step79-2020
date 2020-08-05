@@ -22,20 +22,23 @@ import {LoginComponent} from './login/login.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MapComponent} from './map/map.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {CurrentProfileTabComponent} from './current-profile-tab/current-profile-tab.component';
@@ -55,7 +58,9 @@ import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {UserPageComponent} from './user-page/user-page.component';
 import { WishlistComponent } from './wishlist/wishlist.component'; 
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {DiscoverPageComponent} from './discover-page/discover-page.component'; 
+import {StarRatingComponent} from './star-rating/star-rating.component'; 
 
 @NgModule({
   declarations: [
@@ -83,6 +88,8 @@ import { WishlistComponent } from './wishlist/wishlist.component';
     ChangeProfileImgComponent,
     CurrentProfileTabComponent,
     ChangeProfileImgComponent,
+    StarRatingComponent,
+    DiscoverPageComponent,
     ShoppingListComponent,
     ItemDialogComponent,
     WishlistComponent,
@@ -106,24 +113,27 @@ import { WishlistComponent } from './wishlist/wishlist.component';
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
-    MatDialogModule,
     MatDividerModule,
     MatExpansionModule,
     MatFormFieldModule,
-    MatIconModule,
+    ReactiveFormsModule,
     MatInputModule,
+    MatDialogModule,
+    MatIconModule,
     MatMenuModule,
-    MatProgressBarModule,
     MatRippleModule,
     MatProgressBarModule,
+    MatListModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
     MatSelectModule,
+    MatSidenavModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatStepperModule,
     MatTabsModule,
     MatToolbarModule,
     NgAisModule.forRoot(),
-    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

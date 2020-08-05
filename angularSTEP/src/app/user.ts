@@ -11,7 +11,7 @@ export class User {
     public time: number,
     public recipes: Array<string>,
     public wishlist: Array<string>,
-    public shoppingList: object,
+    public shoppingList: Object,
     public aboutme: string
   ) {
     this.username = username;

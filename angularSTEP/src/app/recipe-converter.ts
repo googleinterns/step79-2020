@@ -18,6 +18,7 @@ export class RecipeConverter {
         timestamp: recipe.timestamp,
         ratings: recipe.ratings,
         tags: recipe.tags,
+        averageRating: recipe.averageRating
       };
     },
     fromFirestore: function (
@@ -38,6 +39,7 @@ export class RecipeConverter {
         data.timestamp,
         data.ratings,
         data.tags,
+        data.averageRating
       );
     },
   };
