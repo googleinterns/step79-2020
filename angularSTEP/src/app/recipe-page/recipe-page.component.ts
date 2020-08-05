@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -29,6 +29,7 @@ export class RecipePageComponent {
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private zone: NgZone
   ) {
     this.setRecipeData();
     this.fAuth.currentUser.then(user => {
@@ -56,6 +57,7 @@ export class RecipePageComponent {
       .ref.withConverter(new Converter().userConverter).get();
     if (postUser.data()) {
       this.user = postUser.data()!;
+      this.inWishlist = this.isRecipeInWishlist();
     } 
   }
 
@@ -122,8 +124,52 @@ export class RecipePageComponent {
     });
   }
 
+  isRecipeInWishlist() {
+    if (this.user && this.loggedIn && this.id) {
+      return this.user.wishlist.indexOf(this.id) > -1;
+    }
+    return false;
+  }
 
+  setWishlist(addItem: boolean){
+    if(this.loggedIn){
+      if(addItem){
+        this.user.wishlist.push(this.id);
+        
+      }
+      else{
+        const index = this.user.wishlist.indexOf(this.id);
+        if(index > -1){
+          this.user.wishlist.splice(index,1);
+          
+        }
+      }
+      this.fAuth.currentUser.then(user => {
+        if (user) {
+          this.db
+            .collection('users')
+            .doc(user.uid)
+            .ref.withConverter(new Converter().userConverter)
+            .update({wishlist: this.user.wishlist})
+            .then(() => {
+                this.inWishlist = addItem;
+            });
+        }
+      });
 
+    }
+  }
 
+  addToWishlist(){
+    this.zone.run(() => {
+      this.setWishlist(true);
+    })
+  }
+
+  subtractFromWishlist(){
+    this.zone.run(() => {
+      this.setWishlist(false);
+    })
+  }
 
 }

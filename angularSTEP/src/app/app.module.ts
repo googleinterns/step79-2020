@@ -53,7 +53,8 @@ import {SetupComponent} from './setup/setup.component';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
-import {UserPageComponent} from './user-page/user-page.component'; 
+import {UserPageComponent} from './user-page/user-page.component';
+import { WishlistComponent } from './wishlist/wishlist.component'; 
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import {UserPageComponent} from './user-page/user-page.component';
     ChangeProfileImgComponent,
     ShoppingListComponent,
     ItemDialogComponent,
+    WishlistComponent,
   ],
   entryComponents: [
     ItemDialogComponent,

@@ -2,6 +2,8 @@
   <h2>{{pageRecipe.recipeName}}</h2>
   <h3>{{pageRecipe.difficulty}}</h3>
   <p>{{pageRecipe.description}}</p>
+  <button *ngIf='!inWishlist && loggedIn' (click)='addToWishlist()' mat-button color="primary">Add to Wishlist<mat-icon>check</mat-icon></button>
+  <button *ngIf='inWishlist && loggedIn' (click)='subtractFromWishlist()' mat-button color="primary">Remove from Wishlist<mat-icon>check</mat-icon></button>
   
   <br><br>
 
