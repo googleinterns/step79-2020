@@ -1,6 +1,10 @@
 import {Component, OnInit, NgZone} from '@angular/core';
 import * as algoliasearch from 'algoliasearch/lite';
 import {environment} from '../../environments/environment'
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
 
 import {Router} from '@angular/router';
 
@@ -22,7 +26,7 @@ export class ViewProfilesComponent implements OnInit {
 
   goToUser(username: string) {
     this.zone.run(() => {
-      this.router.navigate(['users/', username]);
+      this.router.navigate(['discover/users/', username]);
     })
   }
 

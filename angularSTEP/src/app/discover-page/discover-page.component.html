@@ -1,4 +1,5 @@
 <mat-sidenav-container class="sidebar">
+  <!-- This sidenav controls the sorting and content type -->
   <mat-sidenav mode="side" opened>
     <mat-list>
       <!-- search options -->
@@ -34,7 +35,7 @@
         </mat-list-option>
       </mat-selection-list>
       <mat-list-item>
-        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Ascending ' : 'Descending' }}
+        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Descending' : 'Ascending' }}
         </mat-slide-toggle>
       </mat-list-item>
     </mat-expansion-panel>
@@ -59,7 +60,7 @@
         </mat-list-option>
       </mat-selection-list>
       <mat-list-item>
-        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Ascending' : 'Descending' }}
+        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Descending' : 'Ascending' }}
         </mat-slide-toggle>
       </mat-list-item>
     </mat-expansion-panel>
@@ -67,18 +68,45 @@
 
   <!-- the content within the actual page -->
   <mat-sidenav-content>
-    <div class="content">
-      <ais-instantsearch [config]="config">
-        <app-search-box (noQuery)='displayResults($event)' [delay]='500'></app-search-box>
+    <!-- displays the user search bar -->
+    <div *ngIf='this.searchOption[0] == "Users"' class="content">
+      <ais-instantsearch [config]="configUsers">
+        <app-search-box (noQuery)='displayResults($event)' contentType='Search for users' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
-                <app-profile-card *ngFor="let user of hits" [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
-                </app-profile-card>
+                <div class="search-content-container">
+                  <app-profile-card *ngFor="let user of hits" (click)='goToUser(user.username)'
+                    [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
+                  </app-profile-card>
+                </div>
             </ng-template>
           </ais-hits>
       </ais-instantsearch>
-      <div *ngIf='!showResults'></div>
     </div>
+
+    <!-- displays the recipe search bar -->
+    <div *ngIf='this.searchOption[0] == "Recipes"' class="content">
+      <ais-instantsearch [config]="configRecipes">
+        <app-search-box (noQuery)='displayResults($event)' contentType='Search for recipes' [delay]='500'></app-search-box>
+          <ais-hits *ngIf='showResults'>
+            <ng-template let-hits="hits">
+                <div class="search-content-container">
+                  <app-recipe-card *ngFor="let recipe of hits" [recipe]='{recipeName: recipe.recipeName, difficulty: recipe.difficulty, description: recipe.description}'>
+                  </app-recipe-card>
+                </div>
+            </ng-template>
+          </ais-hits>
+      </ais-instantsearch>
+    </div>
+
+    <!-- displays the widgets for the search type and sort type if no query is given to the search bar -->
+    <div *ngIf='!showResults'>
+      <app-discover-display [contentType]='this.searchOption[0]' [direction]='this.isChecked' 
+      [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
+      </app-discover-display>
+    </div>
+
+   
   </mat-sidenav-content>
 </mat-sidenav-container>
 

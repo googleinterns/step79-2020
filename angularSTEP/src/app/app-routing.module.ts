@@ -6,14 +6,11 @@ import {LoginComponent} from './login/login.component';
 import {NgModule} from '@angular/core';
 import {SignupComponent} from './signup/signup.component';
 import {UserPageComponent} from './user-page/user-page.component';
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'
 import {ConfirmComponent} from './confirm/confirm.component';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
-import {RecipesComponent} from './recipes/recipes.component';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
-
 
 
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,15 +18,16 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'signup', component: SignupComponent },
                         { path: 'login-email', component: EmailComponent },
                         { path: 'home', component: HomeComponent },
-                        { path: 'users', component: ViewProfilesComponent },
-                        { path: 'users/:username', component: UserPageComponent },
                         { path: 'upload-recipe', component: UploadRecipeComponent},
                         { path: 'confirm-upload', component: ConfirmComponent},
-                        { path: 'recipes', component: RecipesComponent},
-                        { path: 'recipes/:id', redirectTo: 'recipe/:id'}, 
-                        { path: 'recipe/:id', component: RecipePageComponent},
                         { path: 'discover', component: DiscoverPageComponent},
-                        { path: 'recipes/:id', component: RecipePageComponent },
+                        { path: 'discover/:type', component: DiscoverPageComponent},
+                        { path: 'discover/users/:username', component: UserPageComponent},
+                        { path: 'discover/recipes/:recipeid', component: RecipePageComponent},
+                        { path: 'recipes', redirectTo: 'discover/recipes'}, 
+                        { path: 'recipe', redirectTo: 'discover/recipes'},
+                        { path: 'users', redirectTo: 'discover/users'}, 
+                        { path: 'user', redirectTo: 'discover/user'},
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({

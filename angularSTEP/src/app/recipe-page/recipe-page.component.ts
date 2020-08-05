@@ -16,7 +16,7 @@ import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
   styleUrls: ['./recipe-page.component.scss'],
 })
 export class RecipePageComponent {
-  id: string | null = this.route.snapshot.paramMap.get('id');
+  id: string | null = this.route.snapshot.paramMap.get('recipeid');
   pageRecipe!: Recipe;
   user!: User;
   loggedIn = false;
@@ -30,6 +30,7 @@ export class RecipePageComponent {
 
   constructor(
     private db: AngularFirestore,
+    private router: Router,
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
@@ -239,6 +240,12 @@ export class RecipePageComponent {
   subtractFromWishlist(){
     this.zone.run(() => {
       this.setWishlist(false);
+    })
+  }
+
+  goToUser(username: string) {
+    this.zone.run(() => {
+      this.router.navigate(['discover/users/', username]);
     })
   }
 

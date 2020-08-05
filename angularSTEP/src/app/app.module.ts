@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common'
 import {MatChipsModule} from '@angular/material/chips';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
@@ -45,19 +46,20 @@ import {CurrentProfileTabComponent} from './current-profile-tab/current-profile-
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgAisModule} from 'angular-instantsearch';
 import {NgModule} from '@angular/core';
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component'
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
-import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SearchBoxComponent} from './search-box/search-box.component';
 import {SetupComponent} from './setup/setup.component';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {DiscoverDisplayComponent} from './discover-display/discover-display.component';
+import {RecipeCardComponent} from './recipe-card/recipe-card.component';
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {UserPageComponent} from './user-page/user-page.component';
-import { WishlistComponent } from './wishlist/wishlist.component'; 
+import {WishlistComponent} from './wishlist/wishlist.component'; 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DiscoverPageComponent} from './discover-page/discover-page.component'; 
 import {StarRatingComponent} from './star-rating/star-rating.component'; 
@@ -90,6 +92,8 @@ import {StarRatingComponent} from './star-rating/star-rating.component';
     ChangeProfileImgComponent,
     StarRatingComponent,
     DiscoverPageComponent,
+    DiscoverDisplayComponent,
+    ChangeProfileImgComponent,
     ShoppingListComponent,
     ItemDialogComponent,
     WishlistComponent,
@@ -129,13 +133,14 @@ import {StarRatingComponent} from './star-rating/star-rating.component';
     MatSelectModule,
     MatSidenavModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
     MatStepperModule,
+    MatToolbarModule,
+    MatSnackBarModule,
     MatTabsModule,
     MatToolbarModule,
     NgAisModule.forRoot(),
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

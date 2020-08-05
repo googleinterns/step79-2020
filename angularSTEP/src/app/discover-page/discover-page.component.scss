@@ -1,29 +1,27 @@
 .sidebar {
-    
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
+  position: absolute;
+  z-index: 0;
+  margin-top: 64px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 
-  .radio-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-  }
-  
-  .radio-button {
-    margin: 5px;
-  }
-
-  mat-slide-toggle {
+mat-slide-toggle {
     float: right;
-  }
+}
 
-  .content {
-    margin: 20px;
-  }
+mat-sidenav {
+  width: 250px;
+}
 
-  mat-sidenav{
-    max-width: 225px;
-  }
+.content {
+  margin: 20px;
+}
+
+.search-content-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+

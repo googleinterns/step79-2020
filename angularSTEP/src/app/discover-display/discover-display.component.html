@@ -1,0 +1,6 @@
+<div *ngIf='contentType == "Users"' class='container'>
+    <app-profile-card *ngFor="let user of users" (click)='goToUser(user.data().username)' [user]='user.data()'></app-profile-card>
+</div>
+<div *ngIf='contentType == "Recipes"' class='container'>
+    <app-recipe-card *ngFor="let recipe of recipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
+</div>

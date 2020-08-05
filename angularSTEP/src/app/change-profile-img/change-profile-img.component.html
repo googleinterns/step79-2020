@@ -1,7 +1,7 @@
 <div class="form-container">
     <h1 mat-dialog-title>Change Profile Image</h1>
     <div mat-dialog-content>
-        <img mat-card-image *ngIf='previewImgUrl' [src]="previewImgUrl" alt="Photo">
+        <img mat-card-image *ngIf='previewImgUrl' [src]="previewImgUrl" class='preview-image' alt="Photo">
         <h4 class="error" *ngIf="error">{{ error }}</h4>
         <form [formGroup]="fileForm" (submit)="onFileSubmit()">
             <label for="upload-photo"><span><h3 class="upload">Upload Photo...<mat-icon>add_photo_alternate</mat-icon></h3></span></label>

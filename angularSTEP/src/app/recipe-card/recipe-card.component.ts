@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Recipe} from '../recipe'
 
 @Component({
@@ -8,11 +8,13 @@ import {Recipe} from '../recipe'
 })
 export class RecipeCardComponent implements OnInit{
   @Input() recipe!: Recipe;
+  @Input() recipeId!: string;
   noRatings: boolean = true;
   recipeName: string = '';
   tags!: string[];
   recipeDescription: string = '';
   showDescription: boolean = false;
+  @Output() clicked = new EventEmitter<string>();
   
   ngOnInit(): void {
     //these values are temporary
@@ -23,10 +25,7 @@ export class RecipeCardComponent implements OnInit{
     this.recipeName = this.recipe.recipeName;
     this.recipeDescription = this.recipe.description;
     this.shortenRecipeName();
-    
   }
-
-  
 
   shortenRecipeName() {
     if(this.recipeName.length > 13){
@@ -38,6 +37,10 @@ export class RecipeCardComponent implements OnInit{
     if(this.recipeName.length > 100){
       this.recipeDescription = this.recipeName.substring(0, 97) + '...';
     }
+  }
+
+  cardClicked() {
+    this.clicked.emit(this.recipeId);
   }
 }
 

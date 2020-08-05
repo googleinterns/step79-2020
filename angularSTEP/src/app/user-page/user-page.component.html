@@ -18,7 +18,7 @@
     <mat-card class='widget-container'>
         <mat-card-title>Their Recipes</mat-card-title>
         <div class='info-container'>
-          <app-recipe-card *ngFor="let recipe of theirRecipes" [recipe]='recipe'></app-recipe-card>
+          <app-recipe-card *ngFor="let recipe of theirRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
         </div>
       </mat-card>
       <!-- <mat-divider></mat-divider> -->

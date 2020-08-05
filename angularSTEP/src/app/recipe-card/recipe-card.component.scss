@@ -2,13 +2,12 @@
   width: 200px;
 }
 
-.mat-card-image {
+.card-info img {
   margin: 0;
   background-size: cover;
   object-fit: cover;
   width: 200px;
   height: 200px;
-  
 }
 
 .mat-card{
@@ -23,6 +22,19 @@
   margin: 0;
   width: 200px;
   height: 200px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#photo-icon{
+  position: absolute;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
 }
 
 .mat-expansion-panel-header {

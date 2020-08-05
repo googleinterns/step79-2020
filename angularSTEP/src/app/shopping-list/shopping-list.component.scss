@@ -3,19 +3,23 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: 1%;
+  margin-top: 10px;
 }
 
 .buttons-pair {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+}
+
+.buttons-pair button {
+  margin: 0 5px;
 }
   
 #empty-list {
   text-align: center;
   margin-top: 1%;
+}
+
+.mat-card {
+  margin: 10px;
 }

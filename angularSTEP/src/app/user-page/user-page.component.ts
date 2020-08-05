@@ -20,7 +20,7 @@ export class UserPageComponent implements OnInit {
   displayName = '';
   picUrl = 'assets/images/blank-profile.png';
   usersFollowing: User[] = [];
-  theirRecipes: Recipe[] = [];
+  theirRecipes: firebase.firestore.DocumentSnapshot<Recipe>[] = [];
   bio: string = '';
   profileLoaded = false;
   userFollowing = false;
@@ -50,7 +50,7 @@ export class UserPageComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.username = params.get("username");
       if (!this.username) {
-        this.router.navigate(['/users']);
+        this.router.navigate(['discover/users']);
       } else {
         this.resetData();
         this.setUserData();
@@ -82,7 +82,7 @@ export class UserPageComponent implements OnInit {
         this.getFollowing(user.following);
         this.profileLoaded = true;
       } else {
-        this.router.navigate(['/users']);
+        this.router.navigate(['discover/users']);
       }
     }
   }
@@ -166,7 +166,7 @@ export class UserPageComponent implements OnInit {
               .doc(recipes[i])
               .ref.withConverter(new RecipeConverter().recipeConverter).get();
         if(recipe && recipe.data()){
-          this.theirRecipes.push(recipe.data()!);
+          this.theirRecipes.push(recipe);
         }
       }
     }
@@ -175,7 +175,7 @@ export class UserPageComponent implements OnInit {
   goToUser(username: string) {
     this.resetData();
     this.zone.run(() => {
-      this.router.navigate(['users/', username]);
+      this.router.navigate(['discover/users/', username]);
     })
   }
 
@@ -185,6 +185,11 @@ export class UserPageComponent implements OnInit {
     this.usersFollowing = [];
     this.theirRecipes = [];
     this.bio = '';
+  }
 
+  goToRecipe(id: string) {
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
+    }
   }
 }

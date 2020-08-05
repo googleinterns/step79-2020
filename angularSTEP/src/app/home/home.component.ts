@@ -42,7 +42,13 @@ export class HomeComponent implements OnInit {
 
   goToUser(username: string) {
     this.zone.run(() => {
-      this.router.navigate(['users/', username]);
+      this.router.navigate(['discover/users/', username]);
     })
+  }
+
+  goToRecipe(id: string) {
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
+    }
   }
 }

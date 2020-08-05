@@ -17,7 +17,7 @@ export class CurrentProfileTabComponent implements OnInit {
   @Input() userData!: User;
   aboutMeForm: FormControl | null = null;
   usersFollowing: User[] = [];
-  myRecipes: Recipe[] = [];
+  myRecipes: firebase.firestore.DocumentSnapshot<Recipe>[] = [];
 
   constructor(private afs: AngularFirestore, private fAuth: AngularFireAuth, private zone: NgZone, private router: Router) {}
 
@@ -77,7 +77,7 @@ export class CurrentProfileTabComponent implements OnInit {
               .doc(this.userData.recipes[i])
               .ref.withConverter(new RecipeConverter().recipeConverter).get();
         if(recipe && recipe.data()){
-          this.myRecipes.push(recipe.data()!);
+          this.myRecipes.push(recipe);
         }
       }
     }
@@ -85,7 +85,14 @@ export class CurrentProfileTabComponent implements OnInit {
 
   goToUser(username: string) {
     this.zone.run(() => {
-      this.router.navigate(['users/', username]);
+      this.router.navigate(['discover/users/', username]);
     })
+  }
+
+  goToRecipe(id: string) {
+    console.log(id);
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
+    }
   }
 }
