@@ -192,9 +192,6 @@ export class UploadRecipeComponent {
         return originalString.substring(i);
       }
     }
-    if (startIndex === -1) {
-      return '';
-    }
     return '';
   }
 
