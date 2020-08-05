@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecipeWishlistComponent } from './recipe-wishlist.component';
+import {ItemDialogComponent } from './item-dialog.component';
 
-describe('RecipeWishlistComponent', () => {
-  let component: RecipeWishlistComponent;
-  let fixture: ComponentFixture<RecipeWishlistComponent>;
+describe('ItemDialogComponent', () => {
+  let component: ItemDialogComponent;
+  let fixture: ComponentFixture<ItemDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RecipeWishlistComponent ]
+      declarations: [ ItemDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RecipeWishlistComponent);
+    fixture = TestBed.createComponent(ItemDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
