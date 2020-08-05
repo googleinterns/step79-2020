@@ -1,4 +1,5 @@
 <mat-sidenav-container class="sidebar">
+  <!-- This sidenav controls the sorting and content type -->
   <mat-sidenav mode="side" opened>
     <mat-list>
       <!-- search options -->
@@ -67,6 +68,7 @@
 
   <!-- the content within the actual page -->
   <mat-sidenav-content>
+    <!-- displays the user search bar -->
     <div *ngIf='this.searchOption[0] == "Users"' class="content">
       <ais-instantsearch [config]="configUsers">
         <app-search-box (noQuery)='displayResults($event)' contentType='Search for users' [delay]='500'></app-search-box>
@@ -82,6 +84,7 @@
       </ais-instantsearch>
     </div>
 
+    <!-- displays the recipe search bar -->
     <div *ngIf='this.searchOption[0] == "Recipes"' class="content">
       <ais-instantsearch [config]="configRecipes">
         <app-search-box (noQuery)='displayResults($event)' contentType='Search for recipes' [delay]='500'></app-search-box>
@@ -96,6 +99,7 @@
       </ais-instantsearch>
     </div>
 
+    <!-- displays the widgets for the search type and sort type if no query is given to the search bar -->
     <div *ngIf='!showResults'>
       <app-discover-display [contentType]='this.searchOption[0]' [direction]='this.isChecked' 
       [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
