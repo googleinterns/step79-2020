@@ -6,7 +6,7 @@ import {Recipe} from '../recipe';
 import {RecipeConverter} from '../recipe-converter';
 import {User} from '../user';
 import {Converter} from '../converter';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
 
@@ -26,7 +26,7 @@ export class RecipePageComponent {
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.setRecipeData();
     this.fAuth.currentUser.then(user => {
