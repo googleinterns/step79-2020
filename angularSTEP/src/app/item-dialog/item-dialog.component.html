@@ -1,0 +1,29 @@
+<div *ngIf="add"> 
+  <h1 mat-dialog-title>Add Item to Shopping List</h1>
+  <p>How many times would you like to add "{{selectedItem}}" to your Shopping List?</p>
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field>
+      <input matInput type="number" min="1" max="999" formControlName="quantity" required>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="addItem()">Add</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="remove">
+  <h1 mat-dialog-title>Remove Item from Shopping List</h1>
+  <p>How many times would you like to remove "{{selectedItem}}" from your Shopping List?</p>
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field>
+      <input #removeInput matInput type="number" min="1" max="{{max}}" formControlName="quantity" required>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="removeItem()">Remove</button>
+  </mat-dialog-actions>
+</div>

@@ -32,6 +32,35 @@
           <mat-error>This is required.</mat-error>
         </mat-form-field>
         <h5 class="other-error" *ngIf="basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid">Please enter a valid description.</h5>
+
+        <br><br>
+        
+        <mat-form-field class="example-chip-list">
+          <mat-chip-list #chipList aria-label="Category selection">
+            <mat-chip
+              *ngFor="let category of categories"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(category)">
+              {{category}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="New category..."
+              #fruitInput
+              [formControl]="categoryCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let category of filteredCategories | async" [value]="catagory">
+              {{category}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
         <div id="solo-next-button">
           <button mat-raised-button color="primary" matStepperNext [disabled]="!basicsFormGroup.valid || basicsFormGroup.controls.name.value.trim() === '' || basicsFormGroup.controls.description.value.trim() === ''" type="button">Next</button>
         </div>

@@ -17,20 +17,32 @@ import {User} from '../user';
 import {Recipe} from '../recipe';
 import {RecipeConverter} from '../recipe-converter';
 
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {ElementRef, ViewChild} from '@angular/core';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-upload-recipe',
   templateUrl: './upload-recipe.component.html',
   styleUrls: ['./upload-recipe.component.scss'],
 })
-export class UploadRecipeComponent {
-  error = '';
-  previewImgUrls: SafeUrl[] = [];
-  uploading = false;
-  imageFiles: Blob[] = [];
-  imageUrls: string[] = [];
-  loggedIn = false;
-  @Output() uploadDone = new EventEmitter<boolean>();
+
+export class UploadRecipeComponent{
+  visible = true;
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  categoryCtrl = new FormControl();
+  filteredCategories!: Observable<string[]>;
+  categories: string[] = ['Delicious'];
+  allCategories: string[] = ['Vegan', 'Gluten Free', 'Vegetarian', 'Low Calorie', 'High Protein'];
+
+  @ViewChild('catagoryInput') categoryInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(
     private fb: FormBuilder,
@@ -42,14 +54,62 @@ export class UploadRecipeComponent {
     private sanitizer: DomSanitizer,
     private fAuth: AngularFireAuth
   ) {
-    this.fAuth.onAuthStateChanged(user => {
-      if (user) {
-        this.loggedIn = true;
-      } else {
-        this.loggedIn = false;
-      }
-    });
+      this.fAuth.onAuthStateChanged(user => {
+        if (user) {
+          this.loggedIn = true;
+        } else {
+          this.loggedIn = false;
+        }
+      });
+      this.filteredCategories = this.categoryCtrl.valueChanges.pipe(
+      startWith(null),
+      map((category: string | null) => category ? this._filter(category) : this.allCategories.slice()));
   }
+
+add(event: MatChipInputEvent): void {
+  const input = event.input;
+  const value = event.value;
+            
+  // Add our category
+  if ((value || '').trim()) {
+    this.categories.push(value.trim());
+  }
+            
+  // Reset the input value
+  if (input) {
+    input.value = '';
+  }
+            
+  this.categoryCtrl.setValue(null);
+}
+            
+remove(category: string): void {
+  const index = this.categories.indexOf(category);
+            
+  if (index >= 0) {
+    this.categories.splice(index, 1);
+  }
+}
+            
+selected(event: MatAutocompleteSelectedEvent): void {
+  this.categories.push(event.option.viewValue);
+  this.categoryInput.nativeElement.value = '';
+  this.categoryCtrl.setValue(null);
+}
+            
+private _filter(value: string): string[] {
+  const filterValue = value.toLowerCase();
+            
+  return this.allCategories.filter(category => category.toLowerCase().indexOf(filterValue) === 0);
+}
+  error = '';
+  previewImgUrls: SafeUrl[] = [];
+  uploading = false;
+  imageFiles: Blob[] = [];
+  imageUrls: string[] = [];
+  loggedIn = false;
+  @Output() uploadDone = new EventEmitter<boolean>();
+
 
   fileFormGroup = new FormGroup({
     imageArray: new FormArray([], {validators: Validators.required}),
