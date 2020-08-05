@@ -1,4 +1,4 @@
-<div class="stepper-container">
+<div class="stepper-container" *ngIf='loggedIn && !uploading'>
 <mat-horizontal-stepper linear>
   <mat-step [stepControl]="basicsFormGroup">
     <form [formGroup]="basicsFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
@@ -164,7 +164,7 @@
   </mat-step>
 
   <mat-step [stepControl]="extraFormGroup" [optional]="true">
-    <form [formGroup]="extraFormGroup" (ngSubmit)="onSubmit()" class ="form-formatting">
+    <form [formGroup]="extraFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
       <ng-template matStepLabel>Extra Information</ng-template>
       <mat-form-field>
         <mat-label>Extra Information</mat-label>
@@ -175,7 +175,18 @@
         <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
         <button mat-raised-button color="primary" type="submit">Upload Recipe</button>
       </div>
-    </form> 
+    </form>
   </mat-step>
 </mat-horizontal-stepper>
 </div>
+
+<!-- this card gets displayed if image is uploading -->
+<div class="card-container" *ngIf='uploading'>
+  <mat-card class='uploading-card'>
+    <mat-card-content>
+      <h1>Uploading...</h1>
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>
+<button mat-button routerLink="/login" *ngIf="!loggedIn">Sign In</button>

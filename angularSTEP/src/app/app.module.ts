@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
-
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireModule} from '@angular/fire';
@@ -31,18 +30,19 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {CurrentProfileTabComponent} from './current-profile-tab/current-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgAisModule} from 'angular-instantsearch';
 import {NgModule} from '@angular/core';
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component'
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
@@ -54,7 +54,7 @@ import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {UserPageComponent} from './user-page/user-page.component'; 
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
+
 
 @NgModule({
   declarations: [
@@ -68,7 +68,6 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     SetupComponent,
     HomeComponent,
     ProfileCardComponent,
-    ViewProfilesComponent,
     UserPageComponent,
     UploadRecipeComponent,
     RecipeCardComponent,
@@ -76,6 +75,9 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     RecipesComponent,
     RecipePageComponent,
     CurrentProfilePageComponent,
+    ChangeProfileImgComponent,
+    CurrentProfileTabComponent,
+    ViewProfilesComponent,
     SearchBoxComponent,
     CurrentProfileTabComponent,
     ChangeProfileImgComponent,
