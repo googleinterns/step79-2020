@@ -11,5 +11,8 @@
   "devDependencies": {
     "@firebase/testing": "^0.20.9",
     "mocha": "^8.0.1"
+  },
+  "dependencies": {
+    "chai": "^4.2.0"
   }
 }
