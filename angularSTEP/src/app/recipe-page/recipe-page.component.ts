@@ -17,6 +17,7 @@ export class RecipePageComponent {
   constructor(private db: AngularFirestore,
               private route: ActivatedRoute,) {
                 this.setRecipeData();
+                
   }
 
   async setRecipeData() {

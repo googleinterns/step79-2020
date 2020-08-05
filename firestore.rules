@@ -1,31 +1,31 @@
 rules_version = '2';
 service cloud.firestore {
 	function notUpdating(field) {
-   return !(field in request.resource.data)
-    || resource.data[field] == request.resource.data[field]
+    return !(field in request.resource.data)
+          || resource.data[field] == request.resource.data[field];
   }
   
-  function checkUserFieldsValid(){
+  function checkUserFieldsValid() {
   	return ('displayName' in request.resource.data &&
-    'email' in request.resource.data &&
-    'following' in request.resource.data &&
-    'picUrl' in request.resource.data &&
-    'recipes' in request.resource.data &&
-    'shoppingList' in request.resource.data &&
-    'time' in request.resource.data &&
-    'uid' in request.resource.data &&
-    'username' in request.resource.data &&
-    'wishlist' in request.resource.data) &&
-    request.resource.data.displayName is string &&
-    request.resource.data.username is string &&
-    request.resource.data.email is string &&
-    request.resource.data.uid is string &&
-    request.resource.data.displayName.size() < 50 &&
-    request.resource.data.username.size() < 20 &&
-    request.resource.data.username.size() > 2 &&
-    request.resource.data.email.size() < 254 &&
-    request.resource.data.email.size() > 0 &&
-    request.resource.data.username.lower() == request.resource.data.username;
+      'email' in request.resource.data &&
+      'following' in request.resource.data &&
+      'picUrl' in request.resource.data &&
+      'recipes' in request.resource.data &&
+      'shoppingList' in request.resource.data &&
+      'time' in request.resource.data &&
+      'uid' in request.resource.data &&
+      'username' in request.resource.data &&
+      'wishlist' in request.resource.data) &&
+      request.resource.data.displayName is string &&
+      request.resource.data.username is string &&
+      request.resource.data.email is string &&
+      request.resource.data.uid is string &&
+      request.resource.data.displayName.size() < 50 &&
+      request.resource.data.username.size() < 20 &&
+      request.resource.data.username.size() > 2 &&
+      request.resource.data.email.size() < 254 &&
+      request.resource.data.email.size() > 0 &&
+      request.resource.data.username.lower() == request.resource.data.username;
   }
   
   match /databases/{database}/documents {
@@ -55,16 +55,16 @@ service cloud.firestore {
                     
       // Applies to writes to existing documents
       allow update: if user == request.auth.uid &&
-            request.auth.uid == request.resource.data.uid &&
-            notUpdating('username') && notUpdating('uid') &&
-            (!('time' in request.resource.data)
-            || resource.data.time == request.resource.data.time)
-            && checkUserFieldsValid();
+                    request.auth.uid == request.resource.data.uid &&
+                    notUpdating('username') && notUpdating('uid') &&
+                    (!('time' in request.resource.data)
+                    || resource.data.time == request.resource.data.time)
+                    && checkUserFieldsValid();
 
       // Applies to delete operations
       allow delete: if request.auth != null &&
-                        user == request.auth.uid &&
-                        request.auth.uid == resource.data.uid;
+                      user == request.auth.uid &&
+                      request.auth.uid == resource.data.uid;
     }
 
   // A write rule can be divided into create, update, and delete rules
