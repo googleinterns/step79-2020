@@ -26,7 +26,8 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'confirm-upload', component: ConfirmComponent},
                         { path: 'recipes', component: RecipesComponent},
                         { path: 'recipes/:id', component: RecipePageComponent },
-                        { path: 'branch-recipe/:id', component: BranchingRecipeFormComponent },
+                        // { path: 'branch-recipe/:id', component: BranchingRecipeFormComponent },
+                        { path: 'branch-recipe/:id', component: UploadRecipeComponent },
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({

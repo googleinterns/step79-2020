@@ -27,7 +27,6 @@ export class BranchingRecipeFormComponent implements OnInit {
     private router: Router,
   ) { 
     this.setRecipeData().then(() => {
-      // console.log(this.baseRecipe);
       this.basicsFormGroup.controls.name.setValue(this.baseRecipe.recipeName);
       this.basicsFormGroup.controls.difficulty.setValue(this.baseRecipe.difficulty);
       this.basicsFormGroup.controls.description.setValue(this.baseRecipe.description);
@@ -171,7 +170,6 @@ export class BranchingRecipeFormComponent implements OnInit {
   }
 
   removeNumsAndSymbolsAtStart(originalString: string): string {
-    var startIndex: number = -1;
 
     for (let i = 0; i < originalString.length; i++) {
 
@@ -182,9 +180,7 @@ export class BranchingRecipeFormComponent implements OnInit {
         return originalString.substring(i);
       }
     }
-    if (startIndex == -1) {
-      return '';
-    }
+    
     return '';
   }
 

@@ -114,6 +114,7 @@
         <textarea autocomplete="off" matInput placeholder="Ex. It was a crisp autumn day when I suddenly felt inspired to take a trip down memory lane and cook..." formControlName="extraInfo"></textarea>
         <mat-hint>Write anything else you may want to include about your recipe.</mat-hint>
       </mat-form-field>
+      <h3 id="noChangesError" *ngIf="!changed">In order to branch this recipe, please make changes to it.</h3>
       <div class="control-buttons">
         <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
         <button mat-raised-button color="primary" type="submit">Upload Recipe</button>
