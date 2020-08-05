@@ -278,6 +278,13 @@ private _filter(value: string): string[] {
   //image functions
 
   onFileSubmit() {
+    this.basicsFormGroup.controls.name.setValue(this.autoCapitalizeName(this.basicsFormGroup.value.name));
+    this.basicsFormGroup.controls.description.setValue(this.autoCapitalizeFirst(this.basicsFormGroup.value.description));
+    this.formatArrays(this.ingredientsArray);
+    this.formatArrays(this.toolsArray);
+    this.formatInstructions(this.instructionsArray);
+    this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
+
     this.fAuth.currentUser.then(async user => {
       if (user) {
         this.uploading = true;
@@ -295,7 +302,7 @@ private _filter(value: string): string[] {
             this.imageUrls,
             this.instructionsArray.value,
             this.extraFormGroup.value.extraInfo
-              ? this.extraFormGroup.value
+              ? this.extraFormGroup.value.extraInfo
               : '',
             Date.now(),
             {},

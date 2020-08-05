@@ -27,7 +27,7 @@
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>
             <div class='info-container'>
-                <app-recipe-card *ngFor="let recipe of topRecipes" [recipe]='recipe.data()'></app-recipe-card>
+                <app-recipe-card *ngFor="let recipe of topRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
             </div>
         </mat-card>
         <div class="widget-header">
@@ -37,7 +37,7 @@
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>
             <div class='info-container'>
-                <app-recipe-card *ngFor="let recipe of newRecipes" [recipe]='recipe.data()'></app-recipe-card>
+                <app-recipe-card *ngFor="let recipe of newRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
             </div>
         </mat-card>
         <div class="widget-header">
@@ -54,8 +54,8 @@
     <div class='map-container'>
         <!-- don't need to use until end, since it will just take up quota every time the page loads -->
         <!-- the temp mat card simulates the design of the map -->
-        <!-- <app-map addressType="geocode"></app-map> -->
-        <mat-card class="map-card"></mat-card>
+        <app-map addressType="geocode"></app-map>
+        <!-- <mat-card class="map-card"></mat-card> -->
     </div>
 </div>
 

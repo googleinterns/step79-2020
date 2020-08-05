@@ -25,10 +25,7 @@ export class RecipeCardComponent implements OnInit{
     this.recipeName = this.recipe.recipeName;
     this.recipeDescription = this.recipe.description;
     this.shortenRecipeName();
-    
   }
-
-  
 
   shortenRecipeName() {
     if(this.recipeName.length > 13){

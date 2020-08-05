@@ -26,7 +26,7 @@ export class ViewProfilesComponent implements OnInit {
 
   goToUser(username: string) {
     this.zone.run(() => {
-      this.router.navigate(['users/', username]);
+      this.router.navigate(['discover/users/', username]);
     })
   }
 

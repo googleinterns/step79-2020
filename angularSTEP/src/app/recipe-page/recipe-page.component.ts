@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -26,6 +26,8 @@ export class RecipePageComponent {
 
   constructor(
     private db: AngularFirestore,
+    private router: Router,
+    private zone: NgZone,
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
@@ -183,5 +185,11 @@ export class RecipePageComponent {
         });
       }
     });
+  }
+
+  goToUser(username: string) {
+    this.zone.run(() => {
+      this.router.navigate(['discover/users/', username]);
+    })
   }
 }
