@@ -20,6 +20,8 @@ export class RecipePageComponent {
   id: string | null = this.route.snapshot.paramMap.get('id');
   pageRecipe!: Recipe;
   user!: User;
+  loggedIn = false;
+  inWishlist = false;
 
   constructor(
     private db: AngularFirestore,
@@ -31,7 +33,11 @@ export class RecipePageComponent {
     this.setRecipeData();
     this.fAuth.currentUser.then(user => {
       if (user) {
+        this.loggedIn = true;
         this.setUserData(user.uid);
+      }
+      else{
+        this.loggedIn = false;
       }
     });
   }
@@ -115,4 +121,9 @@ export class RecipePageComponent {
       }
     });
   }
+
+
+
+
+
 }
