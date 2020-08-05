@@ -47,7 +47,7 @@
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>
             <div class='info-container'>
-                <app-profile-card *ngFor="let user of newUsers" [user]='user.data()'></app-profile-card>
+                <app-profile-card *ngFor="let user of newUsers" (click)='goToUser(user.data().username)'[user]='user.data()'></app-profile-card>
             </div>
         </mat-card>
     </div>

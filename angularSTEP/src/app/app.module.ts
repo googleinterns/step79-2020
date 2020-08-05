@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
-
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireModule} from '@angular/fire';
@@ -23,26 +22,30 @@ import {LoginComponent} from './login/login.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MapComponent} from './map/map.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
+import {CurrentProfileTabComponent} from './current-profile-tab/current-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgAisModule} from 'angular-instantsearch';
 import {NgModule} from '@angular/core';
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component'
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
@@ -52,11 +55,12 @@ import {SearchBoxComponent} from './search-box/search-box.component';
 import {SetupComponent} from './setup/setup.component';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {DiscoverPageComponent} from './discover-page/discover-page.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list'
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
+import {StarRatingComponent} from './star-rating/star-rating.component'; 
+
 
 @NgModule({
   declarations: [
@@ -70,7 +74,6 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     SetupComponent,
     HomeComponent,
     ProfileCardComponent,
-    ViewProfilesComponent,
     UserPageComponent,
     UploadRecipeComponent,
     RecipeCardComponent,
@@ -79,10 +82,14 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     RecipePageComponent,
     CurrentProfilePageComponent,
     ChangeProfileImgComponent,
+    CurrentProfileTabComponent,
+    ViewProfilesComponent,
     SearchBoxComponent,
+    ChangeProfileImgComponent,
+    StarRatingComponent,
+    DiscoverPageComponent,
     ShoppingListComponent,
     ItemDialogComponent,
-    MyProfileTabComponent,
   ],
   entryComponents: [
     ItemDialogComponent,
@@ -106,21 +113,24 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MatDividerModule,
     MatExpansionModule,
     MatFormFieldModule,
-    MatSidenavModule,
+    ReactiveFormsModule,
     MatInputModule,
     MatDialogModule,
     MatIconModule,
     MatMenuModule,
     MatRippleModule,
     MatProgressBarModule,
+    MatListModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
     MatSelectModule,
+    MatSidenavModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatStepperModule,
     MatTabsModule,
     MatToolbarModule,
     NgAisModule.forRoot(),
-    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

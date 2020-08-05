@@ -20,6 +20,9 @@ export class RecipePageComponent {
   pageRecipe!: Recipe;
   user!: User;
   uploader: User | null;
+  signedIn: boolean = false;
+  currentRating: number = 0;
+  currentRatings: object = {};
 
   constructor(
     private db: AngularFirestore,
@@ -43,6 +46,9 @@ export class RecipePageComponent {
       .get();
     if (postRecipe && postRecipe.data()) {
       this.pageRecipe = postRecipe.data();
+      if(this.pageRecipe.ratings){
+        this.currentRatings = this.pageRecipe.ratings;
+      }
       const postUploader = await this.db
         .collection('users')
         .doc(this.pageRecipe.uploaderUid)
@@ -52,8 +58,44 @@ export class RecipePageComponent {
         this.uploader = postUploader.data();
       }
     }
+    this.fAuth.onAuthStateChanged(async user => {
+      if(user) {
+        this.signedIn = true;
+        if(this.currentRatings && this.currentRatings.hasOwnProperty(user.uid)){
+          this.currentRating = this.currentRatings[user.uid];
+        } else {
+          this.currentRating = 0;
+        }
+      } else {
+        this.signedIn = false;
+      }
+    });
+  } 
+  
+  updateRating(rating: number){
+    this.fAuth.currentUser.then(user => {
+      if(this.signedIn && user) {
+        this.currentRatings[user.uid] = rating;
+        this.db
+            .collection('recipes')
+            .doc(this.id)
+            .ref.withConverter(new RecipeConverter().recipeConverter)
+            .update({ratings: this.currentRatings, averageRating: this.getAverageRating()})
+      }
+    });
   }
+  
 
+  getAverageRating() {
+    let sum = 0;
+    for(let key of Object.keys(this.currentRatings)){
+      sum += this.currentRatings[key];
+    }
+    // round to the nearest half star just to give a little more different variation in the ratings
+    this.pageRecipe.averageRating = Math.round((sum / Object.keys(this.currentRatings).length)*2)/2;
+    return this.pageRecipe.averageRating;
+  }
+  
   async setUserData(uid: string) {
     const postUser = await this.db
       .doc('/users/' + uid + '/')
