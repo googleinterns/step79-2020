@@ -298,7 +298,7 @@ private _filter(value: string): string[] {
               ? this.extraFormGroup.value
               : '',
             Date.now(),
-            [],
+            {},
             this.categories,
             0
           ))
