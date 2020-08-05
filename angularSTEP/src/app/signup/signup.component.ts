@@ -95,7 +95,6 @@ export class SignupComponent implements OnInit {
               [],
               [],
               new Object(),
-              0,
               ""
             )
           )
