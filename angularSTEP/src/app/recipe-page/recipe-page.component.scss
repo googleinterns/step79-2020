@@ -94,3 +94,21 @@ input{
 .profile-img {
     background-size: cover;
 }
+
+.solo-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.item-button-pair {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.extra {
+  text-align: center;
+}

@@ -1,12 +1,12 @@
 
 
-<div *ngIf="recipe">
+<div *ngIf="pageRecipe">
   <div class="recipe-header">
-    <img class="recipe-pic" *ngIf='recipe.images && recipe.images.length != 0' [src]='recipe.images[0]' alt="Photo of {{ recipe.recipeName }}">
-    <img class="recipe-pic" *ngIf='recipe.images == null || recipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food">
+    <img class="recipe-pic" *ngIf='pageRecipe.images && pageRecipe.images.length != 0' [src]='pageRecipe.images[0]' alt="Photo of {{ pageRecipe.recipeName }}">
+    <img class="recipe-pic" *ngIf='pageRecipe.images == null || pageRecipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food">
     <div class="recipe-name-header">
-      <h1>{{ recipe.recipeName }}</h1>
-      <h3>{{ recipe.difficulty }}</h3>
+      <h1>{{ pageRecipe.recipeName }}</h1>
+      <h3>{{ pageRecipe.difficulty }}</h3>
     </div>
 </div>
 <mat-divider></mat-divider>
@@ -14,14 +14,14 @@
   <div class='sidenav'>
     <mat-card class='side-card'>
       <mat-card-title>Description</mat-card-title>
-      <mat-card-content><p>{{recipe.description}}</p></mat-card-content>
+      <mat-card-content><p>{{ pageRecipe.description }}</p></mat-card-content>
     </mat-card>
 
     <mat-card class='side-card'>
       <mat-card-title>Tags</mat-card-title>
       <mat-card-content>
         <mat-chip-list aria-label="Tags">
-          <mat-chip *ngFor="let tag of recipe.tags">{{ tag }}</mat-chip>
+          <mat-chip *ngFor="let tag of pageRecipe.tags">{{ tag }}</mat-chip>
         </mat-chip-list>
       </mat-card-content>
     </mat-card>
@@ -49,8 +49,14 @@
           <mat-card class='recipe-info-card'>
             <mat-card-title>Ingredients</mat-card-title>
             <mat-card-content>
-              <ul>
-                <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient }}</li>
+              <ul *ngIf="user">
+                <div *ngFor="let ingredient of pageRecipe.ingredients;" class="item-button-pair">
+                  <li>{{ ingredient }}</li>
+                  <button mat-raised-button color="primary" (click)="addItem(ingredient)">Add To Shopping List</button>
+                </div>
+              </ul>
+              <ul class="solo-list" *ngIf="!user">
+                <li *ngFor="let ingredient of pageRecipe.ingredients" class="solo-item">{{ ingredient }}</li>
               </ul>
             </mat-card-content>
           </mat-card>
@@ -59,8 +65,14 @@
           <mat-card class='recipe-info-card'>
             <mat-card-title>Tools</mat-card-title>
             <mat-card-content>
-              <ul>
-                <li *ngFor="let tool of recipe.tools">{{ tool }}</li>
+              <ul *ngIf="user">
+                <div *ngFor="let tool of pageRecipe.tools" class="item-button-pair">
+                  <li>{{ tool }}</li>
+                  <button mat-raised-button color="primary" (click)="addItem(tool)">Add To Shopping List</button>
+                </div>
+              </ul>
+              <ul *ngIf="!user" class="solo-list">
+                <li *ngFor="let tool of pageRecipe.tools" class="solo-item">{{ tool }}</li>
               </ul>
             </mat-card-content>
           </mat-card>
@@ -69,29 +81,27 @@
           <mat-card class='recipe-info-card'>
             <mat-card-title>Instructions</mat-card-title>
             <mat-card-content>
-              <ol>
-                <li *ngFor="let step of recipe.instructions">{{step}}</li>
+              <ol class="tab-content">
+                <li class="instruction-item" *ngFor="let step of pageRecipe.instructions">{{ step }}</li>
               </ol> 
             </mat-card-content>
           </mat-card> 
         </mat-tab>
-        <mat-tab *ngIf="recipe.extraInfo" label="Images">
+        <mat-tab *ngIf="pageRecipe.images && pageRecipe.images.length > 0" label="Images">
           <mat-card class='recipe-info-card'>
             <mat-card-title>Images</mat-card-title>
             <mat-card-content class='image-holder'>
-              <img class='food-image' *ngFor='let imageUrl of recipe.images' [src]='imageUrl' alt='Image of {{recipe.recipeName}}'>
+              <img class='food-image' *ngFor='let imageUrl of pageRecipe.images' [src]='imageUrl' alt='Image of {{pageRecipe.recipeName}}'>
             </mat-card-content>
           </mat-card> 
         </mat-tab>
-        <mat-tab *ngIf="recipe.extraInfo" label="Extra Information">
+        <mat-tab *ngIf="pageRecipe.extraInfo" label="Extra Information">
           <mat-card class='recipe-info-card'>
             <mat-card-title>Extra Info</mat-card-title>
-            <mat-card-content>{{ recipe.extraInfo }}</mat-card-content>
+            <mat-card-content>{{ pageRecipe.extraInfo }}</mat-card-content>
           </mat-card> 
         </mat-tab>
     </mat-tab-group> 
   </div>
 </div>
-
-  
 </div>
