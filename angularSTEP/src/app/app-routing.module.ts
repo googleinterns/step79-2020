@@ -1,5 +1,4 @@
 import {RouterModule, Routes} from '@angular/router';
-
 import {EmailComponent} from './email/email.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
@@ -13,8 +12,6 @@ import {CurrentProfilePageComponent} from './current-profile-page/current-profil
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 
-import {BranchingRecipeFormComponent} from './branching-recipe-form/branching-recipe-form.component';
-
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
                         { path: 'signup', component: SignupComponent },
@@ -26,7 +23,6 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'confirm-upload', component: ConfirmComponent},
                         { path: 'recipes', component: RecipesComponent},
                         { path: 'recipes/:id', component: RecipePageComponent },
-                        // { path: 'branch-recipe/:id', component: BranchingRecipeFormComponent },
                         { path: 'branch-recipe/:id', component: UploadRecipeComponent },
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 

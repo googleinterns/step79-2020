@@ -9,7 +9,6 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
-import {BranchingRecipeFormComponent} from './branching-recipe-form/branching-recipe-form.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
 import {EmailComponent} from './email/email.component';
@@ -72,7 +71,6 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
     MyProfileTabComponent,
     ShoppingListComponent,
     ItemDialogComponent,
-    BranchingRecipeFormComponent,
   ],
   entryComponents: [
     ItemDialogComponent,
