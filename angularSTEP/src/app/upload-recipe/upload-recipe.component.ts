@@ -309,7 +309,7 @@ private _filter(value: string): string[] {
               : '',
             Date.now(),
             [],
-            []
+            this.categories
           ))
           .then(async recipeRef => {
             //then it connects the recipe to the user signed in and adds it to their array

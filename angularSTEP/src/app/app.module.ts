@@ -42,6 +42,7 @@ import {MyProfileTabComponent} from './my-profile-tab/my-profile-tab.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NgAisModule} from 'angular-instantsearch';
 import {NgModule} from '@angular/core';
+import {ViewProfilesComponent} from './view-profiles/view-profiles.component'
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
@@ -76,6 +77,7 @@ import {UserPageComponent} from './user-page/user-page.component';
     CurrentProfilePageComponent,
     ChangeProfileImgComponent,
     MyProfileTabComponent,
+    ViewProfilesComponent,
     SearchBoxComponent,
     ShoppingListComponent,
     ItemDialogComponent,
