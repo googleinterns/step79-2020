@@ -52,14 +52,14 @@ export class DiscoverPageComponent implements OnInit {
     
   }
 
-  onSearchChanged(event) {
+  onSearchChanged(event: any) {
     this.showResults = false;
     this.router.navigate(['discover/' + this.searchOption[0].toLowerCase()]);
   }
 
-  onRecipeSortChanged(event) {}
+  onRecipeSortChanged(event: any) {}
 
-  onUserSortChanged(event) {}
+  onUserSortChanged(event: any) {}
 
   goToUser(username: string) {
     this.router.navigate(['discover/users/' + username]);
@@ -70,7 +70,7 @@ export class DiscoverPageComponent implements OnInit {
   }
 
   displayResults(noQuery: boolean) {
-    if (!noQuery) {
+    if (!noQuery && this.sortPanel) {
       this.sortPanel.close();
     }
     this.showResults = !noQuery;

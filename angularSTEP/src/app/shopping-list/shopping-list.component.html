@@ -1,0 +1,18 @@
+<div *ngIf="shoppingListMap">
+  <div *ngIf="shoppingListMapKeys">
+    <div *ngIf="shoppingListMapKeys.length !== 0">
+      <ul>
+        <div *ngFor="let key of shoppingListMapKeys" class="item-buttons-pair">
+          <li>{{key}} x {{shoppingListMap.get(key)}}</li>
+          <div class="buttons-pair">
+            <button mat-raised-button color="primary" type="button" (click)="removeItem(key)">Remove x1</button>
+            <button mat-raised-button color="primary" type="button" (click)="removeMultiple(key)">Remove Multiple</button>
+          </div>
+        </div>
+      </ul>
+    </div>
+    <div *ngIf="shoppingListMapKeys.length === 0">
+      <h3 id="empty-list">There are no items in your Shopping List!</h3>
+    </div>  
+  </div>
+</div>

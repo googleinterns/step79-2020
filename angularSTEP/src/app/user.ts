@@ -12,7 +12,6 @@ export class User {
     public recipes: Array<string>,
     public wishlist: Array<string>,
     public shoppingList: object,
-    public numRecipes: number,
     public aboutme: string
   ) {
     this.username = username;
@@ -25,7 +24,6 @@ export class User {
     this.recipes = recipes;
     this.wishlist = wishlist;
     this.shoppingList = shoppingList;
-    this.numRecipes = numRecipes;
     this.aboutme = aboutme;
   }
 }

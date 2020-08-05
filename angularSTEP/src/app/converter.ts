@@ -19,7 +19,6 @@ export class Converter {
         wishlist: user.wishlist,
         shoppingList: user.shoppingList,
         following: user.following,
-        numRecipes: user.numRecipes,
         aboutme: user.aboutme
       };
     },
@@ -39,7 +38,6 @@ export class Converter {
         data.recipes,
         data.wishlist,
         data.shoppingList,
-        data.numRecipes,
         data.aboutme
       );
     },
