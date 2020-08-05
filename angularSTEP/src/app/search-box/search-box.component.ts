@@ -1,4 +1,4 @@
-import {Component, Inject, forwardRef, Input} from '@angular/core';
+import {Component, Inject, forwardRef, Input, Output, EventEmitter} from '@angular/core';
 import {BaseWidget, NgAisInstantSearch} from 'angular-instantsearch';
 import {connectSearchBox} from 'instantsearch.js/es/connectors';
 
@@ -21,6 +21,7 @@ export class SearchBoxComponent extends BaseWidget {
   loading = false;
 
   @Input() delay = 0;
+  @Output() noQuery = new EventEmitter<boolean>();
 
   constructor(
     @Inject(forwardRef(() => NgAisInstantSearch))
@@ -37,12 +38,18 @@ export class SearchBoxComponent extends BaseWidget {
   }
 
   public onChangeDebounced(value) {
-    if (this.timerId) clearTimeout(this.timerId);
-    this.loading = true;
-    this.timerId = setTimeout(() => {
-      this.loading = false;
-      this.state.refine(value);
-    }, this.delay);
+    if (!value) {
+      this.noQuery.emit(true);
+    } else {
+      if (this.timerId) clearTimeout(this.timerId);
+      this.loading = true;
+      this.timerId = setTimeout(() => {
+        this.loading = false;
+        this.state.refine(value);
+      }, this.delay);
+      this.noQuery.emit(false);
+    }
+  
   }
 
   clearSearchField() {

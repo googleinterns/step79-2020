@@ -33,6 +33,7 @@
     "@types/algoliasearch-helper": "^2.26.1",
     "@types/googlemaps": "^3.39.9",
     "@types/jasmine": "^3.5.11",
+    "@types/uuid": "^8.0.0",
     "@types/karma": "^5.0.0",
     "algoliasearch": "^3.35.1",
     "angular-instantsearch": "^3.0.0-beta.5",
@@ -43,6 +44,7 @@
     "mocha": "^8.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "uuid": "^8.2.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

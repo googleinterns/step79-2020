@@ -12,6 +12,9 @@ import {ConfirmComponent} from './confirm/confirm.component';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
+import {DiscoverPageComponent} from './discover-page/discover-page.component';
+
+
 
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
@@ -23,6 +26,9 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'upload-recipe', component: UploadRecipeComponent},
                         { path: 'confirm-upload', component: ConfirmComponent},
                         { path: 'recipes', component: RecipesComponent},
+                        { path: 'recipes/:id', redirectTo: 'recipe/:id'}, 
+                        { path: 'recipe/:id', component: RecipePageComponent},
+                        { path: 'discover', component: DiscoverPageComponent},
                         { path: 'recipes/:id', component: RecipePageComponent },
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
