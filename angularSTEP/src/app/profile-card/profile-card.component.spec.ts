@@ -30,5 +30,7 @@ describe('ProfileCardComponent', () => {
 
     it('should be a string', () =>{
         expect(component.displayName).toBeInstanceOf(String);
+        expect(component.picUrl).toBeInstanceOf(String);
+        expect(component.username).toBeInstanceOf(String);
     });
 });
