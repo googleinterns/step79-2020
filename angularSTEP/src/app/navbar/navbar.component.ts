@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
@@ -9,14 +10,12 @@ import {Router} from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   constructor(private router: Router) {}
-
-  public searchParameters = {
-    query: ''
-  };
-
-  public setQuery({ query }: { query: string }) {
-    this.searchParameters.query = query;
-    this.router.navigate(['/discover/recipes'], { queryParams: { q: this.searchParameters.query } })
+  
+  public handleChange($event: KeyboardEvent) {
+    if($event.key === 'Enter'){
+      this.router.navigate(['/discover/recipes'], { queryParams: { q : ($event.target as HTMLInputElement).value}});
+      ($event.target as HTMLInputElement).value= '';
+    }
   }
   
   ngOnInit() {}

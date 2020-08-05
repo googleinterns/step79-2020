@@ -17,8 +17,8 @@ const searchClient = algoliasearch(
 export class DiscoverPageComponent implements OnInit {
   query: string = '';
 
-  configUsers = {};
-  configRecipes = {}
+  configUsers: object;
+  configRecipes: object;
 
   @ViewChild('recipePanel') sortPanel: MatExpansionPanel;
 
@@ -26,7 +26,7 @@ export class DiscoverPageComponent implements OnInit {
   typesOfRecipeSorts = ['Time Created', 'Number of Ingredients', 'Rating'];
   typesOfUserSorts = ['Time Created', 'Number of Recipes', 'Name'];
 
-  showResults = false;
+  showResults: boolean = false;
   isChecked: boolean = false;
 
   searchOption: string[] = ['Recipes'];
@@ -43,30 +43,31 @@ export class DiscoverPageComponent implements OnInit {
       } else if (type == 'users') {
         this.searchOption = ['Users'];
       }
-      this.query = params.get('q');
     })
-    this.configUsers = {
-      indexName: 'user_search',
-      searchClient
-    };
-    if(this.query){
-      this.searchOption = ['Recipes'];
-      this.configRecipes = {
-        indexName: 'recipe_search',
-        searchClient,
-        searchParameters: {
-          query: this.query
-        }
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.query = params['q'] ? params['q'] : '';
+      this.configUsers = {
+        indexName: 'user_search',
+        searchClient
       };
-    } else {
-      this.configRecipes = {
-        indexName: 'recipe_search',
-        searchClient,
-        searchParameters: {
-          query: this.query
-        }
-      };
-    }
+      if(this.query){
+        this.searchOption = ['Recipes'];
+        this.configRecipes = {
+          indexName: 'recipe_search',
+          searchClient,
+          searchParameters: {
+            query: this.query
+          }
+        };
+        this.showResults = true;
+      } else {
+        this.configRecipes = {
+          indexName: 'recipe_search',
+          searchClient
+        };
+        this.showResults = false;
+      }
+    })
   }
 
   onSearchChanged(event: any) {
@@ -91,11 +92,5 @@ export class DiscoverPageComponent implements OnInit {
       this.sortPanel.close();
     }
     this.showResults = !noQuery;
-  }
-  
-  ngAfterViewInit(): void {
-    if (this.showResults) {
-      this.sortPanel.close();
-    }
   }
 }

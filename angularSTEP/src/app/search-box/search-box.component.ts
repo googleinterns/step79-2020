@@ -43,7 +43,6 @@ export class SearchBoxComponent extends BaseWidget {
       searchAsYouType: false
     });
     super.ngOnInit();
-    this.noQuery.emit(false);
     this.refineInit = true;
   }
 

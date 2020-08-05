@@ -5,9 +5,11 @@
     <button routerLink="/discover" mat-button>Discover</button>
     <button routerLink="/upload-recipe" mat-button>Upload Recipe</button>
 
-    <ais-instantsearch [config]="config">
-        <app-autocomplete (onQuerySuggestionClick)="setQuery($event)"></app-autocomplete>
-    </ais-instantsearch>
-
+    <input
+        placeholder="Search"
+        class="search-input"
+        #queryInput
+        (keyup)="handleChange($event)"/>
+    <span class="example-spacer"></span>
     <app-profile-menu></app-profile-menu>
 </mat-toolbar>

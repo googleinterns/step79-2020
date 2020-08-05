@@ -9,7 +9,6 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img.component';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
@@ -60,7 +59,6 @@ import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
-import {AutocompleteComponent} from './autocomplete/autocomplete.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
 
 
@@ -68,7 +66,6 @@ import {UserPageComponent} from './user-page/user-page.component';
   declarations: [
     AppComponent,
     NavbarComponent,
-    AutoCompleteComponent,
     ProfileMenuComponent,
     LoginComponent,
     EmailComponent,
@@ -89,7 +86,6 @@ import {UserPageComponent} from './user-page/user-page.component';
     SearchBoxComponent,
     DiscoverPageComponent,
     DiscoverDisplayComponent,
-    AutocompleteComponent,
     ShoppingListComponent,
     ItemDialogComponent,
   ],
