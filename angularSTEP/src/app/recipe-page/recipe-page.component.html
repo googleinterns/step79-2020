@@ -2,9 +2,8 @@
   <h2>{{pageRecipe.recipeName}}</h2>
   <h3>{{pageRecipe.difficulty}}</h3>
   <p>{{pageRecipe.description}}</p>
-  
+  <app-star-rating *ngIf='signedIn' (newRating)='updateRating($event)' [currentRating]='currentRating'></app-star-rating>
   <br><br>
-
   <mat-tab-group>
       <mat-tab label="Ingredients">
         <ul *ngIf="user">

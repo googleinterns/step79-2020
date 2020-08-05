@@ -59,6 +59,7 @@ import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
 import {UserPageComponent} from './user-page/user-page.component'; 
+import {StarRatingComponent} from './star-rating/star-rating.component'; 
 
 
 @NgModule({
@@ -84,6 +85,8 @@ import {UserPageComponent} from './user-page/user-page.component';
     CurrentProfileTabComponent,
     ViewProfilesComponent,
     SearchBoxComponent,
+    ChangeProfileImgComponent,
+    StarRatingComponent,
     DiscoverPageComponent,
     ShoppingListComponent,
     ItemDialogComponent,
@@ -129,7 +132,6 @@ import {UserPageComponent} from './user-page/user-page.component';
     MatTabsModule,
     MatToolbarModule,
     NgAisModule.forRoot(),
-    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

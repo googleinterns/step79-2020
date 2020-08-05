@@ -10,8 +10,9 @@ export class Recipe {
     public instructions: string[],
     public extraInfo: string,
     public timestamp: number,
-    public ratings: number[],
+    public ratings: Object,
     public tags: string[],
+    public averageRating: number
   ) {
     this.recipeName = recipeName;
     this.uploaderUid = uploaderUid;
@@ -25,5 +26,6 @@ export class Recipe {
     this.timestamp = timestamp;
     this.ratings = ratings;
     this.tags = tags;
+    this.averageRating = averageRating;
   }
 }
