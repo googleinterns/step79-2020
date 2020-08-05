@@ -1,6 +1,6 @@
 
 <mat-card class='widget-container'>
-  <mat-card-title>About Me <mat-icon aria-label="Edit icon" (click)='editValue("aboutme")'>edit</mat-icon></mat-card-title>
+  <mat-card-title>About Me <mat-icon aria-label="Edit icon" (click)='editValue()'>edit</mat-icon></mat-card-title>
   <div class='info-container'>
     <h3 *ngIf='!aboutMeForm'>{{ userData.aboutme }}</h3>
     <form *ngIf='aboutMeForm' (submit)="onSubmit()">
@@ -19,17 +19,13 @@
   </div>
 </mat-card>
 
-
-
-
-<!-- <mat-divider></mat-divider> -->
 <mat-card class='widget-container'>
   <mat-card-title>My Recipes</mat-card-title>
   <div class='info-container'>
     <app-recipe-card *ngFor="let recipe of myRecipes" (click)='goToRecipe(recipe.id)' [recipe]='recipe'></app-recipe-card>
   </div>
 </mat-card>
-<!-- <mat-divider></mat-divider> -->
+
 <mat-card class='widget-container'>
   <mat-card-title>Following</mat-card-title>
   <div class='info-container'>

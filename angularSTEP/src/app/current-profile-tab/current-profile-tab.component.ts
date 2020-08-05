@@ -26,16 +26,11 @@ export class CurrentProfileTabComponent implements OnInit {
     this.getRecipes();
   }
 
-  editValue(form: string) {
-    switch (form) {
-      case 'aboutme': {
-        this.aboutMeForm = new FormControl(this.userData.aboutme);
-        break;
-      }
-    }
+  editValue() {
+    this.aboutMeForm = new FormControl(this.userData.aboutme);
   }
 
-  cancelForm(form: string) {
+  cancelForm() {
     this.aboutMeForm = null;
   }
 
