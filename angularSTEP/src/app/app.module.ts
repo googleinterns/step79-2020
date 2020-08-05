@@ -55,12 +55,12 @@ import {SearchBoxComponent} from './search-box/search-box.component';
 import {SetupComponent} from './setup/setup.component';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {UserPageComponent} from './user-page/user-page.component';
+import { WishlistComponent } from './wishlist/wishlist.component'; 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {DiscoverPageComponent} from './discover-page/discover-page.component';
-import {UserPageComponent} from './user-page/user-page.component'; 
+import {DiscoverPageComponent} from './discover-page/discover-page.component'; 
 import {StarRatingComponent} from './star-rating/star-rating.component'; 
-
 
 @NgModule({
   declarations: [
@@ -86,10 +86,13 @@ import {StarRatingComponent} from './star-rating/star-rating.component';
     ViewProfilesComponent,
     SearchBoxComponent,
     ChangeProfileImgComponent,
+    CurrentProfileTabComponent,
+    ChangeProfileImgComponent,
     StarRatingComponent,
     DiscoverPageComponent,
     ShoppingListComponent,
     ItemDialogComponent,
+    WishlistComponent,
   ],
   entryComponents: [
     ItemDialogComponent,

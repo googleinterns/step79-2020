@@ -1,6 +1,15 @@
 
 
 <div *ngIf="pageRecipe">
+
+  <h2>{{pageRecipe.recipeName}}</h2>
+  <h3>{{pageRecipe.difficulty}}</h3>
+  <p>{{pageRecipe.description}}</p>
+  <button *ngIf='!inWishlist && loggedIn' (click)='addToWishlist()' mat-button color="primary">Add to Wishlist<mat-icon>check</mat-icon></button>
+  <button *ngIf='inWishlist && loggedIn' (click)='subtractFromWishlist()' mat-button color="primary">Remove from Wishlist<mat-icon>check</mat-icon></button>
+  
+  <br><br>
+
   <div class="recipe-header">
     <img class="recipe-pic" *ngIf='pageRecipe.images && pageRecipe.images.length != 0' [src]='pageRecipe.images[0]' alt="Photo of {{ pageRecipe.recipeName }}">
     <img class="recipe-pic" *ngIf='pageRecipe.images == null || pageRecipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food">
