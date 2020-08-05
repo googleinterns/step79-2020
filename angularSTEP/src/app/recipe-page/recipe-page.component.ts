@@ -19,24 +19,32 @@ export class RecipePageComponent {
   id: string | null = this.route.snapshot.paramMap.get('recipeid');
   pageRecipe!: Recipe;
   user!: User;
+  loggedIn = false;
+  inWishlist = false;
+
   uploader: User | null;
   signedIn: boolean = false;
   currentRating: number = 0;
   currentRatings: object = {};
 
+
   constructor(
     private db: AngularFirestore,
     private router: Router,
-    private zone: NgZone,
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private zone: NgZone
   ) {
     this.setRecipeData();
     this.fAuth.currentUser.then(user => {
       if (user) {
+        this.loggedIn = true;
         this.setUserData(user.uid);
+      }
+      else{
+        this.loggedIn = false;
       }
     });
   }
@@ -105,8 +113,10 @@ export class RecipePageComponent {
       .get();
     if (postUser.data()) {
       this.user = postUser.data()!;
-    }
-  }
+      this.inWishlist = this.isRecipeInWishlist();
+    } 
+
+ }
 
   objToMap(obj: any): Map<string, number> {
     const mp = new Map();
@@ -187,9 +197,57 @@ export class RecipePageComponent {
     });
   }
 
+  isRecipeInWishlist() {
+    if (this.user && this.loggedIn && this.id) {
+      return this.user.wishlist.indexOf(this.id) > -1;
+    }
+    return false;
+  }
+
+  setWishlist(addItem: boolean){
+    if(this.loggedIn){
+      if(addItem){
+        this.user.wishlist.push(this.id);
+      }
+      else{
+        const index = this.user.wishlist.indexOf(this.id);
+        if(index > -1){
+          this.user.wishlist.splice(index,1);
+        }
+      }
+      this.fAuth.currentUser.then(user => {
+        if (user) {
+          this.db
+            .collection('users')
+            .doc(user.uid)
+            .ref.withConverter(new Converter().userConverter)
+            .update({wishlist: this.user.wishlist})
+            .then(() => {
+                this.inWishlist = addItem;
+            });
+        }
+      });
+
+    }
+  }
+
+  addToWishlist(){
+    this.zone.run(() => {
+      this.setWishlist(true);
+    })
+  }
+
+  subtractFromWishlist(){
+    this.zone.run(() => {
+      this.setWishlist(false);
+    })
+  }
+
   goToUser(username: string) {
     this.zone.run(() => {
       this.router.navigate(['discover/users/', username]);
     })
   }
+
 }
+
