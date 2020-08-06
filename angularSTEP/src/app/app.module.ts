@@ -55,7 +55,6 @@ import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
 import {DiscoverDisplayComponent} from './discover-display/discover-display.component';
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component'; 
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
@@ -82,7 +81,6 @@ import {UserPageComponent} from './user-page/user-page.component';
     CurrentProfilePageComponent,
     ChangeProfileImgComponent,
     CurrentProfileTabComponent,
-    ViewProfilesComponent,
     SearchBoxComponent,
     DiscoverPageComponent,
     DiscoverDisplayComponent,
