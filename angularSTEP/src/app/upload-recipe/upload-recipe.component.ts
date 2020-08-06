@@ -368,7 +368,9 @@ export class UploadRecipeComponent{
       &&  this.extraFormGroup.controls.extraInfo.value === this.baseRecipe.extraInfo
     ) {
       this.changed = false;
+      console.log("first");
     } else {
+      console.log("second");
       this.changed = true;
 
       this.fAuth.currentUser.then(async user => {

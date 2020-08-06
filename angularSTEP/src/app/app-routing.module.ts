@@ -26,7 +26,6 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'recipe', redirectTo: 'discover/recipes'},
                         { path: 'users', redirectTo: 'discover/users'}, 
                         { path: 'user', redirectTo: 'discover/user'},
-                        { path: 'discover/recipes/:recipeid', redirectTo: 'branch-recipe/:id'}
                         { path: 'branch-recipe/:id', component: UploadRecipeComponent},
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
