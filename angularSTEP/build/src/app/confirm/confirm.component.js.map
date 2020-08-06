@@ -1,1 +1,0 @@
-{"version":3,"file":"confirm.component.js","sourceRoot":"","sources":["../../../../src/app/confirm/confirm.component.ts"],"names":[],"mappings":";;;;;;;;AAAA,wCAAwC;AAQxC,IAAa,gBAAgB,GAA7B,MAAa,gBAAgB;CAE5B,CAAA;AAFY,gBAAgB;IAL5B,gBAAS,CAAC;QACT,QAAQ,EAAE,aAAa;QACvB,WAAW,EAAE,0BAA0B;QACvC,SAAS,EAAE,CAAC,0BAA0B,CAAC;KACxC,CAAC;GACW,gBAAgB,CAE5B;AAFY,4CAAgB"}
