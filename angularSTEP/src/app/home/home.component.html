@@ -21,11 +21,11 @@ limitations under the License. -->
         <mat-card-subtitle>Three reciPEAS in a STEP Pod</mat-card-subtitle>
         <mat-divider></mat-divider><br>
         <mat-card-content><h3><b>Basil</b> is a cooking recipe website that allows cooks to find homemade/existing recipes and 
-            get the ingredients they need to make homemade meals in an easy to navigate flow without the exesive blog information! ALL while being sheltered in place! <br/>
+            get the ingredients they need to make homemade meals in an easy to navigate flow without the excesive blog information! ALL while being sheltered in place! <br/>
             </h3>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-stroked-button color="primary" routerLink="/discover">Find Recipes!</button>
+            <button mat-stroked-button color="primary" routerLink="/discover/recipes">Find Recipes!</button>
             <button mat-stroked-button color="accent" routerLink="/upload-recipe">Upload your own recipe!</button>
         </mat-card-actions>
    
@@ -36,7 +36,7 @@ limitations under the License. -->
     <div class="content-container">
         <div class="widget-header">
             <h1>Top Recipes</h1>
-            <a>See More</a><br>
+            <a routerLink='/discover/recipes' [queryParams]="{sort: 'rating'}">See More</a><br>
         </div>
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>
@@ -46,7 +46,7 @@ limitations under the License. -->
         </mat-card>
         <div class="widget-header">
             <h1>Newest Recipes</h1>
-            <a>See More</a><br>
+            <a routerLink='/discover/recipes' [queryParams]="{sort: 'timestamp'}">See More</a><br>
         </div>
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>
@@ -56,7 +56,7 @@ limitations under the License. -->
         </mat-card>
         <div class="widget-header">
             <h1>Users</h1>
-            <a>See More</a><br>
+            <a routerLink='/discover/users' [queryParams]="{sort: 'timestamp'}">See More</a><br>
         </div>
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>

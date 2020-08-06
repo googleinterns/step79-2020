@@ -18,6 +18,7 @@ import {environment} from '../../environments/environment';
 import {MatExpansionPanel} from '@angular/material/expansion';
 
 import {Router, ActivatedRoute} from '@angular/router';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -40,53 +41,105 @@ export class DiscoverPageComponent implements OnInit {
   };
 
   @ViewChild('recipePanel') sortPanel: MatExpansionPanel;
+  @ViewChild('tagPanel') tagPanel: MatExpansionPanel;
+
+  tagSearch: FormGroup;
 
   typesOfSearch = ['Recipes', 'Users'];
-  typesOfRecipeSorts = ['Time Created', 'Number of Ingredients', 'Rating'];
-  typesOfUserSorts = ['Time Created', 'Number of Recipes', 'Name'];
+  typesOfRecipeSorts = ['Time Created', 'Rating', 'Name'];
+  typesOfUserSorts = ['Time Created', 'Name'];
+
+  tagQuery = '';
 
   showResults = false;
-  isChecked: boolean = false;
+  isChecked = false;
 
   searchOption: string[] = ['Recipes'];
   recipeOption: string[] = ['Time Created'];
   userOption: string[] = ['Time Created'];
 
-  constructor(private router: Router, private zone: NgZone, private activatedRoute: ActivatedRoute) {}
-  
-  ngOnInit(){
+  constructor(
+    private router: Router,
+    private zone: NgZone,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {
+    this.tagSearch = this.fb.group({
+      query: [''],
+    });
+  }
+
+  ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
-      const type = params.get('type')
-      if(type == 'recipes'){
+      const type = params.get('type');
+      if (type === 'recipes') {
         this.searchOption = ['Recipes'];
-      } else if (type == 'users') {
+        const sort = this.activatedRoute.snapshot.queryParamMap.get("sort");
+        console.log(sort);
+        if (sort === 'rating') {
+          this.recipeOption = ['Rating'];
+        } else if (sort === 'timestamp') {
+          this.recipeOption = ['Time Created'];
+        } else if (sort === 'name') {
+          this.recipeOption = ['Name'];
+        } 
+      } else if (type === 'users') {
         this.searchOption = ['Users'];
+        const sort = this.activatedRoute.snapshot.queryParamMap.get("sort");
+        if (sort === 'timestamp') {
+          this.recipeOption = ['Time Created'];
+        } else if (sort === 'name') {
+          this.recipeOption = ['Name'];
+        } 
       }
-    })
-    
+    });
   }
 
   onSearchChanged(event: any) {
     this.showResults = false;
-    this.router.navigate(['discover/', this.searchOption[0].toLowerCase()]);
+    this.router.navigate(['discover/' + this.searchOption[0].toLowerCase()]);
+    this.tagQuery = '';
+    this.tagSearch.controls.query.setValue('');
   }
 
-  onRecipeSortChanged(event: any) {}
+  onRecipeSortChanged(event) {
+    this.tagQuery = '';
+    this.tagSearch.controls.query.setValue('');
+  }
 
-  onUserSortChanged(event: any) {}
+  onUserSortChanged(event) {
+    this.tagQuery = '';
+    this.tagSearch.controls.query.setValue('');
+  }
 
   goToUser(username: string) {
-    this.router.navigate(['discover/users/', username]);
+    console.log(username);
+    this.router.navigate(['discover/users/' + username]);
   }
 
   goToRecipe(id: string) {
+    this.tagQuery = '';
+    this.tagSearch.controls.query.setValue('');
     this.router.navigate(['/recipes', id]);
   }
 
   displayResults(noQuery: boolean) {
     if (!noQuery && this.sortPanel) {
       this.sortPanel.close();
+      if(this.searchOption === ['Recipes']){
+        this.tagPanel.close();
+      }
     }
     this.showResults = !noQuery;
+  }
+
+  checkEmpty(){
+    if(this.tagSearch.controls.query.value === ''){
+      this.tagQuery = '';
+    }
+  }
+
+  getTags() {
+    this.tagQuery = this.tagSearch.controls.query.value;
   }
 }
