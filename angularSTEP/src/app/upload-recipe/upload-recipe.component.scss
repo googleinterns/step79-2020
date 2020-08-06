@@ -44,16 +44,21 @@
   margin-top: 1%;
 }
 
+.example-chip-list {
+  width: 100%;
+}
 img{
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   background-size: cover;
+  margin: 10px;
 }
 
 .form-container{
   text-align: center;
-  width: 300px;
+  margin: 20px auto;
+  width: 400px;
 }
 
 #upload-photo {
@@ -76,6 +81,7 @@ img{
 
 .images-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -86,4 +92,17 @@ img{
   justify-content: center;
   align-items: center;
   font-size: 30px;
+}
+
+.uploading-card {
+  width: 250px;
+  display: flex;
+  justify-content: center;
+}
+
+.card-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
 }

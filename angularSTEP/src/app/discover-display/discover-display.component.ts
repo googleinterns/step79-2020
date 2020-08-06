@@ -80,7 +80,7 @@ export class DiscoverDisplayComponent implements OnInit {
           break;
         }
         case 'Rating': {
-          this.getDocs('recipes', 'averageRating', this.direction ? 'desc' : 'asc');
+          this.getDocs('recipes', 'averageRating', this.direction ? 'asc' : 'desc');
           break;
         }
         case 'Name': {
@@ -94,7 +94,7 @@ export class DiscoverDisplayComponent implements OnInit {
   getUsers() {
     switch (this.sortType) {
       case 'Time Created': {
-        this.getDocs('users', 'timestamp', this.direction ? 'asc' : 'desc');
+        this.getDocs('users', 'time', this.direction ? 'asc' : 'desc');
         break;
       }
       case 'Name': {
@@ -129,13 +129,12 @@ export class DiscoverDisplayComponent implements OnInit {
   }
 
   goToUser(username: string) {
-    console.log(username)
-    this.router.navigate(['discover/users/' + username]);
+    this.router.navigate(['discover/users/', username]);
   }
 
   goToRecipe(id: string) {
-    if(id){
-      this.router.navigate(['discover/recipes', id]);
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
     }
   }
 }

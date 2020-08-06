@@ -1,7 +1,7 @@
-<div class="stepper-container">
+<div class="stepper-container" *ngIf='loggedIn && !uploading'>
 <mat-horizontal-stepper linear>
   <mat-step [stepControl]="basicsFormGroup">
-    <form [formGroup]="basicsFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
+    <form [formGroup]="basicsFormGroup" class="form-formatting">
       <ng-template matStepLabel>Recipe Basics</ng-template>
         <mat-form-field>
           <mat-label>Recipe Name</mat-label>
@@ -32,6 +32,35 @@
           <mat-error>This is required.</mat-error>
         </mat-form-field>
         <h5 class="other-error" *ngIf="basicsFormGroup.controls.description.value.trim() === '' && basicsFormGroup.controls.description.touched && basicsFormGroup.controls.description.valid">Please enter a valid description.</h5>
+
+        <br><br>
+        
+        <mat-form-field class="example-chip-list">
+          <mat-chip-list #chipList aria-label="Category selection">
+            <mat-chip
+              *ngFor="let category of categories"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(category)">
+              {{category}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="New category..."
+              #categoryInput
+              [formControl]="categoryCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let category of filteredCategories | async" [value]="catagory">
+              {{category}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
         <div id="solo-next-button">
           <button mat-raised-button color="primary" matStepperNext [disabled]="!basicsFormGroup.valid || basicsFormGroup.controls.name.value.trim() === '' || basicsFormGroup.controls.description.value.trim() === ''" type="button">Next</button>
         </div>
@@ -39,7 +68,7 @@
   </mat-step>
 
   <mat-step [stepControl]="ingredientsFormGroup">
-    <form [formGroup]="ingredientsFormGroup" (ngSubmit)="onSubmit()" class="form-array-formatting">
+    <form [formGroup]="ingredientsFormGroup" class="form-array-formatting">
       <ng-template matStepLabel required>Ingredients</ng-template>
       <div formArrayName="ingredientsArray">
         <div *ngFor="let ingred of ingredientsArray.controls; let i=index" class="array-item">
@@ -62,7 +91,7 @@
   </mat-step>
 
   <mat-step [stepControl]="toolsFormGroup">
-    <form [formGroup]="toolsFormGroup" (ngSubmit)="onSubmit()" class ="form-array-formatting">
+    <form [formGroup]="toolsFormGroup" class ="form-array-formatting">
       <ng-template matStepLabel>Tools</ng-template>
       <div formArrayName="toolsArray">
         <div *ngFor="let tool of toolsArray.controls; let i=index" class="array-item">
@@ -85,7 +114,7 @@
   </mat-step>
 
   <mat-step [stepControl]="instructionsFormGroup">
-    <form [formGroup]="instructionsFormGroup" (ngSubmit)="onSubmit()" class ="form-array-formatting">
+    <form [formGroup]="instructionsFormGroup" class ="form-array-formatting">
       <ng-template matStepLabel>Instructions</ng-template>
       <div formArrayName="instructionsArray">
         <div *ngFor="let instruction of instructionsArray.controls; let i=index" class="array-item">
@@ -135,7 +164,7 @@
   </mat-step>
 
   <mat-step [stepControl]="extraFormGroup" [optional]="true">
-    <form [formGroup]="extraFormGroup" (ngSubmit)="onSubmit()" class ="form-formatting">
+    <form [formGroup]="extraFormGroup" (ngSubmit)="onFileSubmit()" class="form-formatting">
       <ng-template matStepLabel>Extra Information</ng-template>
       <mat-form-field>
         <mat-label>Extra Information</mat-label>
@@ -146,7 +175,18 @@
         <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
         <button mat-raised-button color="primary" type="submit">Upload Recipe</button>
       </div>
-    </form> 
+    </form>
   </mat-step>
 </mat-horizontal-stepper>
 </div>
+
+<!-- this card gets displayed if image is uploading -->
+<div class="card-container" *ngIf='uploading'>
+  <mat-card class='uploading-card'>
+    <mat-card-content>
+      <h1>Uploading...</h1>
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>
+<button mat-button routerLink="/login" *ngIf="!loggedIn">Sign In</button>

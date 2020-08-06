@@ -39,7 +39,7 @@ export class SearchBoxComponent extends BaseWidget {
   }
 
   public onChangeDebounced(value) {
-    if(!value){
+    if (!value) {
       this.noQuery.emit(true);
     } else {
       if (this.timerId) clearTimeout(this.timerId);

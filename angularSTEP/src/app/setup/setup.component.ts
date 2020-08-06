@@ -52,7 +52,6 @@ export class SetupComponent implements OnInit {
               [],
               [],
               new Object(),
-              0,
               ""
             )
           )
