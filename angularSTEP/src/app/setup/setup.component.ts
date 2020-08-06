@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -27,7 +27,7 @@ export class SetupComponent implements OnInit {
     private afs: AngularFirestore
   ) {
     this.usernameForm = this.fb.group({
-      username: [null, [Validators.required, Validators.minLength(3)]],
+      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(12), noSpaces]],
     });
   }
 
@@ -35,14 +35,14 @@ export class SetupComponent implements OnInit {
   ngOnInit() {}
 
   //creates and adds a user to Firestore
-  addUser(dName: string, email: string, uid: string) {
+  addUser(dName: string, email: string, uid: string, username: string) {
     return this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
           .set(
             new User(
-              this.usernameForm.value.username,
+              username,
               uid,
               dName,
               email,
@@ -58,9 +58,9 @@ export class SetupComponent implements OnInit {
           .then(() => {
             this.afs
             .collection('usernames')
-            .doc(this.usernameForm.value.username)
+            .doc(username)
             .ref.withConverter(new Converter().usernameConverter)
-            .set(new Username(this.usernameForm.value.username, uid))
+            .set(new Username(username, uid))
             .then(() => {
               this.router.navigate(['/home']);
           });
@@ -70,17 +70,18 @@ export class SetupComponent implements OnInit {
   //when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
   //creates a user and updates the "displayName" of the user authentication to the username
   onSubmit() {
+    const username = this.formatUsername(this.usernameForm.value.username);
     if (!this.usernameForm.valid) {
       this.error = 'Please make sure the form is filled out correctly';
     } else {
       this.afs
-        .doc('/usernames/' + this.usernameForm.value.username + '/')
+        .doc('/usernames/' + username + '/')
         .ref.get()
         .then(doc => {
           if (doc.exists) {
             this.error =
               'Username ' +
-              this.usernameForm.value.username +
+              username +
               ' already taken.';
           } else {
             this.fAuth.currentUser.then(user => {
@@ -91,7 +92,7 @@ export class SetupComponent implements OnInit {
                 const email = user.email !== null ? user.email : '';
                 this.picUrl = user.photoURL !== null ? user.photoURL : '';
                 user;
-                this.addUser(dName, email, user.uid);
+                this.addUser(dName, email, user.uid, username);
               }
             });
           }
@@ -106,4 +107,21 @@ export class SetupComponent implements OnInit {
         });
     }
   }
+
+  formatUsername(username: string) {
+    const formattedUsername = username.replace(" ", "");
+    if(formattedUsername.length > 12) {
+      formattedUsername.slice(0, 12);
+    }
+    return formattedUsername.toLowerCase();
+  }
+}
+
+
+function noSpaces(control: FormControl){
+  const username = control.value;
+  if (username.indexOf(' ') > -1){
+    return {spaces: true}
+  }
+  return null;
 }

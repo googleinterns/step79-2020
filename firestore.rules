@@ -21,7 +21,7 @@ service cloud.firestore {
       request.resource.data.email is string &&
       request.resource.data.uid is string &&
       request.resource.data.displayName.size() < 50 &&
-      request.resource.data.username.size() < 20 &&
+      request.resource.data.username.size() < 13 &&
       request.resource.data.username.size() > 2 &&
       request.resource.data.email.size() < 254 &&
       request.resource.data.email.size() > 0 &&

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -25,9 +25,9 @@ export class SignupComponent implements OnInit {
     private afs: AngularFirestore
   ) {
     this.signUpForm = this.fb.group({
-      displayName: [null, [Validators.required]],
-      username: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email]],
+      displayName: [null, [Validators.required, Validators.maxLength(50)]],
+      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(12), noSpaces]],
+      email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
       password: [null, [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -42,13 +42,14 @@ export class SignupComponent implements OnInit {
     if (!this.signUpForm.valid) {
       this.error = 'Please make sure the form is filled out correctly';
     } else {
+      const username = this.formatUsername(this.signUpForm.value.username);
       this.afs
-        .doc('/usernames/' + this.signUpForm.value.username + '/')
+        .doc('/usernames/' + username + '/')
         .ref.get()
         .then(doc => {
           if (doc.exists) {
             this.error =
-              'Username ' + this.signUpForm.value.username + ' already taken.';
+              'Username ' + username + ' already taken.';
           } else {
             this.fAuth
               .createUserWithEmailAndPassword(
@@ -61,7 +62,7 @@ export class SignupComponent implements OnInit {
                     success.user.photoURL !== null
                       ? success.user.photoURL
                       : 'assets/images/blank-profile.png';
-                  this.addUser(success.user.uid);
+                  this.addUser(success.user.uid, username);
                 }
               })
               .catch(() => {
@@ -78,14 +79,14 @@ export class SignupComponent implements OnInit {
   }
 
   //creates the user and adds it to Firestore
-  addUser(uid: string) {
+  addUser(uid: string, username: string) {
     return this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
           .set(
             new User(
-              this.signUpForm.value.username,
+              username,
               uid,
               this.signUpForm.value.displayName,
               this.signUpForm.value.email,
@@ -101,9 +102,9 @@ export class SignupComponent implements OnInit {
           .then(() => {
             this.afs
             .collection('usernames')
-            .doc(this.signUpForm.value.username)
+            .doc(username)
             .ref.withConverter(new Converter().usernameConverter)
-            .set(new Username(this.signUpForm.value.username, uid))
+            .set(new Username(username, uid))
             .then(() => {
               this.router.navigate(['/home']);
           });
@@ -113,4 +114,23 @@ export class SignupComponent implements OnInit {
   goBack() {
     this.router.navigate(['/login']);
   }
+
+  // formats the username to take out spaces just in case and
+  //makes username lowercase
+  formatUsername(username: string) {
+    const formattedUsername = username.replace(" ", "");
+    if(formattedUsername.length > 12) {
+      formattedUsername.slice(0, 12);
+    }
+    return formattedUsername.toLowerCase();
+  }
+}
+
+//makes sure there are no spaces in the username
+function noSpaces(control: FormControl){
+  const username = control.value;
+  if (username && username.indexOf(' ') > -1){
+    return {spaces: true}
+  }
+  return null;
 }

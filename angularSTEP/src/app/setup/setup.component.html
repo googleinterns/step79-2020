@@ -9,6 +9,8 @@
           <mat-error *ngIf="usernameForm.controls.username.invalid">
             <span *ngIf="usernameForm.controls.username.errors.required">This field is mandatory.</span>
             <span *ngIf="usernameForm.controls.username.errors.minlength">Invalid. Must be at least 3 characters long.</span>
+            <span *ngIf="usernameForm.controls.username.errors.maxlength">Invalid. Must be less than 12 characters long.</span>
+            <span *ngIf="usernameForm.controls.username.errors.spaces">Invalid. Can not have any spaces.</span>
           </mat-error>
         </mat-form-field>
         <br/>
