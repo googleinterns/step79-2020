@@ -1,3 +1,8 @@
+interface recipeData{
+  recipeName: string,
+  description: string,
+  difficulty: string
+}
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Recipe} from '../recipe'
 
