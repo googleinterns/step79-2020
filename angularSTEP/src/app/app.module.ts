@@ -26,6 +26,8 @@ import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img.component';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
+import {DiscoverDisplayComponent} from './discover-display/discover-display.component';
+import {DiscoverPageComponent} from './discover-page/discover-page.component'; 
 import {EmailComponent} from './email/email.component';
 import {environment} from '../environments/environment';
 import {GoogleMapsModule} from '@angular/google-maps';
@@ -50,6 +52,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -61,20 +64,17 @@ import {NgAisModule} from 'angular-instantsearch';
 import {NgModule} from '@angular/core';
 import {ProfileCardComponent} from './profile-card/profile-card.component';
 import {ProfileMenuComponent} from './profile-menu/profile-menu.component';
+import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {RecipesComponent} from './recipes/recipes.component';
 import {SearchBoxComponent} from './search-box/search-box.component';
 import {SetupComponent} from './setup/setup.component';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {SignupComponent} from './signup/signup.component';
-import {DiscoverDisplayComponent} from './discover-display/discover-display.component';
-import {RecipeCardComponent} from './recipe-card/recipe-card.component';
-import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component';
-import {UserPageComponent} from './user-page/user-page.component';
-import {WishlistComponent} from './wishlist/wishlist.component'; 
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {DiscoverPageComponent} from './discover-page/discover-page.component'; 
 import {StarRatingComponent} from './star-rating/star-rating.component'; 
+import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
+import {UserPageComponent} from './user-page/user-page.component'; 
+import {WishlistComponent} from './wishlist/wishlist.component'; 
 
 @NgModule({
   declarations: [
@@ -91,8 +91,8 @@ import {StarRatingComponent} from './star-rating/star-rating.component';
     UploadRecipeComponent,
     RecipeCardComponent,
     MapComponent,
-    RecipesComponent,
     RecipePageComponent,
+    RecipesComponent,
     CurrentProfilePageComponent,
     ChangeProfileImgComponent,
     CurrentProfileTabComponent,
@@ -126,28 +126,27 @@ import {StarRatingComponent} from './star-rating/star-rating.component';
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
+    MatDialogModule,
     MatDividerModule,
     MatExpansionModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatDialogModule,
     MatIconModule,
-    MatMenuModule,
-    MatRippleModule,
-    MatProgressBarModule,
+    MatInputModule,
     MatListModule,
+    MatMenuModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule,
     MatRadioModule,
+    MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
     MatSlideToggleModule,
     MatStepperModule,
-    MatToolbarModule,
-    MatSnackBarModule,
     MatTabsModule,
     MatToolbarModule,
+    MatSnackBarModule,
     NgAisModule.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],

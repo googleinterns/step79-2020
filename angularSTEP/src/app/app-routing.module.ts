@@ -25,7 +25,6 @@ import {CurrentProfilePageComponent} from './current-profile-page/current-profil
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
 
-
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
                         { path: 'signup', component: SignupComponent },
@@ -41,6 +40,7 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'recipe', redirectTo: 'discover/recipes'},
                         { path: 'users', redirectTo: 'discover/users'}, 
                         { path: 'user', redirectTo: 'discover/user'},
+                        { path: 'branch-recipe/:id', component: UploadRecipeComponent},
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({
