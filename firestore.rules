@@ -27,16 +27,61 @@ service cloud.firestore {
       request.resource.data.email.size() > 0 &&
       request.resource.data.username.lower() == request.resource.data.username;
   }
+
+  function isAValidRecipe() {
+    return 'recipeName' in request.resource.data &&
+    'uploaderUid' in request.resource.data &&
+    'difficulty' in request.resource.data &&
+    'description' in request.resource.data &&
+    'ingredients' in request.resource.data &&
+    'tools' in request.resource.data &&
+    'images' in request.resource.data &&
+    'instructions' in request.resource.data &&
+    'extraInfo' in request.resource.data &&
+    'timestamp' in request.resource.data &&
+    'ratings' in request.resource.data &&
+    'tags' in request.resource.data &&
+    request.resource.data.recipeName is string &&
+    request.resource.data.description is string &&
+    request.resource.data.extraInfo is string &&
+    request.resource.data.difficulty is string &&
+    request.resource.data.recipeName.size() > 0 &&
+    request.resource.data.recipeName.size() < 100 &&
+    request.resource.data.description.size() > 0 &&
+    request.resource.data.description.size() < 200 &&
+    request.resource.data.ingredients.size() > 0 &&
+    request.resource.data.tools.size() > 0 &&
+    request.resource.data.instructions.size() > 0 &&
+    request.resource.data.difficulty in ["Beginner", "Intermediate", "Advanced", "Professional"];
+  }
+
+  function editOnlyChangesFields(allowedFields) {
+    let affectedKeys = request.resource.data.diff(resource.data).affectedKeys();
+    return affectedKeys.hasOnly(allowedFields);
+  }
   
   match /databases/{database}/documents {
   	match /{document=**} {
     	allow read: if false;
       allow write: if false;
     }
-  
+
+
     match /recipes/{recipe} {
-      allow read, write: if true;
+      allow read: if true;
     }
+
+    match /recipes/{recipe} {
+      allow create: if request.auth.uid != null &&
+        request.resource.data.uploaderUid == request.auth.uid &&
+        isAValidRecipe();
+
+      allow update: if request.auth.uid != null && 
+        editOnlyChangesFields(["ratings"]); 
+
+      allow delete: if false;
+    }
+
 
     // A read rule can be divided into get and list rules
     match /users/{user} {
