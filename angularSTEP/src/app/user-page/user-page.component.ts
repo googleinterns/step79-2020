@@ -7,7 +7,6 @@ import {Converter} from '../converter';
 import {Recipe} from '../recipe';
 import {RecipeConverter} from '../recipe-converter';
 
-
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
