@@ -1,5 +1,18 @@
-import {RouterModule, Routes} from '@angular/router';
+// Copyright 2020 Google LLC
 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import {RouterModule, Routes} from '@angular/router';
 import {EmailComponent} from './email/email.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
@@ -11,7 +24,6 @@ import {ConfirmComponent} from './confirm/confirm.component';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
 import {RecipePageComponent} from './recipe-page/recipe-page.component';
 import {DiscoverPageComponent} from './discover-page/discover-page.component';
-
 
 const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'login', component: LoginComponent },
@@ -28,6 +40,7 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
                         { path: 'recipe', redirectTo: 'discover/recipes'},
                         { path: 'users', redirectTo: 'discover/users'}, 
                         { path: 'user', redirectTo: 'discover/user'},
+                        { path: 'branch-recipe/:id', component: UploadRecipeComponent},
                         { path: 'myprofile', component: CurrentProfilePageComponent}];
 
 @NgModule({
