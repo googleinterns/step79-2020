@@ -75,7 +75,7 @@
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
               <div class="search-content-container">
-                <app-profile-card *ngFor="let user of hits" [user]='user'>
+                <app-profile-card *ngFor="let user of hits" (click)='goToUser(user.username)' [user]='user'>
                 </app-profile-card>
               </div>
             </ng-template>
@@ -90,7 +90,7 @@
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
                 <div class="search-content-container">
-                  <app-recipe-card *ngFor="let recipe of hits" [recipe]='{recipeName: recipe.recipeName, difficulty: recipe.difficulty, description: recipe.description}'>
+                  <app-recipe-card *ngFor="let recipe of hits" [recipe]='recipe'>
                   </app-recipe-card>
                 </div>
             </ng-template>
