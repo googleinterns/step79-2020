@@ -76,64 +76,15 @@ export class DiscoverDisplayComponent implements OnInit {
     } else {
       switch (this.sortType) {
         case 'Time Created': {
-          if (this.direction) {
-            this.recipeCollection.ref
-              .orderBy('timestamp', 'asc')
-              .withConverter(new RecipeConverter().recipeConverter)
-              .get()
-              .then(recipes => {
-                this.recipes = recipes.docs;
-              });
-          } else {
-            this.recipeCollection.ref
-              .orderBy('timestamp', 'desc')
-              .withConverter(new RecipeConverter().recipeConverter)
-              .get()
-              .then(recipes => {
-                this.recipes = recipes.docs;
-              });
-          }
+          this.getDocs('recipes', 'timestamp', this.direction ? 'asc' : 'desc');
           break;
         }
         case 'Rating': {
-          //temporary until num of recipes are actually added
-          if (this.direction) {
-            this.recipeCollection.ref
-              .orderBy('rating', 'desc')
-              .withConverter(new RecipeConverter().recipeConverter)
-              .get()
-              .then(recipes => {
-                this.recipes = recipes.docs;
-              });
-          } else {
-            this.recipeCollection.ref
-              .orderBy('rating', 'asc')
-              .withConverter(new RecipeConverter().recipeConverter)
-              .get()
-              .then(recipes => {
-                this.recipes = recipes.docs;
-              });
-          }
+          this.getDocs('recipes', 'averageRating', this.direction ? 'desc' : 'asc');
           break;
         }
         case 'Name': {
-          if (this.direction) {
-            this.recipeCollection.ref
-              .orderBy('recipeName', 'desc')
-              .withConverter(new RecipeConverter().recipeConverter)
-              .get()
-              .then(recipes => {
-                this.recipes = recipes.docs;
-              });
-          } else {
-            this.recipeCollection.ref
-              .orderBy('recipeName', 'asc')
-              .withConverter(new RecipeConverter().recipeConverter)
-              .get()
-              .then(recipes => {
-                this.recipes = recipes.docs;
-              });
-          }
+          this.getDocs('recipes', 'recipeName', this.direction ? 'desc' : 'asc');
           break;
         }
       }
@@ -143,65 +94,36 @@ export class DiscoverDisplayComponent implements OnInit {
   getUsers() {
     switch (this.sortType) {
       case 'Time Created': {
-        if (this.direction) {
-          this.userCollection.ref
-            .orderBy('time', 'asc')
-            .withConverter(new Converter().userConverter)
-            .get()
-            .then(users => {
-              this.users = users.docs;
-            });
-        } else {
-          this.userCollection.ref
-            .orderBy('time', 'desc')
-            .withConverter(new Converter().userConverter)
-            .get()
-            .then(users => {
-              this.users = users.docs;
-            });
-        }
-        break;
-      }
-      case 'Number of Recipes': {
-        //temporary until num of recipes are actually added
-        if (this.direction) {
-          this.userCollection.ref
-            .orderBy('displayName', 'desc')
-            .withConverter(new Converter().userConverter)
-            .get()
-            .then(users => {
-              this.users = users.docs;
-            });
-        } else {
-          this.userCollection.ref
-            .orderBy('displayName', 'asc')
-            .withConverter(new Converter().userConverter).limit(10)
-            .get()
-            .then(users => {
-              this.users = users.docs;
-            });
-        }
+        this.getDocs('users', 'timestamp', this.direction ? 'asc' : 'desc');
         break;
       }
       case 'Name': {
-        if (this.direction) {
-          this.userCollection.ref
-            .orderBy('displayName', 'desc')
-            .withConverter(new Converter().userConverter).limit(10)
-            .get()
-            .then(users => {
-              this.users = users.docs;
-            });
-        } else {
-          this.userCollection.ref
-            .orderBy('displayName', 'asc')
-            .withConverter(new Converter().userConverter).limit(10)
-            .get()
-            .then(users => {
-              this.users = users.docs;
-            });
-        }
+        this.getDocs('users', 'displayName', this.direction ? 'desc' : 'asc');
         break;
+      }
+    }
+  }
+
+  getDocs(type: string, sort: string, direction: firebase.firestore.OrderByDirection) {
+    switch (type) {
+      case 'recipes': {
+        this.recipeCollection.ref
+          .orderBy(sort, direction)
+          .withConverter(new RecipeConverter().recipeConverter)
+          .get()
+          .then(recipes => {
+            this.recipes = recipes.docs;
+          });
+        break;
+      }
+      case 'users': {
+        this.userCollection.ref
+          .orderBy(sort, direction)
+          .withConverter(new Converter().userConverter)
+          .get()
+          .then(users => {
+            this.users = users.docs;
+          });
       }
     }
   }

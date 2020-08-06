@@ -34,8 +34,9 @@
         </mat-list-option>
       </mat-selection-list>
       <mat-list-item>
-        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Descending' : 'Ascending' }}
-        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf='recipeOption[0] === "Time Created"' [(ngModel)]="isChecked">{{ isChecked ? 'Oldest' : 'Newest' }}</mat-slide-toggle>
+        <mat-slide-toggle *ngIf='recipeOption[0] === "Rating"' [(ngModel)]="isChecked">{{ isChecked ? 'Lowest' : 'Highest' }}</mat-slide-toggle>
+        <mat-slide-toggle *ngIf='recipeOption[0] === "Name"' [(ngModel)]="isChecked">{{ isChecked ? 'Z-A' : 'A-Z' }}</mat-slide-toggle>
       </mat-list-item>
     </mat-expansion-panel>
 
@@ -73,8 +74,8 @@
         </mat-list-option>
       </mat-selection-list>
       <mat-list-item>
-        <mat-slide-toggle [(ngModel)]="isChecked">{{ isChecked ? 'Descending' : 'Ascending' }}
-        </mat-slide-toggle>
+        <mat-slide-toggle *ngIf='userOption[0] === "Time Created"' [(ngModel)]="isChecked">{{ isChecked ? 'Oldest' : 'Newest' }}</mat-slide-toggle>
+        <mat-slide-toggle *ngIf='userOption[0] === "Name"' [(ngModel)]="isChecked">{{ isChecked ? 'Z-A' : 'A-Z' }}</mat-slide-toggle>
       </mat-list-item>
     </mat-expansion-panel>
   </mat-sidenav>
