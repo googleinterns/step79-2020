@@ -74,8 +74,10 @@
         <app-search-box (noQuery)='displayResults($event)' contentType='Search for users' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
+              <div class="search-content-container">
                 <app-profile-card *ngFor="let user of hits" [user]='user'>
                 </app-profile-card>
+              </div>
             </ng-template>
           </ais-hits>
       </ais-instantsearch>
@@ -97,7 +99,7 @@
     </div>
 
     <!-- displays the widgets for the search type and sort type if no query is given to the search bar -->
-    <div *ngIf='!showResults'>
+    <div *ngIf='!showResults' class='content'>
       <app-discover-display [contentType]='this.searchOption[0]' [direction]='this.isChecked' 
       [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
       </app-discover-display>
