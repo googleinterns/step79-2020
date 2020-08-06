@@ -223,50 +223,25 @@ export class UploadRecipeComponent{
     this.extraFormGroup.controls.extraInfo.setValue(this.autoCapitalizeFirst(this.extraFormGroup.value.extraInfo));
 
     if (this.branching) {
-      const ingredientsCheck = (currentValue: string) => this.ingredientsArray.value.indexOf(currentValue) === this.baseRecipe.ingredients.indexOf(currentValue);
-      const toolsCheck = (currentValue: string) => this.toolsArray.value.indexOf(currentValue) === this.baseRecipe.tools.indexOf(currentValue);
-      const instructionsCheck = (currentValue: string) => this.instructionsArray.value.indexOf(currentValue) === this.baseRecipe.instructions.indexOf(currentValue);
+    const ingredientsCheck = (currentValue: string) => this.ingredientsArray.value.indexOf(currentValue) === this.baseRecipe.ingredients.indexOf(currentValue);
+    const toolsCheck = (currentValue: string) => this.toolsArray.value.indexOf(currentValue) === this.baseRecipe.tools.indexOf(currentValue);
+    const instructionsCheck = (currentValue: string) => this.instructionsArray.value.indexOf(currentValue) === this.baseRecipe.instructions.indexOf(currentValue);
   
-      if (
-        this.basicsFormGroup.controls.name.value === this.baseRecipe.recipeName
-        &&  this.basicsFormGroup.controls.difficulty.value === this.baseRecipe.difficulty
-        &&  this.basicsFormGroup.controls.description.value === this.baseRecipe.description
-        &&  this.ingredientsArray.value.every(ingredientsCheck)
-        &&  this.toolsArray.value.every(toolsCheck)
-        &&  this.instructionsArray.value.every(instructionsCheck)
-        &&  this.extraFormGroup.controls.extraInfo.value === this.baseRecipe.extraInfo
-     ) {
-        this.changed = false;
-      } else {
-        this.changed = true;
-
-        this.fAuth.currentUser.then(user => {
-          if (user) {
-            this.db.collection('recipes')
-            .ref.withConverter(new RecipeConverter().recipeConverter)
-            .add(new Recipe(
-              this.basicsFormGroup.value.name, 
-              user.uid,
-              this.basicsFormGroup.value.difficulty,
-              this.basicsFormGroup.value.description,
-              this.ingredientsArray.value,
-              this.toolsArray.value,
-              this.instructionsArray.value,
-              this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value.extraInfo : '',
-              Date.now(),
-              [], 
-              [],
-              this.id,
-              this.baseUploaderUid,
-            )).then(() => {
-              this.router.navigate(['/confirm-upload']);
-            });
-          }
-        });
-      }
+    if (
+      this.basicsFormGroup.controls.name.value === this.baseRecipe.recipeName
+      &&  this.basicsFormGroup.controls.difficulty.value === this.baseRecipe.difficulty
+      &&  this.basicsFormGroup.controls.description.value === this.baseRecipe.description
+      &&  this.ingredientsArray.value.every(ingredientsCheck)
+      &&  this.toolsArray.value.every(toolsCheck)
+      &&  this.instructionsArray.value.every(instructionsCheck)
+      &&  this.extraFormGroup.controls.extraInfo.value === this.baseRecipe.extraInfo
+    ) {
+      this.changed = false;
     } else {
+      this.changed = true;
+
       this.fAuth.currentUser.then(user => {
-        if (user) {        
+        if (user) {
           this.db.collection('recipes')
           .ref.withConverter(new RecipeConverter().recipeConverter)
           .add(new Recipe(
@@ -281,13 +256,38 @@ export class UploadRecipeComponent{
             Date.now(),
             [], 
             [],
-            '',
-            '',
+            this.id,
+            this.baseUploaderUid,
           )).then(() => {
             this.router.navigate(['/confirm-upload']);
           });
         }
       });
     }
+  } else {
+    this.fAuth.currentUser.then(user => {
+      if (user) {        
+        this.db.collection('recipes')
+        .ref.withConverter(new RecipeConverter().recipeConverter)
+        .add(new Recipe(
+          this.basicsFormGroup.value.name, 
+          user.uid,
+          this.basicsFormGroup.value.difficulty,
+          this.basicsFormGroup.value.description,
+          this.ingredientsArray.value,
+          this.toolsArray.value,
+          this.instructionsArray.value,
+          this.extraFormGroup.value.extraInfo ? this.extraFormGroup.value.extraInfo : '',
+          Date.now(),
+          [], 
+          [],
+          '',
+          '',
+        )).then(() => {
+          this.router.navigate(['/confirm-upload']);
+        });
+      }
+    });
+  }
   }
 }

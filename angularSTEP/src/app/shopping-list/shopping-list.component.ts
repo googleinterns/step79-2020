@@ -50,7 +50,7 @@ export class ShoppingListComponent implements OnInit {
     return mp;
   }
 
-  // Allows the user to remove more than 1 of 
+  // Removes more than x1 of a single item
   removeMultiple(key: string) {
     const currentValue: number | undefined = this.shoppingListMap.get(key);
 
@@ -104,6 +104,7 @@ export class ShoppingListComponent implements OnInit {
 
   }
 
+  // Removes x1 of a single item
   removeItem(key: string) {
     if (this.shoppingListMap.get(key) === 1) {
       this.shoppingListMap.delete(key);

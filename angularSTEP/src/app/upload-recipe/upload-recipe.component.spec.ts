@@ -1,17 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import {BrowserModule} from '@angular/platform-browser';
-// import {AngularFireModule} from '@angular/fire';
-// import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-// import { UploadRecipeComponent } from './upload-recipe.component';
-// import {environment} from '../../environments/environment';
-// import {AngularFirestoreModule} from '@angular/fire/firestore';
-// import {RouterTestingModule} from '@angular/router/testing' ;
-// import {FormArray, FormBuilder, FormControl, FormGroup, Validators, FormGroupDirective, ReactiveFormsModule} from '@angular/forms';
-// // import {ReactiveFormsModule} from '@angular/forms';
-// import {MatAutocompleteModule} from '@angular/material/autocomplete';
-// import {MatStepperModule} from '@angular/material/stepper';
-// import {MatFormFieldModule} from '@angular/material/form-field'
-// import { MatSelectModule } from '@angular/material/select';
 import {UploadRecipeComponent} from '../upload-recipe/upload-recipe.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
@@ -49,18 +36,12 @@ describe('UploadRecipeComponent', () => {
           AngularFirestoreModule,
           RouterTestingModule,
           ReactiveFormsModule,
-          // MatAutocompleteModule,
           MatButtonModule,
           MatFormFieldModule,
           MatIconModule,
           MatInputModule,
           MatSelectModule,
           MatStepperModule
-        //   FormBuilder,
-        //   FormArray,
-        //   FormControl,
-        //   Validators,
-        //   FormGroupDirective,
       ],
       providers: [
         FormBuilder,
