@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {UploadRecipeComponent} from '../upload-recipe/upload-recipe.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
@@ -22,29 +22,59 @@ import {Observable, of} from 'rxjs';
 import {MatButtonHarness} from '@angular/material/button/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 
+
 describe('UploadRecipeComponent', () => {
   let component: UploadRecipeComponent;
   let fixture: ComponentFixture<UploadRecipeComponent>;
+
+
+const AngularStorageStub = {
+    ref: jasmine.createSpy('ref').and.returnValue({
+        put: jasmine.createSpy('put').withArgs(new Blob()).and.returnValue(Promise.resolve())
+        .withArgs("noImage").and.returnValue("hello"),
+        getDownloadURL : jasmine.createSpy('getDownloadURL').and.returnValue(of('url'))
+    }),
+}
+
+const goodUserStub = {
+    user: {
+      picUrl: "testPicUrl",
+      uid: "gooduid"
+    }
+}
+
+const fAuthStub = {
+    currentUser: Promise.resolve(goodUserStub),
+    onAuthStateChanged: jasmine.createSpy('onAuthStateChanged').and.returnValue(goodUserStub)
+  }
+
+describe('UploadRecipeComponent', () => {
+  let component: UploadRecipeComponent;
+  let fixture: ComponentFixture<UploadRecipeComponent>;
+  let loader: HarnessLoader;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UploadRecipeComponent ],
       imports: [
-          BrowserModule,
-          BrowserAnimationsModule,
-          AngularFireModule.initializeApp(environment.firebase),
-          AngularFirestoreModule,
-          RouterTestingModule,
-          ReactiveFormsModule,
-          MatButtonModule,
-          MatFormFieldModule,
-          MatIconModule,
-          MatInputModule,
-          MatSelectModule,
-          MatStepperModule
-      ],
-      providers: [
-        FormBuilder,
+        BrowserAnimationsModule,
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        AngularFirestoreModule,
+        RouterTestingModule,
+        MatInputModule,
+        MatChipsModule,
+        MatSelectModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule
+      ], providers: [FormBuilder,
+        {provide: AngularFireStorage, useValue: AngularStorageStub},
+        {provide: AngularFireAuth, useValue: fAuthStub},
       ]
     })
     .compileComponents();
@@ -59,4 +89,32 @@ describe('UploadRecipeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call addImage correct amount of times', async () => {
+    component.imageFiles = Array(4).fill(new Blob());
+    spyOn(component, "addImage");
+    await component.setUrls();
+    expect(component.addImage).toHaveBeenCalledTimes(4);
+  })
+
+  it('should call addImage correct amount of times', async () => {
+    component.imageFiles = Array(4).fill(new Blob());
+    spyOn(component, "addImage");
+    await component.setUrls();
+    expect(component.addImage).toHaveBeenCalledTimes(4);
+  })
+
+  it('should add image to imageUrls', async () => {
+    component.imageFiles = [new Blob()];
+    await component.addImage(new Blob(), '123');
+    expect(component.imageUrls).toEqual(['url']);
+  })
+
+  it('adds 4 urls to imageUrls', async () => {
+    component.imageFiles = Array(4).fill(new Blob());
+    await component.setUrls();
+    expect(component.imageUrls).toEqual(Array(4).fill('url'));
+  })
+
+
 });

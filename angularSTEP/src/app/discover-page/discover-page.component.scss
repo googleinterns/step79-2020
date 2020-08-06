@@ -1,0 +1,27 @@
+.sidebar {
+  position: absolute;
+  z-index: 0;
+  margin-top: 64px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+mat-slide-toggle {
+    float: right;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.content {
+  margin: 20px;
+}
+
+.search-content-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+

@@ -4,6 +4,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {User} from '../user';
 import {Converter} from '../converter';
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
 
 @Component({
@@ -21,6 +22,7 @@ export class ShoppingListComponent implements OnInit {
     private db: AngularFirestore,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {
     this.fAuth.currentUser.then(user => {
       if (user) {
@@ -91,11 +93,16 @@ export class ShoppingListComponent implements OnInit {
         this.fAuth.currentUser.then(user => {
           if (user) {
             this.db.collection('users')
-            .doc(this.user!.uid)
+            .doc(this.user.uid)
             .ref.withConverter(new Converter().userConverter)
             .update({shoppingList: objectUpdatedShoppingList})
             .then(() => {
               this.setUserData(user.uid);
+            })
+            .catch(() => {
+              this.snackBar.open('There was a problem updating your Shopping List', undefined, {
+                duration: 3000,
+              });
             });
           }
         });    
@@ -129,6 +136,11 @@ export class ShoppingListComponent implements OnInit {
         .update({shoppingList: objectUpdatedShoppingList})
         .then(() => {
           this.setUserData(user.uid);
+        })
+        .catch(() => {
+          this.snackBar.open('There was a problem updating your Shopping List', undefined, {
+            duration: 3000,
+          });
         });
       }
     });    

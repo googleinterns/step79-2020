@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,21 +7,26 @@ import {RecipeConverter} from '../recipe-converter';
 import {User} from '../user';
 import {Converter} from '../converter';
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
 
 @Component({
   selector: 'app-recipe-page',
   templateUrl: './recipe-page.component.html',
-  styleUrls: ['./recipe-page.component.scss']
+  styleUrls: ['./recipe-page.component.scss'],
 })
 
 export class RecipePageComponent {
-  id: string | null = this.route.snapshot.paramMap.get('id');
+  id: string | null = this.route.snapshot.paramMap.get('recipeid');
   pageRecipe!: Recipe;
   baseRecipe!: Recipe;
-  currentUser!: User;
-  baseUser!: User;
-  loggedIn: boolean = false;
+  currentUser!: User; // used to be called user
+  baseUser!: User; //used to be called uploader
+  loggedIn: boolean = false; //might also be called signedIn
+
+  inWishlist = false;
+  currentRating: number = 0;
+  currentRatings: object = {};
 
   constructor(
     private db: AngularFirestore,
@@ -29,6 +34,8 @@ export class RecipePageComponent {
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
     private router: Router,
+    private snackBar: MatSnackBar,
+    private zone: NgZone,
   ) {
     this.setPageData();
     this.fAuth.onAuthStateChanged(auth => {
@@ -36,6 +43,11 @@ export class RecipePageComponent {
         this.setPageData();
         this.setUserData(auth.uid);
         this.loggedIn = true;
+        if(this.currentRatings && this.currentRatings.hasOwnProperty(auth.uid)){
+          this.currentRating = this.currentRatings[auth.uid];
+        } else {
+          this.currentRating = 0;
+        }  
       } else {
         this.setPageData();
         this.loggedIn = false;
@@ -50,45 +62,80 @@ export class RecipePageComponent {
 
     if (recipeClassData) {
 
-
       if (recipeClassData.baseUploaderUid) {
         const postBaseUser = await this.db.doc('/users/' + recipeClassData.baseUploaderUid + '/')
           .ref.withConverter(new Converter().userConverter).get();
         const baseUserData = postBaseUser.data();
       
-        if (baseUserData) {
-          this.baseUser = baseUserData;
+        if (postBaseUser && baseUserData) {
+          this.baseUser = baseUserData; // sets the base users data
 
           const postBaseRecipe = await this.db.doc('/recipes/' + recipeClassData.baseRecipeId + '/')
             .ref.withConverter(new RecipeConverter().recipeConverter).get();
           const baseRecipeData = postBaseRecipe.data();
 
           if (baseRecipeData) {
-            this.baseRecipe = baseRecipeData;
+            this.baseRecipe = baseRecipeData; // sets the base recipes data
           }
         }
       }
 
-      this.pageRecipe = recipeClassData;
+      this.pageRecipe = recipeClassData;  // sets the page recipe's data
+      if(this.pageRecipe.ratings){
+        this.currentRatings = this.pageRecipe.ratings;
+      }
+
     }
   }
-
+  
+  updateRating(rating: number){
+    this.fAuth.currentUser.then(user => {
+      if(this.loggedIn && user) {
+        this.currentRatings[user.uid] = rating;
+        this.db
+            .collection('recipes')
+            .doc(this.id)
+            .ref.withConverter(new RecipeConverter().recipeConverter)
+            .update({ratings: this.currentRatings, averageRating: this.getAverageRating()})
+      }
+    });
+  }
+  
+  getAverageRating() {
+    let sum = 0;
+    for(let key of Object.keys(this.currentRatings)){
+      sum += this.currentRatings[key];
+    }
+    // round to the nearest half star just to give a little more different variation in the ratings
+    this.pageRecipe.averageRating = Math.round((sum / Object.keys(this.currentRatings).length)*2)/2;
+    return this.pageRecipe.averageRating;
+  }
+  
   async setUserData(uid: string) {
-    const postUser = await this.db.doc('/users/' + uid + '/')
-      .ref.withConverter(new Converter().userConverter).get();
+    const postUser = await this.db
+      .doc('/users/' + uid + '/')
+      .ref.withConverter(new Converter().userConverter)
+      .get();
+
     if (postUser && postUser.data()) {
       this.currentUser = postUser.data()!;
-    }
+      this.inWishlist = this.isRecipeInWishlist();
+    } 
   }
 
   objToMap(obj: any): Map<string, number> {
     const mp = new Map();
-    Object.keys(obj).forEach(k => {mp.set(k, obj[k])});
+    Object.keys(obj).forEach(k => {
+      mp.set(k, obj[k]);
+    });
     return mp;
   }
 
   addItem(item: string) {
-    var currentShoppingList: Map<string, number> = this.objToMap(this.currentUser.shoppingList);
+
+    const currentShoppingList: Map<string, number> = this.objToMap(
+      this.currentUser.shoppingList
+    );
 
     const dialogConfig = new MatDialogConfig();
 
@@ -108,18 +155,22 @@ export class RecipePageComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (currentShoppingList.has(item)) {
-          var currentValue = currentShoppingList.get(item);
+          const currentValue = currentShoppingList.get(item);
           if (currentValue) {
-            currentShoppingList.set(item, (currentValue + result));
+            currentShoppingList.set(item, currentValue + result);
           }
         } else {
           currentShoppingList.set(item, result);
-        }  
+        }
 
-        let objectCurrentShoppingList = Array.from(currentShoppingList).reduce((objectCurrentShoppingList, [key, value]) => (
-          Object.assign(objectCurrentShoppingList, { [key]: value }) 
-        ), {});
-    
+        const objectCurrentShoppingList = Array.from(
+          currentShoppingList
+        ).reduce(
+          (objectCurrentShoppingList, [key, value]) =>
+            Object.assign(objectCurrentShoppingList, {[key]: value}),
+          {}
+        );
+
         this.fAuth.currentUser.then(user => {
           if (user) {
             this.db.collection('users')
@@ -127,10 +178,26 @@ export class RecipePageComponent {
             .ref.withConverter(new Converter().userConverter)
             .update({shoppingList: objectCurrentShoppingList})
             .then(() => {
-              this.setUserData(user.uid);
-            });
+                this.snackBar.open(
+                  'Item Added!',
+                  undefined,
+                  {
+                    duration: 2000,
+                  }
+                );
+              })
+              .catch(error => {
+                this.snackBar.open(
+                  'Something went wrong:' + error,
+                  undefined,
+                  {
+                    duration: 2000,
+                  }
+                );
+              });
+
           }
-        });  
+        });
       }
     });
   }
@@ -142,4 +209,57 @@ export class RecipePageComponent {
   toUser() {
     this.router.navigate(['/users', this.baseUser.username]);
   }
+
+  isRecipeInWishlist() {
+    if (this.currentUser && this.loggedIn && this.id) {
+      return this.currentUser.wishlist.indexOf(this.id) > -1;
+    }
+    return false;
+  }
+
+  setWishlist(addItem: boolean){
+    if(this.loggedIn){
+      if(addItem){
+        this.currentUser.wishlist.push(this.id);
+      }
+      else{
+        const index = this.currentUser.wishlist.indexOf(this.id);
+        if(index > -1){
+          this.currentUser.wishlist.splice(index,1);
+        }
+      }
+      this.fAuth.currentUser.then(user => {
+        if (user) {
+          this.db
+            .collection('users')
+            .doc(user.uid)
+            .ref.withConverter(new Converter().userConverter)
+            .update({wishlist: this.currentUser.wishlist})
+            .then(() => {
+                this.inWishlist = addItem;
+            });
+        }
+      });
+
+    }
+  }
+
+  addToWishlist(){
+    this.zone.run(() => {
+      this.setWishlist(true);
+    })
+  }
+
+  subtractFromWishlist(){
+    this.zone.run(() => {
+      this.setWishlist(false);
+    })
+  }
+
+  goToUser(username: string) {
+    this.zone.run(() => {
+      this.router.navigate(['discover/users/', username]);
+    })
+  }
+
 }

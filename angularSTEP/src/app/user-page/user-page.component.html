@@ -8,5 +8,24 @@
             <button *ngIf='userFollowing && loggedIn' (click)='unfollow()' mat-button color="accent">Unfollow <mat-icon>close</mat-icon></button>
         </div>
     </div>
-    <button mat-button routerLink="/users">Back</button>
+    <mat-divider></mat-divider>
+    <mat-card class='widget-container'>
+        <mat-card-title>Bio</mat-card-title>
+        <div class='info-container'>
+          <h3 *ngIf='bio'>{{ bio }}</h3>
+        </div>
+    </mat-card>
+    <mat-card class='widget-container'>
+        <mat-card-title>Their Recipes</mat-card-title>
+        <div class='info-container'>
+          <app-recipe-card *ngFor="let recipe of theirRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
+        </div>
+      </mat-card>
+      <!-- <mat-divider></mat-divider> -->
+      <mat-card class='widget-container'>
+        <mat-card-title>Following</mat-card-title>
+        <div class='info-container'>
+          <app-profile-card *ngFor="let user of usersFollowing" (click)='goToUser(user.username)' [user]='user'></app-profile-card>
+        </div>
+      </mat-card>
 </div>

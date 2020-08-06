@@ -26,3 +26,12 @@ h3 {
     border-radius: 50%;
     object-fit: cover;
 }
+
+.info-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.widget-container {
+    margin: 30px;
+}

@@ -1,0 +1,23 @@
+<div class="form-container">
+    <h1 mat-dialog-title>Change Profile Image</h1>
+    <div mat-dialog-content>
+        <img mat-card-image *ngIf='previewImgUrl' [src]="previewImgUrl" class='preview-image' alt="Photo">
+        <h4 class="error" *ngIf="error">{{ error }}</h4>
+        <form [formGroup]="fileForm" (submit)="onFileSubmit()">
+            <label for="upload-photo"><span><h3 class="upload">Upload Photo...<mat-icon>add_photo_alternate</mat-icon></h3></span></label>
+            <input type="file" formControlName="image" autocomplete="off" accept="image/*" id="upload-photo" (change)="onFileSelect($event)" required>
+            <mat-error *ngIf="fileForm.controls.image.invalid">
+                <span *ngIf="fileForm.controls.image.errors.fileType">Allowed types: png, jpg, jpeg, gif</span>
+            </mat-error>
+            <mat-card-actions>
+                <div mat-dialog-actions>
+                    <button mat-button mat-dialog-close>Close</button>
+                    <button mat-button [disabled]="fileForm.invalid || fileForm.pristine" color="primary" type="submit">Update Profile Photo</button>
+                </div>
+            </mat-card-actions>
+        </form>
+        <br>
+        <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+    </div>
+</div>
+

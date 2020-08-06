@@ -1,6 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RecipesComponent } from './recipes.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatTabsModule} from '@angular/material/tabs'
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../../environments/environment';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {RouterTestingModule} from '@angular/router/testing' ;
+import {RecipesComponent} from './recipes.component';
 
 describe('RecipesComponent', () => {
   let component: RecipesComponent;
@@ -8,7 +14,15 @@ describe('RecipesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RecipesComponent ]
+      declarations: [ RecipesComponent ],
+      imports: [
+        BrowserAnimationsModule,
+        BrowserModule,
+        MatTabsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        RouterTestingModule
+      ]
     })
     .compileComponents();
   }));

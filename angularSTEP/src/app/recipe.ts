@@ -6,13 +6,15 @@ export class Recipe {
     public description: string,
     public ingredients: string[],
     public tools: string[],
+    public images: string[],
     public instructions: string[],
     public extraInfo: string,
     public timestamp: number,
-    public ratings: number[],
+    public ratings: Object,
     public tags: string[],
-    public baseRecipeId: string | null,
+    public baseRecipeId: string | undefined,
     public baseUploaderUid: string, 
+    public averageRating: number,
   ) {
     this.recipeName = recipeName;
     this.uploaderUid = uploaderUid;
@@ -20,6 +22,7 @@ export class Recipe {
     this.description = description;
     this.ingredients = ingredients;
     this.tools = tools;
+    this.images = images;
     this.instructions = instructions;
     this.extraInfo = extraInfo;
     this.timestamp = timestamp;
@@ -27,5 +30,6 @@ export class Recipe {
     this.tags = tags;
     this.baseRecipeId = baseRecipeId;
     this.baseUploaderUid = baseUploaderUid;
+    this.averageRating = averageRating;
   }
 }

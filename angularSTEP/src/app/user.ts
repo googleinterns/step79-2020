@@ -10,8 +10,8 @@ export class User {
     public following: Array<string>,
     public time: number,
     public recipes: Array<string>,
-    public wishlist: Array<string>,
-    public shoppingList: object,
+    public wishlist: Array<string | null>,
+    public shoppingList: Object,
     public aboutme: string
   ) {
     this.username = username;
