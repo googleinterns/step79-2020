@@ -81,7 +81,7 @@ service cloud.firestore {
                       .data.username) &&
                     !(exists(/databases/$(database)/documents/usernames/$(username))) &&
                     request.resource.data.username.lower() == request.resource.data.username &&
-                    request.resource.data.username.size() < 20 &&
+                    request.resource.data.username.size() < 13 &&
                     request.resource.data.username.size() > 2;
                     
                     
