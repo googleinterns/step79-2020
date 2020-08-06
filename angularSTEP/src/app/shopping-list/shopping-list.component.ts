@@ -50,6 +50,7 @@ export class ShoppingListComponent implements OnInit {
     return mp;
   }
 
+  // Allows the user to remove more than 1 of 
   removeMultiple(key: string) {
     const currentValue: number | undefined = this.shoppingListMap.get(key);
 
