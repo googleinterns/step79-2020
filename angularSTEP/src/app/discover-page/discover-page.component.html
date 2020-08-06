@@ -74,11 +74,8 @@
         <app-search-box (noQuery)='displayResults($event)' contentType='Search for users' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
-                <div class="search-content-container">
-                  <app-profile-card *ngFor="let user of hits" (click)='goToUser(user.username)'
-                    [user]='{displayName: user.displayName, username: user.username, picUrl: user.picUrl}'>
-                  </app-profile-card>
-                </div>
+                <app-profile-card *ngFor="let user of hits" [user]='user'>
+                </app-profile-card>
             </ng-template>
           </ais-hits>
       </ais-instantsearch>
