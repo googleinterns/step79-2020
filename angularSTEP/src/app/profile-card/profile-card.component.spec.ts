@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 import { DebugElement, Component } from '@angular/core';
 
-import { By } from '@angular/platform-browser';
-
 import { ProfileCardComponent } from './profile-card.component';
 
 describe('ProfileCardComponent', () => {
@@ -21,7 +19,6 @@ describe('ProfileCardComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ProfileCardComponent);
         component = fixture.componentInstance;
-        de = fixture.debugElement;
     });
 
     it('should create', () => {
