@@ -76,15 +76,15 @@ export class DiscoverDisplayComponent implements OnInit {
     } else {
       switch (this.sortType) {
         case 'Time Created': {
-          this.getDocs('recipes', 'timestamp', this.direction ? 'asc' : 'desc');
+          this.getRecipeDocs('timestamp', this.direction ? 'asc' : 'desc');
           break;
         }
         case 'Rating': {
-          this.getDocs('recipes', 'averageRating', this.direction ? 'asc' : 'desc');
+          this.getRecipeDocs('averageRating', this.direction ? 'asc' : 'desc');
           break;
         }
         case 'Name': {
-          this.getDocs('recipes', 'recipeName', this.direction ? 'desc' : 'asc');
+          this.getRecipeDocs('recipeName', this.direction ? 'desc' : 'asc');
           break;
         }
       }
@@ -94,39 +94,36 @@ export class DiscoverDisplayComponent implements OnInit {
   getUsers() {
     switch (this.sortType) {
       case 'Time Created': {
-        this.getDocs('users', 'time', this.direction ? 'asc' : 'desc');
+        this.getUserDocs('time', this.direction ? 'asc' : 'desc');
         break;
       }
       case 'Name': {
-        this.getDocs('users', 'displayName', this.direction ? 'desc' : 'asc');
+        this.getUserDocs('displayName', this.direction ? 'desc' : 'asc');
         break;
       }
     }
   }
 
-  getDocs(type: string, sort: string, direction: firebase.firestore.OrderByDirection) {
-    switch (type) {
-      case 'recipes': {
-        this.recipeCollection.ref
-          .orderBy(sort, direction)
-          .withConverter(new RecipeConverter().recipeConverter)
-          .get()
-          .then(recipes => {
-            this.recipes = recipes.docs;
-          });
-        break;
-      }
-      case 'users': {
-        this.userCollection.ref
-          .orderBy(sort, direction)
-          .withConverter(new Converter().userConverter)
-          .get()
-          .then(users => {
-            this.users = users.docs;
-          });
-      }
-    }
+  getRecipeDocs(sort: string, direction: firebase.firestore.OrderByDirection) {
+    this.recipeCollection.ref
+      .orderBy(sort, direction)
+      .withConverter(new RecipeConverter().recipeConverter)
+      .get()
+      .then(recipes => {
+        this.recipes = recipes.docs;
+      });
   }
+
+  getUserDocs(sort: string, direction: firebase.firestore.OrderByDirection) {
+    this.userCollection.ref
+      .orderBy(sort, direction)
+      .withConverter(new Converter().userConverter)
+      .get()
+      .then(users => {
+        this.users = users.docs;
+      });
+  }
+  
 
   goToUser(username: string) {
     this.router.navigate(['discover/users/', username]);
