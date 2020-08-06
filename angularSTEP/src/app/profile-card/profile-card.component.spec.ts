@@ -6,7 +6,7 @@ import { ProfileCardComponent } from './profile-card.component';
 describe('ProfileCardComponent', () => {
     let component: ProfileCardComponent;
     let fixture: ComponentFixture<ProfileCardComponent>;
-    let de: DebugElement;
+    let name: string = "goodusername";
 
     beforeEach(async(() =>{
         TestBed.configureTestingModule({
@@ -29,5 +29,9 @@ describe('ProfileCardComponent', () => {
         expect(component.displayName).toBeInstanceOf(String);
         expect(component.picUrl).toBeInstanceOf(String);
         expect(component.username).toBeInstanceOf(String);
+    });
+
+    it('should not change', () =>{
+        expect(component.shortenDisplayName()).toMatch(component.displayName);
     });
 });

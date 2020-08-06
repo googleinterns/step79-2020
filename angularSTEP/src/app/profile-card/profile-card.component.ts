@@ -15,6 +15,8 @@ interface UserData {
 export class ProfileCardComponent implements OnInit {
   @Input() user!: UserData;
   displayName: string = '';
+  picUrl: string = '';
+  username: string = '';
   constructor() {}
 
   ngOnInit(): void {
