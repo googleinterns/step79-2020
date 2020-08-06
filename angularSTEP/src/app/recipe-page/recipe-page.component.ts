@@ -19,9 +19,7 @@ export class RecipePageComponent {
   id: string | null = this.route.snapshot.paramMap.get('recipeid');
   pageRecipe!: Recipe;
   user!: User;
-  loggedIn = false;
   inWishlist = false;
-
   uploader: User | null;
   signedIn: boolean = false;
   currentRating: number = 0;
@@ -38,13 +36,13 @@ export class RecipePageComponent {
     private zone: NgZone
   ) {
     this.setRecipeData();
-    this.fAuth.currentUser.then(user => {
+    this.fAuth.onAuthStateChanged(user => {
       if (user) {
-        this.loggedIn = true;
+        this.signedIn = true;
         this.setUserData(user.uid);
       }
       else{
-        this.loggedIn = false;
+        this.signedIn = false;
       }
     });
   }
@@ -108,7 +106,7 @@ export class RecipePageComponent {
   
   async setUserData(uid: string) {
     const postUser = await this.db
-      .doc('/users/' + uid + '/')
+      .doc('/users/' + uid)
       .ref.withConverter(new Converter().userConverter)
       .get();
     if (postUser.data()) {
@@ -198,14 +196,14 @@ export class RecipePageComponent {
   }
 
   isRecipeInWishlist() {
-    if (this.user && this.loggedIn && this.id) {
+    if (this.user && this.signedIn && this.id) {
       return this.user.wishlist.indexOf(this.id) > -1;
     }
     return false;
   }
 
   setWishlist(addItem: boolean){
-    if(this.loggedIn){
+    if(this.signedIn){
       if(addItem){
         this.user.wishlist.push(this.id);
       }

@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
 })
 export class WishlistComponent implements OnInit {
   @Input() userData!: User;
-  myRecipes: Recipe[] = [];
+  myRecipes: firebase.firestore.DocumentSnapshot<Recipe>[] = [];
 
   constructor(private afs: AngularFirestore, 
               private fAuth: AngularFireAuth, 
@@ -34,15 +34,15 @@ export class WishlistComponent implements OnInit {
               .doc(this.userData.wishlist[i])
               .ref.withConverter(new RecipeConverter().recipeConverter).get();
         if(recipe && recipe.data()){
-          this.myRecipes.push(recipe.data()!);
+          this.myRecipes.push(recipe);
         }
       }
     }
   }
 
-  goToRecipe(username: string) {
+  goToRecipe(id: string) {
     this.zone.run(() => {
-      this.router.navigate(['discover/recipes', username]);
+      this.router.navigate(['discover/recipes', id]);
     })
   }
 

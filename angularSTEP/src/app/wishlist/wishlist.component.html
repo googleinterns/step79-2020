@@ -1,6 +1,6 @@
 <mat-card class='widget-container'>
     <mat-card-title>My Wishlist</mat-card-title>
     <div class='info-container'>
-      <app-recipe-card *ngFor="let recipe of myRecipes" (click)='goToRecipe(recipe.id)' [recipe]='recipe'></app-recipe-card>
+      <app-recipe-card *ngFor="let recipe of myRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
     </div>
   </mat-card>
