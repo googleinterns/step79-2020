@@ -1,3 +1,16 @@
+<!-- Copyright 2020 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
 
 <div class="welcome-page-container">
     <!-- this image is completely free to use with no attribution from https://www.pexels.com/photo/top-view-of-food-1640772/ -->
@@ -27,7 +40,7 @@
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>
             <div class='info-container'>
-                <app-recipe-card *ngFor="let recipe of topRecipes" [recipe]='recipe.data()'></app-recipe-card>
+                <app-recipe-card *ngFor="let recipe of topRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
             </div>
         </mat-card>
         <div class="widget-header">
@@ -37,7 +50,7 @@
         <mat-divider></mat-divider>
         <mat-card class='widget-container'>
             <div class='info-container'>
-                <app-recipe-card *ngFor="let recipe of newRecipes" [recipe]='recipe.data()'></app-recipe-card>
+                <app-recipe-card *ngFor="let recipe of newRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
             </div>
         </mat-card>
         <div class="widget-header">
@@ -54,8 +67,8 @@
     <div class='map-container'>
         <!-- don't need to use until end, since it will just take up quota every time the page loads -->
         <!-- the temp mat card simulates the design of the map -->
-        <!-- <app-map addressType="geocode"></app-map> -->
-        <mat-card class="map-card"></mat-card>
+        <app-map addressType="geocode"></app-map>
+        <!-- <mat-card class="map-card"></mat-card> -->
     </div>
 </div>
 

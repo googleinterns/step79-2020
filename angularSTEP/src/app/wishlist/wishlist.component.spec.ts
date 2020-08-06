@@ -14,21 +14,21 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ItemDialogComponent } from './item-dialog.component';
+import { WishlistComponent } from './wishlist.component';
 
-describe('ItemDialogComponent', () => {
-  let component: ItemDialogComponent;
-  let fixture: ComponentFixture<ItemDialogComponent>;
+describe('WishlistComponent', () => {
+  let component: WishlistComponent;
+  let fixture: ComponentFixture<WishlistComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ItemDialogComponent ]
+      declarations: [ WishlistComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemDialogComponent);
+    fixture = TestBed.createComponent(WishlistComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

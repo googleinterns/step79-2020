@@ -1,7 +1,21 @@
+<!-- Copyright 2020 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
 <div class="stepper-container" *ngIf='loggedIn && !uploading'>
 <mat-horizontal-stepper linear>
   <mat-step [stepControl]="basicsFormGroup">
-    <form [formGroup]="basicsFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
+    <form [formGroup]="basicsFormGroup" class="form-formatting">
       <ng-template matStepLabel>Recipe Basics</ng-template>
         <mat-form-field>
           <mat-label>Recipe Name</mat-label>
@@ -47,7 +61,7 @@
             </mat-chip>
             <input
               placeholder="New category..."
-              #fruitInput
+              #categoryInput
               [formControl]="categoryCtrl"
               [matAutocomplete]="auto"
               [matChipInputFor]="chipList"
@@ -68,7 +82,7 @@
   </mat-step>
 
   <mat-step [stepControl]="ingredientsFormGroup">
-    <form [formGroup]="ingredientsFormGroup" (ngSubmit)="onSubmit()" class="form-array-formatting">
+    <form [formGroup]="ingredientsFormGroup" class="form-array-formatting">
       <ng-template matStepLabel required>Ingredients</ng-template>
       <div formArrayName="ingredientsArray">
         <div *ngFor="let ingred of ingredientsArray.controls; let i=index" class="array-item">
@@ -91,7 +105,7 @@
   </mat-step>
 
   <mat-step [stepControl]="toolsFormGroup">
-    <form [formGroup]="toolsFormGroup" (ngSubmit)="onSubmit()" class ="form-array-formatting">
+    <form [formGroup]="toolsFormGroup" class ="form-array-formatting">
       <ng-template matStepLabel>Tools</ng-template>
       <div formArrayName="toolsArray">
         <div *ngFor="let tool of toolsArray.controls; let i=index" class="array-item">
@@ -114,7 +128,7 @@
   </mat-step>
 
   <mat-step [stepControl]="instructionsFormGroup">
-    <form [formGroup]="instructionsFormGroup" (ngSubmit)="onSubmit()" class ="form-array-formatting">
+    <form [formGroup]="instructionsFormGroup" class ="form-array-formatting">
       <ng-template matStepLabel>Instructions</ng-template>
       <div formArrayName="instructionsArray">
         <div *ngFor="let instruction of instructionsArray.controls; let i=index" class="array-item">
@@ -164,7 +178,7 @@
   </mat-step>
 
   <mat-step [stepControl]="extraFormGroup" [optional]="true">
-    <form [formGroup]="extraFormGroup" (ngSubmit)="onSubmit()" class="form-formatting">
+    <form [formGroup]="extraFormGroup" (ngSubmit)="onFileSubmit()" class="form-formatting">
       <ng-template matStepLabel>Extra Information</ng-template>
       <mat-form-field>
         <mat-label>Extra Information</mat-label>

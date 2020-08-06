@@ -1,3 +1,17 @@
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -19,7 +33,7 @@ export class UserPageComponent implements OnInit {
   displayName = '';
   picUrl = 'assets/images/blank-profile.png';
   usersFollowing: User[] = [];
-  theirRecipes: Recipe[] = [];
+  theirRecipes: firebase.firestore.DocumentSnapshot<Recipe>[] = [];
   bio: string = '';
   profileLoaded = false;
   userFollowing = false;
@@ -49,7 +63,7 @@ export class UserPageComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.username = params.get("username");
       if (!this.username) {
-        this.router.navigate(['/users']);
+        this.router.navigate(['discover/users']);
       } else {
         this.resetData();
         this.setUserData();
@@ -81,7 +95,7 @@ export class UserPageComponent implements OnInit {
         this.getFollowing(user.following);
         this.profileLoaded = true;
       } else {
-        this.router.navigate(['/users']);
+        this.router.navigate(['discover/users']);
       }
     }
   }
@@ -165,7 +179,7 @@ export class UserPageComponent implements OnInit {
               .doc(recipes[i])
               .ref.withConverter(new RecipeConverter().recipeConverter).get();
         if(recipe && recipe.data()){
-          this.theirRecipes.push(recipe.data()!);
+          this.theirRecipes.push(recipe);
         }
       }
     }
@@ -174,7 +188,7 @@ export class UserPageComponent implements OnInit {
   goToUser(username: string) {
     this.resetData();
     this.zone.run(() => {
-      this.router.navigate(['users/', username]);
+      this.router.navigate(['discover/users/', username]);
     })
   }
 
@@ -184,6 +198,11 @@ export class UserPageComponent implements OnInit {
     this.usersFollowing = [];
     this.theirRecipes = [];
     this.bio = '';
+  }
 
+  goToRecipe(id: string) {
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
+    }
   }
 }

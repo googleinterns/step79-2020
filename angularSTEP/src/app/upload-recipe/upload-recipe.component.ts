@@ -1,3 +1,17 @@
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import {Component, Output, NgZone, EventEmitter} from '@angular/core';
 import {
   FormArray,
@@ -41,7 +55,7 @@ export class UploadRecipeComponent{
   categories: string[] = ['Delicious'];
   allCategories: string[] = ['Vegan', 'Gluten Free', 'Vegetarian', 'Low Calorie', 'High Protein'];
 
-  @ViewChild('catagoryInput') categoryInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('categoryInput') categoryInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(
@@ -275,14 +289,11 @@ private _filter(value: string): string[] {
     }
   }
 
-  //this function gets called when form gets submitted
-  async onSubmit() {
-    this.basicsFormGroup.controls.name.setValue(
-      this.autoCapitalizeName(this.basicsFormGroup.value.name)
-    );
-    this.basicsFormGroup.controls.description.setValue(
-      this.autoCapitalizeFirst(this.basicsFormGroup.value.description)
-    );
+  //image functions
+
+  onFileSubmit() {
+    this.basicsFormGroup.controls.name.setValue(this.autoCapitalizeName(this.basicsFormGroup.value.name));
+    this.basicsFormGroup.controls.description.setValue(this.autoCapitalizeFirst(this.basicsFormGroup.value.description));
     this.formatArrays(this.ingredientsArray);
     this.formatArrays(this.toolsArray);
     this.formatInstructions(this.instructionsArray);
@@ -305,11 +316,12 @@ private _filter(value: string): string[] {
             this.imageUrls,
             this.instructionsArray.value,
             this.extraFormGroup.value.extraInfo
-              ? this.extraFormGroup.value
+              ? this.extraFormGroup.value.extraInfo
               : '',
             Date.now(),
-            [],
-            this.categories
+            {},
+            this.categories,
+            0
           ))
           .then(async recipeRef => {
             //then it connects the recipe to the user signed in and adds it to their array

@@ -12,18 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 
-<mat-toolbar color="primary" class="mat-elevation-z8">
-    <span>Basil</span>
-
-    <button routerLink="/home" mat-button>Home</button>
-    <button routerLink="/discover" mat-button>Discover</button>
-    <button routerLink="/upload-recipe" mat-button>Upload Recipe</button>
-
-    <input
-        placeholder="Search"
-        class="search-input"
-        #queryInput
-        (keyup)="handleChange($event)"/>
-    <span class="spacer"></span>
-    <app-profile-menu></app-profile-menu>
-</mat-toolbar>
+<button mat-icon-button disableRipple='true' color='accent' *ngFor='let rating of ratingsArray; index as i' (click)='changeRating(i)'>
+    <mat-icon *ngIf='rating'>star</mat-icon>
+    <mat-icon *ngIf='!rating'>star_border</mat-icon>
+</button>
