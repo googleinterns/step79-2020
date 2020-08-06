@@ -1,0 +1,25 @@
+.item-buttons-pair {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.buttons-pair {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttons-pair button {
+  margin: 0 5px;
+}
+  
+#empty-list {
+  text-align: center;
+  margin-top: 1%;
+}
+
+.mat-card {
+  margin: 10px;
+}

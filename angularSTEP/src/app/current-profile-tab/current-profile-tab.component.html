@@ -1,0 +1,36 @@
+
+<mat-card class='widget-container'>
+  <mat-card-title>About Me <mat-icon aria-label="Edit icon" (click)='editValue()'>edit</mat-icon></mat-card-title>
+  <div class='info-container'>
+    <h3 *ngIf='!aboutMeForm'>{{ userData.aboutme }}</h3>
+    <form *ngIf='aboutMeForm' (submit)="onSubmit()">
+      <mat-form-field appearance="outline">
+          <textarea matInput 
+            [formControl]='aboutMeForm'
+            maxlength="100"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="4">
+        </textarea>
+      </mat-form-field>
+      <button type="submit" color="primary" mat-icon-button><mat-icon>check</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="cancelForm()"><mat-icon>close</mat-icon></button>
+  </form>
+  </div>
+</mat-card>
+
+<mat-card class='widget-container'>
+  <mat-card-title>My Recipes</mat-card-title>
+  <div class='info-container'>
+    <app-recipe-card *ngFor="let recipe of myRecipes" [recipeId]='recipe.id' (clicked)='goToRecipe($event)' [recipe]='recipe.data()'></app-recipe-card>
+  </div>
+</mat-card>
+
+<mat-card class='widget-container'>
+  <mat-card-title>Following</mat-card-title>
+  <div class='info-container'>
+    <app-profile-card *ngFor="let user of usersFollowing" (click)='goToUser(user.username)' [user]='user'></app-profile-card>
+  </div>
+</mat-card>
+
+

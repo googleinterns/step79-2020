@@ -12,11 +12,13 @@ export class RecipeConverter {
         description: recipe.description,
         ingredients: recipe.ingredients,
         tools: recipe.tools,
+        images: recipe.images,
         instructions: recipe.instructions,
         extraInfo: recipe.extraInfo,
         timestamp: recipe.timestamp,
         ratings: recipe.ratings,
         tags: recipe.tags,
+        averageRating: recipe.averageRating
       };
     },
     fromFirestore: function (
@@ -31,11 +33,13 @@ export class RecipeConverter {
         data.description,
         data.ingredients,
         data.tools,
+        data.images,
         data.instructions,
         data.extraInfo,
         data.timestamp,
         data.ratings,
         data.tags,
+        data.averageRating
       );
     },
   };

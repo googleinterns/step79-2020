@@ -20,7 +20,7 @@ export class MapComponent implements OnInit {
   mapsForm: FormGroup;
   autocompleteInput!: string;
 
-  @ViewChild('mapElem', {static: true}) mapElem!: ElementRef;
+  @ViewChild('mapElem') mapElem!: ElementRef;
   address = '';
   
   center: google.maps.LatLngLiteral = {lat: 39.068229, lng: -94.393225};

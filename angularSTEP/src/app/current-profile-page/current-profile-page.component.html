@@ -1,5 +1,8 @@
 <div class="profile-header" *ngIf="user">
-  <img class="profile-pic" src="{{ user.picUrl }}" alt="Profile pic for {{ user.displayName }}">
+  <div (click)='changeProfileImage()' class='image-container'>
+    <img class="profile-pic" src="{{ user.picUrl }}" alt="Profile pic for {{ user.displayName }}">
+    <mat-icon id="photo-icon">photo_camera</mat-icon>
+  </div>
   <div class="name-header">
     <h1 *ngIf='!displayNameForm'>{{user.displayName}}<mat-icon aria-label="Edit icon" (click)='editValue("displayName")'>edit</mat-icon></h1>
     <form *ngIf='displayNameForm' (submit)="onSubmit()" [style.fontSize.px]='24'>
@@ -16,20 +19,20 @@
       <mat-icon>account_circle</mat-icon>
       My Profile
     </ng-template>
-    <app-my-profile-tab [userData]='user'></app-my-profile-tab>
+    <app-current-profile-tab [userData]='user'></app-current-profile-tab>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>favorite_border</mat-icon>
       My Wishlist
     </ng-template>
-    <!-- add wishlist component here -->
+    <app-wishlist [userData]='user'></app-wishlist>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>list_alt</mat-icon>
       My Shoppinglist
     </ng-template>
-    <!-- add shoppinglist component here -->
+    <app-shopping-list></app-shopping-list>
   </mat-tab>
 </mat-tab-group>

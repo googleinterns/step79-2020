@@ -1,0 +1,4 @@
+<button mat-icon-button disableRipple='true' color='accent' *ngFor='let rating of ratingsArray; index as i' (click)='changeRating(i)'>
+    <mat-icon *ngIf='rating'>star</mat-icon>
+    <mat-icon *ngIf='!rating'>star_border</mat-icon>
+</button>
