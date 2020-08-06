@@ -29,76 +29,82 @@ import {ItemDialogComponent} from '../item-dialog/item-dialog.component';
   templateUrl: './recipe-page.component.html',
   styleUrls: ['./recipe-page.component.scss'],
 })
+
 export class RecipePageComponent {
   id: string | null = this.route.snapshot.paramMap.get('recipeid');
   pageRecipe!: Recipe;
-  user!: User;
-  loggedIn = false;
-  inWishlist = false;
+  baseRecipe!: Recipe;
+  currentUser!: User; // used to be called user
+  baseUser!: User; //used to be called uploader
+  loggedIn: boolean = false; //might also be called signedIn
 
-  uploader: User | null;
-  signedIn: boolean = false;
+  inWishlist = false;
   currentRating: number = 0;
   currentRatings: object = {};
 
-
   constructor(
     private db: AngularFirestore,
-    private router: Router,
     private route: ActivatedRoute,
     private fAuth: AngularFireAuth,
     private dialog: MatDialog,
+    private router: Router,
     private snackBar: MatSnackBar,
-    private zone: NgZone
+    private zone: NgZone,
   ) {
-    this.setRecipeData();
-    this.fAuth.currentUser.then(user => {
-      if (user) {
+    this.setPageData();
+    this.fAuth.onAuthStateChanged(auth => {
+      if (auth) {
+        this.setPageData();
+        this.setUserData(auth.uid);
         this.loggedIn = true;
-        this.setUserData(user.uid);
-      }
-      else{
+        if(this.currentRatings && this.currentRatings.hasOwnProperty(auth.uid)){
+          this.currentRating = this.currentRatings[auth.uid];
+        } else {
+          this.currentRating = 0;
+        }  
+      } else {
+        this.setPageData();
         this.loggedIn = false;
       }
     });
   }
 
-  async setRecipeData() {
-    const postRecipe = await this.db
-      .doc('/recipes/' + this.id + '/')
-      .ref.withConverter(new RecipeConverter().recipeConverter)
-      .get();
-    if (postRecipe && postRecipe.data()) {
-      this.pageRecipe = postRecipe.data();
+  async setPageData() {
+    const postRecipe = await this.db.doc('/recipes/' + this.id + '/')
+      .ref.withConverter(new RecipeConverter().recipeConverter).get();
+    const recipeClassData = postRecipe.data();
+
+    if (recipeClassData) {
+
+      if (recipeClassData.baseUploaderUid) {
+        const postBaseUser = await this.db.doc('/users/' + recipeClassData.baseUploaderUid + '/')
+          .ref.withConverter(new Converter().userConverter).get();
+        const baseUserData = postBaseUser.data();
+      
+        if (postBaseUser && baseUserData) {
+          this.baseUser = baseUserData; // sets the base users data
+
+          const postBaseRecipe = await this.db.doc('/recipes/' + recipeClassData.baseRecipeId + '/')
+            .ref.withConverter(new RecipeConverter().recipeConverter).get();
+          const baseRecipeData = postBaseRecipe.data();
+
+          if (baseRecipeData) {
+            this.baseRecipe = baseRecipeData; // sets the base recipes data
+          }
+        }
+      }
+
+      this.pageRecipe = recipeClassData;  // sets the page recipe's data
       if(this.pageRecipe.ratings){
         this.currentRatings = this.pageRecipe.ratings;
       }
-      const postUploader = await this.db
-        .collection('users')
-        .doc(this.pageRecipe.uploaderUid)
-        .ref.withConverter(new Converter().userConverter)
-        .get();
-      if (postUploader && postUploader.data()) {
-        this.uploader = postUploader.data();
-      }
+
     }
-    this.fAuth.onAuthStateChanged(async user => {
-      if(user) {
-        this.signedIn = true;
-        if(this.currentRatings && this.currentRatings.hasOwnProperty(user.uid)){
-          this.currentRating = this.currentRatings[user.uid];
-        } else {
-          this.currentRating = 0;
-        }
-      } else {
-        this.signedIn = false;
-      }
-    });
-  } 
+  }
   
   updateRating(rating: number){
     this.fAuth.currentUser.then(user => {
-      if(this.signedIn && user) {
+      if(this.loggedIn && user) {
         this.currentRatings[user.uid] = rating;
         this.db
             .collection('recipes')
@@ -109,7 +115,6 @@ export class RecipePageComponent {
     });
   }
   
-
   getAverageRating() {
     let sum = 0;
     for(let key of Object.keys(this.currentRatings)){
@@ -125,12 +130,12 @@ export class RecipePageComponent {
       .doc('/users/' + uid + '/')
       .ref.withConverter(new Converter().userConverter)
       .get();
-    if (postUser.data()) {
-      this.user = postUser.data()!;
+
+    if (postUser && postUser.data()) {
+      this.currentUser = postUser.data()!;
       this.inWishlist = this.isRecipeInWishlist();
     } 
-
- }
+  }
 
   objToMap(obj: any): Map<string, number> {
     const mp = new Map();
@@ -141,8 +146,9 @@ export class RecipePageComponent {
   }
 
   addItem(item: string) {
+
     const currentShoppingList: Map<string, number> = this.objToMap(
-      this.user.shoppingList
+      this.currentUser.shoppingList
     );
 
     const dialogConfig = new MatDialogConfig();
@@ -181,39 +187,46 @@ export class RecipePageComponent {
 
         this.fAuth.currentUser.then(user => {
           if (user) {
-            this.db
-              .collection('users')
-              .doc(this.user.uid)
-              .ref.withConverter(new Converter().userConverter)
-              .update({shoppingList: objectCurrentShoppingList})
-              .then(() => {
-                this.setUserData(user.uid);
-                const snackBarRef = this.snackBar.open(
+            this.db.collection('users')
+            .doc(this.currentUser!.uid)
+            .ref.withConverter(new Converter().userConverter)
+            .update({shoppingList: objectCurrentShoppingList})
+            .then(() => {
+                this.snackBar.open(
                   'Item Added!',
                   undefined,
                   {
-                    duration: 1500,
+                    duration: 2000,
                   }
                 );
               })
               .catch(error => {
-                const snackBarRef = this.snackBar.open(
+                this.snackBar.open(
                   'Something went wrong:' + error,
                   undefined,
                   {
-                    duration: 1500,
+                    duration: 2000,
                   }
                 );
               });
+
           }
         });
       }
     });
   }
 
+  branchRecipe() {
+    this.router.navigate(['/branch-recipe', this.id]);
+  }
+
+  toUser() {
+    this.router.navigate(['/users', this.baseUser.username]);
+  }
+
   isRecipeInWishlist() {
-    if (this.user && this.loggedIn && this.id) {
-      return this.user.wishlist.indexOf(this.id) > -1;
+    if (this.currentUser && this.loggedIn && this.id) {
+      return this.currentUser.wishlist.indexOf(this.id) > -1;
     }
     return false;
   }
@@ -221,12 +234,12 @@ export class RecipePageComponent {
   setWishlist(addItem: boolean){
     if(this.loggedIn){
       if(addItem){
-        this.user.wishlist.push(this.id);
+        this.currentUser.wishlist.push(this.id);
       }
       else{
-        const index = this.user.wishlist.indexOf(this.id);
+        const index = this.currentUser.wishlist.indexOf(this.id);
         if(index > -1){
-          this.user.wishlist.splice(index,1);
+          this.currentUser.wishlist.splice(index,1);
         }
       }
       this.fAuth.currentUser.then(user => {
@@ -235,7 +248,7 @@ export class RecipePageComponent {
             .collection('users')
             .doc(user.uid)
             .ref.withConverter(new Converter().userConverter)
-            .update({wishlist: this.user.wishlist})
+            .update({wishlist: this.currentUser.wishlist})
             .then(() => {
                 this.inWishlist = addItem;
             });
@@ -264,4 +277,3 @@ export class RecipePageComponent {
   }
 
 }
-

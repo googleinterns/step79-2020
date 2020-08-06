@@ -37,6 +37,11 @@ import {MatButtonHarness} from '@angular/material/button/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 
 
+describe('UploadRecipeComponent', () => {
+  let component: UploadRecipeComponent;
+  let fixture: ComponentFixture<UploadRecipeComponent>;
+
+
 const AngularStorageStub = {
     ref: jasmine.createSpy('ref').and.returnValue({
         put: jasmine.createSpy('put').withArgs(new Blob()).and.returnValue(Promise.resolve())
@@ -84,7 +89,7 @@ describe('UploadRecipeComponent', () => {
       ], providers: [FormBuilder,
         {provide: AngularFireStorage, useValue: AngularStorageStub},
         {provide: AngularFireAuth, useValue: fAuthStub},
-    ]
+      ]
     })
     .compileComponents();
   }));
