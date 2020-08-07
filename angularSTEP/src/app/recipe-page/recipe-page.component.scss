@@ -1,13 +1,118 @@
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+$icon-size: 20px;
+mat-icon {
+    margin-right: 8px;
+    margin-left: 8px;
+    font-size: $icon-size;
+    cursor: pointer;
+}
+h1 {
+    margin-bottom: 0;
+}
+
+form {
+    display: flex;
+}
+
+.sidebar {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+}
+
+.side-card {
+    margin: 10px 10px 0 10px;
+}
+
+input{
+    border: 2px solid #3f51b5;
+    border-radius: 8px;
+    padding: 0px 10px;
+}
+
+.recipe-header{
+    display: flex;
+    margin: 10px;
+}
+
+.recipe-name-header{
+    display: block;
+    margin-left: 10px;
+}
+
+.recipe-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.main-info {
+    width: 100%;
+}
+
+.sidenav{
+    width: 250px;
+    margin-right: 0;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-bottom: 10px;
+}
+
+.image-holder {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.food-image {
+    max-width: 300px;
+    max-height: 300px;
+    margin: 0 15px 30px 15px;
+}
+
+.mat-card-content {
+    margin-top: 20px;
+}
+
+.recipe-info-card {
+    margin: 10px;
+}
+
+.profile-card {
+    max-width: 200px;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}
+
+.card-img {
+    margin: 0 auto;
+    margin-bottom: 16px;
+}
+
+.profile-img {
+    background-size: cover;
+}
+
 .solo-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 2%;
-}
-
-.solo-item {
-  margin-bottom: .5%;
-  width: 33%
+  margin-top: 10px;
 }
 
 .item-button-pair {
@@ -15,23 +120,8 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: 1%;
+  margin-top: 10px;
 }
-
-.tab-content {
-  width: 50%;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: 2%;
-}
-
-.instruction-item {
-  margin-bottom: .5%;
-}
-
 
 .extra {
   text-align: center;

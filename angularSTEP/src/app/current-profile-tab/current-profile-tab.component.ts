@@ -1,3 +1,17 @@
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {FormControl} from '@angular/forms';
@@ -17,7 +31,7 @@ export class CurrentProfileTabComponent implements OnInit {
   @Input() userData!: User;
   aboutMeForm: FormControl | null = null;
   usersFollowing: User[] = [];
-  myRecipes: Recipe[] = [];
+  myRecipes: firebase.firestore.DocumentSnapshot<Recipe>[] = [];
 
   constructor(private afs: AngularFirestore, private fAuth: AngularFireAuth, private zone: NgZone, private router: Router) {}
 
@@ -77,7 +91,7 @@ export class CurrentProfileTabComponent implements OnInit {
               .doc(this.userData.recipes[i])
               .ref.withConverter(new RecipeConverter().recipeConverter).get();
         if(recipe && recipe.data()){
-          this.myRecipes.push(recipe.data()!);
+          this.myRecipes.push(recipe);
         }
       }
     }
@@ -85,7 +99,14 @@ export class CurrentProfileTabComponent implements OnInit {
 
   goToUser(username: string) {
     this.zone.run(() => {
-      this.router.navigate(['users/', username]);
+      this.router.navigate(['discover/users/', username]);
     })
+  }
+
+  goToRecipe(id: string) {
+    console.log(id);
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
+    }
   }
 }

@@ -1,4 +1,18 @@
-import {Component, Inject, forwardRef, Input} from '@angular/core';
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import {Component, Inject, forwardRef, Input, Output, EventEmitter} from '@angular/core';
 import {BaseWidget, NgAisInstantSearch} from 'angular-instantsearch';
 import {connectSearchBox} from 'instantsearch.js/es/connectors';
 
@@ -20,7 +34,9 @@ export class SearchBoxComponent extends BaseWidget {
   };
   loading = false;
 
+  @Input() contentType;
   @Input() delay = 0;
+  @Output() noQuery = new EventEmitter<boolean>();
 
   constructor(
     @Inject(forwardRef(() => NgAisInstantSearch))
@@ -37,15 +53,22 @@ export class SearchBoxComponent extends BaseWidget {
   }
 
   public onChangeDebounced(value) {
-    if (this.timerId) clearTimeout(this.timerId);
-    this.loading = true;
-    this.timerId = setTimeout(() => {
-      this.loading = false;
-      this.state.refine(value);
-    }, this.delay);
+    if (!value) {
+      this.noQuery.emit(true);
+    } else {
+      if (this.timerId) clearTimeout(this.timerId);
+      this.loading = true;
+      this.timerId = setTimeout(() => {
+        this.loading = false;
+        this.state.refine(value);
+      }, this.delay);
+      this.noQuery.emit(false);
+    }
+  
   }
 
   clearSearchField() {
     this.searchField = '';
+    this.noQuery.emit(true);
   }
 }
