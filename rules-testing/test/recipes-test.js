@@ -27,6 +27,9 @@ let validRecipe = {
   timestamp: 2,
   ratings: [],
   tags: ["dessert"],
+  baseRecipeId: "",
+  baseUploaderUid: "",
+  averageRating: 0,
 };
 
 const invalidRecipe = {
@@ -34,7 +37,7 @@ const invalidRecipe = {
 };
 
 const invalidDataRecipe = {
-  recipeName: 4,
+  recipeName: "Wedding Cake",
   uploaderUid: currentUser.uid,
   difficulty: "Beginner",
   description: "This is a cake. I really want to eat it.",
@@ -46,6 +49,9 @@ const invalidDataRecipe = {
   timestamp: 2,
   ratings: [],
   tags: ["dessert"],  
+  baseRecipeID: "",
+  baseUploaderUid: "",
+  averageRating: "5",
 };
 
 const noIngredientsRecipe = {
@@ -61,6 +67,9 @@ const noIngredientsRecipe = {
   timestamp: 2,
   ratings: [],
   tags: ["dessert"],  
+  baseRecipeID: "",
+  baseUploaderUid: "",
+  averageRating: 0,
 };
 
 const otherUserRecipe = {
@@ -76,6 +85,9 @@ const otherUserRecipe = {
   timestamp: 2,
   ratings: [],
   tags: ["dessert"],
+  baseRecipeID: "",
+  baseUploaderUid: "",
+  averageRating: 0,
 };
 
 const admin = getAdminFirestore();
@@ -94,10 +106,6 @@ function getAdminFirestore() {
 }
 
 describe("Recipe Rules", () => {
-
-  it("Understands basic addition", () => {
-    assert.equal(2+2, 4);
-  });
 
   describe("No auth read & write rules", () => {
     let db;

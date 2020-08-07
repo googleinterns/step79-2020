@@ -41,17 +41,27 @@ service cloud.firestore {
     'timestamp' in request.resource.data &&
     'ratings' in request.resource.data &&
     'tags' in request.resource.data &&
+    'baseRecipeId' in request.resource.data &&
+    'baseUploaderUid' in request.resource.data &&
+    'averageRating' in request.resource.data &&
     request.resource.data.recipeName is string &&
+    request.resource.data.uploaderUid is string &&
+    request.resource.data.difficulty is string &&
     request.resource.data.description is string &&
     request.resource.data.extraInfo is string &&
     request.resource.data.difficulty is string &&
+    request.resource.data.baseUploaderUid is string &&
+    (request.resource.data.averageRating is float || 
+    request.resource.data.averageRating is int) && 
     request.resource.data.recipeName.size() > 0 &&
-    request.resource.data.recipeName.size() < 100 &&
+    request.resource.data.recipeName.size() < 200 &&
     request.resource.data.description.size() > 0 &&
     request.resource.data.description.size() < 200 &&
     request.resource.data.ingredients.size() > 0 &&
     request.resource.data.tools.size() > 0 &&
     request.resource.data.instructions.size() > 0 &&
+    request.resource.data.averageRating <= 5 &&
+    request.resource.data.averageRating >= 0 &&
     request.resource.data.difficulty in ["Beginner", "Intermediate", "Advanced", "Professional"];
   }
 
