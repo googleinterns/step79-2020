@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 
-<div class='example-form'>
+<div class='form'>
     <mat-form-field appearance="outline" class="example-full-width" floatLabel="never">
         <input
         [(ngModel)]="searchField"
@@ -27,6 +27,7 @@ limitations under the License. -->
         <mat-icon matPrefix>search</mat-icon>
         <button mat-button mat-icon-button matSuffix (click)="this.state.clear(); clearSearchField()" *ngIf="searchField">
             <mat-icon>close</mat-icon>
-        </button>   
+        </button>  
     </mat-form-field>
+    <img class='algolia-logo' src='assets/images/algolia-logo.png' alt='Algolia Logo'> 
 </div>

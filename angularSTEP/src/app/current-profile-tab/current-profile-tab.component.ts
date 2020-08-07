@@ -104,7 +104,6 @@ export class CurrentProfileTabComponent implements OnInit {
   }
 
   goToRecipe(id: string) {
-    console.log(id);
     if (id) {
       this.router.navigate(['discover/recipes/', id]);
     }

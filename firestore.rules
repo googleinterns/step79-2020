@@ -35,7 +35,7 @@ service cloud.firestore {
       request.resource.data.email is string &&
       request.resource.data.uid is string &&
       request.resource.data.displayName.size() < 50 &&
-      request.resource.data.username.size() < 20 &&
+      request.resource.data.username.size() < 13 &&
       request.resource.data.username.size() > 2 &&
       request.resource.data.email.size() < 254 &&
       request.resource.data.email.size() > 0 &&
@@ -80,7 +80,7 @@ service cloud.firestore {
   }
 
   function editOnlyChangesFields(allowedFields) {
-    let affectedKeys = request.resource.data.diff(resource.data).affectedKeys();
+    let affectedKeys = request.resource.data.diff(request.resource.data).affectedKeys();
     return affectedKeys.hasOnly(allowedFields);
   }
   
@@ -101,7 +101,7 @@ service cloud.firestore {
         isAValidRecipe();
 
       allow update: if request.auth.uid != null && 
-        editOnlyChangesFields(["ratings"]); 
+        editOnlyChangesFields(["ratings", "averageRating"]); 
 
       allow delete: if false;
     }
@@ -150,7 +150,7 @@ service cloud.firestore {
                       .data.username) &&
                     !(exists(/databases/$(database)/documents/usernames/$(username))) &&
                     request.resource.data.username.lower() == request.resource.data.username &&
-                    request.resource.data.username.size() < 20 &&
+                    request.resource.data.username.size() < 13 &&
                     request.resource.data.username.size() > 2;
                     
                     

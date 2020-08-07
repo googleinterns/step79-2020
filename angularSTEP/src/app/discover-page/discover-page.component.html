@@ -96,7 +96,7 @@ limitations under the License. -->
   <mat-sidenav-content>
     <!-- displays the user search bar -->
     <div *ngIf='this.searchOption[0] == "Users"' class="content">
-      <ais-instantsearch [config]="configUsers">
+      <ais-instantsearch class='search-size' [config]="configUsers">
         <app-search-box (noQuery)='displayResults($event)' [searchField]='query' contentType='Search for users' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
@@ -112,7 +112,7 @@ limitations under the License. -->
 
     <!-- displays the recipe search bar -->
     <div *ngIf='this.searchOption[0] == "Recipes"' class="content">
-      <ais-instantsearch [config]="configRecipes">
+      <ais-instantsearch class='search-size' [config]="configRecipes">
         <app-search-box (noQuery)='displayResults($event)' [searchField]='query' contentType='Search for recipes' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
@@ -122,7 +122,7 @@ limitations under the License. -->
                 </div>
             </ng-template>
           </ais-hits>
-      </ais-instantsearch>
+      </ais-instantsearch> 
     </div>
 
     <div *ngIf='!showResults' class="content">
