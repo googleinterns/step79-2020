@@ -2,7 +2,7 @@
   "name": "rules-testing",
   "version": "1.0.0",
   "description": "Unit testing for firestore rules",
-  "main": "test.js",
+  "main": "test",
   "scripts": {
     "test": "mocha --exit"
   },
