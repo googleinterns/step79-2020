@@ -23,7 +23,6 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {AutoCompleteComponent} from './auto-complete/auto-complete.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ChangeProfileImgComponent} from './change-profile-img/change-profile-img.component';
 import {CurrentProfilePageComponent} from './current-profile-page/current-profile-page.component';
@@ -75,14 +74,12 @@ import {SignupComponent} from './signup/signup.component';
 import {StarRatingComponent} from './star-rating/star-rating.component'; 
 import {UploadRecipeComponent} from './upload-recipe/upload-recipe.component'; 
 import {UserPageComponent} from './user-page/user-page.component'; 
-import {ViewProfilesComponent} from './view-profiles/view-profiles.component';
 import {WishlistComponent} from './wishlist/wishlist.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    AutoCompleteComponent,
     ProfileMenuComponent,
     LoginComponent,
     EmailComponent,
@@ -99,7 +96,6 @@ import {WishlistComponent} from './wishlist/wishlist.component';
     CurrentProfilePageComponent,
     ChangeProfileImgComponent,
     CurrentProfileTabComponent,
-    ViewProfilesComponent,
     SearchBoxComponent,
     ChangeProfileImgComponent,
     CurrentProfileTabComponent,
@@ -107,7 +103,6 @@ import {WishlistComponent} from './wishlist/wishlist.component';
     StarRatingComponent,
     DiscoverPageComponent,
     DiscoverDisplayComponent,
-    ChangeProfileImgComponent,
     ShoppingListComponent,
     ItemDialogComponent,
     WishlistComponent,

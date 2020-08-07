@@ -13,34 +13,24 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 
 <div *ngIf="pageRecipe">
-
-  <h2>{{pageRecipe.recipeName}}</h2>
-  
-  <div *ngIf="pageRecipe.baseRecipeId ">
-    <h3 *ngIf="!baseUser">Based on An Unknown Recipe by An Unknown User</h3>  
-    <h3 *ngIf="!baseRecipe && baseUser">Based on An Unknown Recipe by<a mat-button (click)="toUser()">@{{baseUser.username}}</a></h3>
-    <h3 *ngIf="baseRecipe && baseUser">
-      Based on "{{baseRecipe.recipeName}}" by<button mat-button (click)="toUser()">@{{baseUser.username}}</button></h3>
-  </div>
-  
-  <h3>{{pageRecipe.difficulty}}</h3>
-  <p>{{pageRecipe.description}}</p>
-  <button *ngIf='!inWishlist && loggedIn' (click)='addToWishlist()' mat-button color="primary">Add to Wishlist<mat-icon>check</mat-icon></button>
-  <button *ngIf='inWishlist && loggedIn' (click)='subtractFromWishlist()' mat-button color="primary">Remove from Wishlist<mat-icon>check</mat-icon></button>
-  
-  <br><br>
-
-  <button *ngIf="loggedIn" mat-raised-button color="primary" (click)="branchRecipe()">Branch Recipe</button>
-
-  <br><br>
-
   <div class="recipe-header">
     <img class="recipe-pic" *ngIf='pageRecipe.images && pageRecipe.images.length != 0' [src]='pageRecipe.images[0]' alt="Photo of {{ pageRecipe.recipeName }}">
     <img class="recipe-pic" *ngIf='pageRecipe.images == null || pageRecipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food">
     <div class="recipe-name-header">
       <h1>{{ pageRecipe.recipeName }}</h1>
       <h3>{{ pageRecipe.difficulty }}</h3>
-      <app-star-rating *ngIf='signedIn' (newRating)='updateRating($event)' [currentRating]='currentRating'></app-star-rating>
+      <div *ngIf="pageRecipe.baseRecipeId ">
+        <h3 *ngIf="!baseUser">Based on An Unknown Recipe by An Unknown User</h3>  
+        <h3 *ngIf="!baseRecipe && baseUser">Based on An Unknown Recipe by<a mat-button (click)="toUser()">@{{baseUser.username}}</a></h3>
+        <h3 *ngIf="baseRecipe && baseUser">
+          Based on "{{baseRecipe.recipeName}}" by<button mat-button (click)="toUser()">@{{baseUser.username}}</button></h3>
+      </div>
+      <button *ngIf="loggedIn" mat-raised-button color="primary" (click)="branchRecipe()">Branch Recipe</button>
+      <app-star-rating *ngIf='loggedIn' (newRating)='updateRating($event)' [currentRating]='currentRating'></app-star-rating>
+      <button *ngIf='!inWishlist && loggedIn' (click)='addToWishlist()' mat-button color="primary">Add to Wishlist<mat-icon>check</mat-icon></button>
+      <button *ngIf='inWishlist && loggedIn' (click)='subtractFromWishlist()' mat-button color="secondary">Remove from Wishlist<mat-icon>check</mat-icon></button>
+    
+      
     </div>
 </div>
 
@@ -84,13 +74,13 @@ limitations under the License. -->
           <mat-card class='recipe-info-card'>
             <mat-card-title>Ingredients</mat-card-title>
             <mat-card-content>
-              <ul *ngIf="user">
+              <ul *ngIf="currentUser">
                 <div *ngFor="let ingredient of pageRecipe.ingredients;" class="item-button-pair">
                   <li>{{ ingredient }}</li>
                   <button mat-raised-button color="primary" (click)="addItem(ingredient)">Add To Shopping List</button>
                 </div>
               </ul>
-              <ul class="solo-list" *ngIf="!user">
+              <ul class="solo-list" *ngIf="!currentUser">
                 <li *ngFor="let ingredient of pageRecipe.ingredients" class="solo-item">{{ ingredient }}</li>
               </ul>
             </mat-card-content>
@@ -100,13 +90,13 @@ limitations under the License. -->
           <mat-card class='recipe-info-card'>
             <mat-card-title>Tools</mat-card-title>
             <mat-card-content>
-              <ul *ngIf="user">
+              <ul *ngIf="currentUser">
                 <div *ngFor="let tool of pageRecipe.tools" class="item-button-pair">
                   <li>{{ tool }}</li>
                   <button mat-raised-button color="primary" (click)="addItem(tool)">Add To Shopping List</button>
                 </div>
               </ul>
-              <ul *ngIf="!user" class="solo-list">
+              <ul *ngIf="!currentUser" class="solo-list">
                 <li *ngFor="let tool of pageRecipe.tools" class="solo-item">{{ tool }}</li>
               </ul>
             </mat-card-content>

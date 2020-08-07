@@ -30,15 +30,10 @@ const searchClient = algoliasearch(
   styleUrls: ['./discover-page.component.scss'],
 })
 export class DiscoverPageComponent implements OnInit {
-  configUsers = {
-    indexName: 'user_search',
-    searchClient,
-  };
+  query: string = '';
 
-  configRecipes = {
-    indexName: 'recipe_search',
-    searchClient,
-  };
+  configUsers: object;
+  configRecipes: object;
 
   @ViewChild('recipePanel') sortPanel: MatExpansionPanel;
   @ViewChild('tagPanel') tagPanel: MatExpansionPanel;
@@ -51,8 +46,8 @@ export class DiscoverPageComponent implements OnInit {
 
   tagQuery = '';
 
-  showResults = false;
-  isChecked = false;
+  showResults: boolean = false;
+  isChecked: boolean = false;
 
   searchOption: string[] = ['Recipes'];
   recipeOption: string[] = ['Time Created'];
@@ -92,7 +87,31 @@ export class DiscoverPageComponent implements OnInit {
           this.recipeOption = ['Name'];
         } 
       }
-    });
+    })
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.query = params['q'] ? params['q'] : '';
+      this.configUsers = {
+        indexName: 'user_search',
+        searchClient
+      };
+      if(this.query){
+        this.searchOption = ['Recipes'];
+        this.configRecipes = {
+          indexName: 'recipe_search',
+          searchClient,
+          searchParameters: {
+            query: this.query
+          }
+        };
+        this.showResults = true;
+      } else {
+        this.configRecipes = {
+          indexName: 'recipe_search',
+          searchClient
+        };
+        this.showResults = false;
+      }
+    })
   }
 
   onSearchChanged(event: any) {

@@ -19,12 +19,12 @@ limitations under the License. -->
         autocomplete="off"
         matInput
         #input
-        (keyup)="onChangeDebounced(input.value)"
+        class='ais-search-box--input'
+        (keyup)="onSearchChanged(input.value)"
         [value]="this.state.query"
         [placeholder]='contentType'
         >
-        <mat-spinner [diameter]='24' *ngIf='loading' matPrefix></mat-spinner>
-        <mat-icon *ngIf='!loading' matPrefix>search</mat-icon>
+        <mat-icon matPrefix>search</mat-icon>
         <button mat-button mat-icon-button matSuffix (click)="this.state.clear(); clearSearchField()" *ngIf="searchField">
             <mat-icon>close</mat-icon>
         </button>   

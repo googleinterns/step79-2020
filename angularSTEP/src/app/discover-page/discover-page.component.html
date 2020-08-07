@@ -97,7 +97,7 @@ limitations under the License. -->
     <!-- displays the user search bar -->
     <div *ngIf='this.searchOption[0] == "Users"' class="content">
       <ais-instantsearch [config]="configUsers">
-        <app-search-box (noQuery)='displayResults($event)' contentType='Search for users' [delay]='500'></app-search-box>
+        <app-search-box (noQuery)='displayResults($event)' [searchField]='query' contentType='Search for users' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
                 <div class="search-content-container">
@@ -113,11 +113,11 @@ limitations under the License. -->
     <!-- displays the recipe search bar -->
     <div *ngIf='this.searchOption[0] == "Recipes"' class="content">
       <ais-instantsearch [config]="configRecipes">
-        <app-search-box (noQuery)='displayResults($event)' contentType='Search for recipes' [delay]='500'></app-search-box>
+        <app-search-box (noQuery)='displayResults($event)' [searchField]='query' contentType='Search for recipes' [delay]='500'></app-search-box>
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
                 <div class="search-content-container">
-                  <app-recipe-card *ngFor="let recipe of hits" [recipe]='recipe'>
+                  <app-recipe-card *ngFor="let recipe of hits" (click)='goToRecipe(recipe.objectID)' [recipe]='recipe'>
                   </app-recipe-card>
                 </div>
             </ng-template>

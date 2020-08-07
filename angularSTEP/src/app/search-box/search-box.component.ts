@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Component, Inject, forwardRef, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Inject, forwardRef, Input, Output, EventEmitter, ViewChild, SimpleChanges} from '@angular/core';
 import {BaseWidget, NgAisInstantSearch} from 'angular-instantsearch';
 import {connectSearchBox} from 'instantsearch.js/es/connectors';
+import {MatInputHarness} from '@angular/material/input/testing'
 
 @Component({
   selector: 'app-search-box',
@@ -22,8 +23,9 @@ import {connectSearchBox} from 'instantsearch.js/es/connectors';
   styleUrls: ['./search-box.component.scss'],
 })
 export class SearchBoxComponent extends BaseWidget {
-  private timerId = null;
-  searchField = '';
+
+  @ViewChild('input') inputRef: any;
+
   public state: {
     query: string;
     refine: Function;
@@ -32,12 +34,11 @@ export class SearchBoxComponent extends BaseWidget {
     widgetParams: object;
     searchAsYouType: boolean;
   };
-  loading = false;
 
+  @Input() searchField: string;
   @Input() contentType;
-  @Input() delay = 0;
   @Output() noQuery = new EventEmitter<boolean>();
-
+  refineInit: boolean = false
   constructor(
     @Inject(forwardRef(() => NgAisInstantSearch))
     public instantSearchParent
@@ -45,26 +46,28 @@ export class SearchBoxComponent extends BaseWidget {
     super('SearchBox');
   }
 
-  ngOnInit() {
-    this.createWidget(connectSearchBox, {
-      searchAsYouType: false,
-    });
-    super.ngOnInit();
-  }
-
-  public onChangeDebounced(value) {
-    if (!value) {
-      this.noQuery.emit(true);
-    } else {
-      if (this.timerId) clearTimeout(this.timerId);
-      this.loading = true;
-      this.timerId = setTimeout(() => {
-        this.loading = false;
-        this.state.refine(value);
-      }, this.delay);
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.searchField && this.refineInit){
+      this.state.refine(changes.searchField.currentValue);
       this.noQuery.emit(false);
     }
-  
+  }
+  ngOnInit() {
+    this.createWidget(connectSearchBox, {
+      searchAsYouType: false
+    });
+    super.ngOnInit();
+    this.refineInit = true;
+  }
+
+  onSearchChanged(query: string){
+    if(query){
+      this.state.refine(query);
+      this.noQuery.emit(false);
+      this.refineInit = true;
+    } else {
+      this.noQuery.emit(true);
+    }
   }
 
   clearSearchField() {

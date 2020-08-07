@@ -19,9 +19,11 @@ limitations under the License. -->
     <button routerLink="/discover" mat-button>Discover</button>
     <button routerLink="/upload-recipe" mat-button>Upload Recipe</button>
 
-    <div class="spacer">
-        <app-auto-complete></app-auto-complete>
-    </div>
-
+    <input
+        placeholder="Search"
+        class="search-input"
+        #queryInput
+        (keyup)="handleChange($event)"/>
+    <span class="spacer"></span>
     <app-profile-menu></app-profile-menu>
 </mat-toolbar>
