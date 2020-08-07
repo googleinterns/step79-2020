@@ -36,6 +36,7 @@ export class RecipePageComponent {
   baseRecipe!: Recipe;
   currentUser!: User; // used to be called user
   baseUser!: User; //used to be called uploader
+  uploader!: User; //used to be called uploader
   loggedIn: boolean = false; //might also be called signedIn
 
   inWishlist = false;
@@ -57,11 +58,6 @@ export class RecipePageComponent {
         this.setPageData();
         this.setUserData(auth.uid);
         this.loggedIn = true;
-        if(this.currentRatings && this.currentRatings.hasOwnProperty(auth.uid)){
-          this.currentRating = this.currentRatings[auth.uid];
-        } else {
-          this.currentRating = 0;
-        }  
       } else {
         this.setPageData();
         this.loggedIn = false;
@@ -75,7 +71,6 @@ export class RecipePageComponent {
     const recipeClassData = postRecipe.data();
 
     if (recipeClassData) {
-
       if (recipeClassData.baseUploaderUid) {
         const postBaseUser = await this.db.doc('/users/' + recipeClassData.baseUploaderUid + '/')
           .ref.withConverter(new Converter().userConverter).get();
@@ -93,10 +88,24 @@ export class RecipePageComponent {
           }
         }
       }
+      if (recipeClassData.uploaderUid) {
+        const uploaderUser = await this.db.doc('/users/' + recipeClassData.uploaderUid + '/')
+          .ref.withConverter(new Converter().userConverter).get();
+        const uploaderData = uploaderUser.data();
+      
+        if (uploaderUser && uploaderData) {
+          this.uploader = uploaderData; // sets the uploader data
+        }
+      }
 
       this.pageRecipe = recipeClassData;  // sets the page recipe's data
       if(this.pageRecipe.ratings){
         this.currentRatings = this.pageRecipe.ratings;
+        if(this.currentRatings && this.currentRatings.hasOwnProperty(this.currentUser.uid)){
+          this.currentRating = this.currentRatings[this.currentUser.uid];
+        } else {
+          this.currentRating = 0;
+        }
       }
 
     }

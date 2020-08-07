@@ -382,9 +382,7 @@ export class UploadRecipeComponent{
       &&  this.extraFormGroup.controls.extraInfo.value === this.baseRecipe.extraInfo
     ) {
       this.changed = false;
-      console.log("first");
     } else {
-      console.log("second");
       this.changed = true;
 
       this.fAuth.currentUser.then(async user => {
@@ -429,7 +427,7 @@ export class UploadRecipeComponent{
                   .update({recipes: tempUser.recipes})
                   .then(() => {
                     this.uploading = false;
-                    this.router.navigate(['/confirm-upload']);
+                    this.router.navigate(['/home']);
                   });
               } else {
                 recipeRef.delete();
@@ -440,8 +438,10 @@ export class UploadRecipeComponent{
       });
     }
   } else {
-    this.fAuth.currentUser.then(user => {
-      if (user) {        
+    this.fAuth.currentUser.then(async user => {
+      if (user) {
+        this.uploading = true;
+        await this.setUrls();   
         this.db.collection('recipes')
         .ref.withConverter(new RecipeConverter().recipeConverter)
         .add(new Recipe(
@@ -479,7 +479,7 @@ export class UploadRecipeComponent{
                 .update({recipes: tempUser.recipes})
                 .then(() => {
                   this.uploading = false;
-                  this.router.navigate(['/confirm-upload']);
+                  this.router.navigate(['/home']);
                 });
             } else {
               recipeRef.delete();

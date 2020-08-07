@@ -117,7 +117,7 @@ limitations under the License. -->
           <ais-hits *ngIf='showResults'>
             <ng-template let-hits="hits">
                 <div class="search-content-container">
-                  <app-recipe-card *ngFor="let recipe of hits" [recipe]='recipe'>
+                  <app-recipe-card *ngFor="let recipe of hits" (click)='goToRecipe(recipe.objectID)' [recipe]='recipe'>
                   </app-recipe-card>
                 </div>
             </ng-template>

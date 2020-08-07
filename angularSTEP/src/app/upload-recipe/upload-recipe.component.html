@@ -171,9 +171,10 @@ limitations under the License. -->
               </mat-error>
             </div>
           </form>
-      </div>
-      <div id="solo-next-button">
-        <button mat-raised-button color="primary" matStepperNext [disabled]="!imageArray.length || fileFormGroup.controls.imageArray.invalid" type="button">Next</button>
+          <div class="control-buttons">
+            <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+            <button mat-raised-button color="primary" matStepperNext [disabled]="!imageArray.length || fileFormGroup.controls.imageArray.invalid" type="button">Next</button>
+          </div>
       </div>
     </mat-step>
 
