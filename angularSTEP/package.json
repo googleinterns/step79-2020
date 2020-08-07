@@ -41,7 +41,6 @@
     "instantsearch.css": "^7.4.2",
     "instantsearch.js": "^3.7.0",
     "maps": "^0.3.3",
-    "mocha": "^8.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "uuid": "^8.2.0",

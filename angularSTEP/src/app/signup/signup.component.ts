@@ -38,9 +38,9 @@ export class SignupComponent implements OnInit {
     private afs: AngularFirestore
   ) {
     this.signUpForm = this.fb.group({
-      displayName: [null, [Validators.required]],
-      username: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email]],
+      displayName: [null, [Validators.required, Validators.maxLength(50)]],
+      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      email: [null, [Validators.required, Validators.email, Validators.maxLength(254)]],
       password: [null, [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -51,48 +51,56 @@ export class SignupComponent implements OnInit {
   //when form is submitted, if it is valid, checks if the username exists in Firestore. Then, if not,
   //creates a user and updates the "displayName" of the user authentication to the username (this is for the future
   //to make it easy to find user info since the doc Id is the username).
-  onSubmit() {
+  async onSubmit() {
     if (!this.signUpForm.valid) {
       this.error = 'Please make sure the form is filled out correctly';
     } else {
-      this.afs
+      await this.afs
         .doc('/usernames/' + this.signUpForm.value.username + '/')
         .ref.get()
-        .then(doc => {
+        .then(async doc => {
           if (doc.exists) {
-            this.error =
-              'Username ' + this.signUpForm.value.username + ' already taken.';
+            this.error = 'Username ' + this.signUpForm.value.username + ' already taken.';
           } else {
-            this.fAuth
+            await this.fAuth
               .createUserWithEmailAndPassword(
                 this.signUpForm.value.email,
                 this.signUpForm.value.password
               )
-              .then(success => {
+              .then(async success => {
                 if (success.user !== null) {
                   this.picUrl =
                     success.user.photoURL !== null
                       ? success.user.photoURL
                       : 'assets/images/blank-profile.png';
                   this.addUser(success.user.uid);
+                } else {
+                  this.fAuth.currentUser.then(user => {
+                    if (user !== null) {
+                      user.delete();
+                    }
+                  })
+                  this.error = 'User not created. Please try again.';
                 }
               })
-              .catch(() => {
-                this.fAuth.currentUser.then(user => {
+              .catch(async () => {
+                await this.fAuth.currentUser.then(user => {
                   if (user !== null) {
                     user.delete();
                   }
-                  this.error = 'User not created. Please try again.';
-                });
+                })
+                this.error = 'User not created. Please try again.';
               });
           }
-        });
+        }).catch(() => {
+          this.error = "Could not create user";
+        })
     }
   }
 
   //creates the user and adds it to Firestore
-  addUser(uid: string) {
-    return this.afs
+  async addUser(uid: string) {
+    await this.afs
           .collection('users')
           .doc(uid)
           .ref.withConverter(new Converter().userConverter)
@@ -119,7 +127,21 @@ export class SignupComponent implements OnInit {
             .set(new Username(this.signUpForm.value.username, uid))
             .then(() => {
               this.router.navigate(['/home']);
-          });
+            }).catch(() => {
+              this.fAuth.currentUser.then(user => {
+                if (user !== null) {
+                  user.delete();
+                }
+              })
+              this.error = 'User not created. Please try again.';
+            });
+      }).catch(() => {
+        this.fAuth.currentUser.then(user => {
+          if (user !== null) {
+            user.delete();
+          }
+        })
+        this.error = 'User not created. Please try again.';
       });
   }
 
