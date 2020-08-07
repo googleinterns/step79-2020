@@ -1,13 +1,29 @@
+<!-- Copyright 2020 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
 <mat-toolbar color="primary" class="mat-elevation-z8">
-    <span>Recipe Stuff</span>
+    <span>Basil</span>
 
     <button routerLink="/home" mat-button>Home</button>
-    <button mat-button>Discover</button>
+    <button routerLink="/discover" mat-button>Discover</button>
     <button routerLink="/upload-recipe" mat-button>Upload Recipe</button>
 
-    <div class="spacer">
-        <app-auto-complete></app-auto-complete>
-    </div>
-
+    <input
+        placeholder="Search"
+        class="search-input"
+        #queryInput
+        (keyup)="handleChange($event)"/>
+    <span class="spacer"></span>
     <app-profile-menu></app-profile-menu>
 </mat-toolbar>

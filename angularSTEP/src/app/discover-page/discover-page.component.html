@@ -1,0 +1,136 @@
+<!-- Copyright 2020 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+<mat-sidenav-container class="sidebar">
+  <!-- This sidenav controls the sorting and content type -->
+  <mat-sidenav mode="side" opened>
+    <mat-list>
+      <!-- search options -->
+      <div mat-subheader>Search for:</div>
+        <mat-selection-list [(ngModel)]="searchOption" (ngModelChange)="onSearchChanged($event)" #search [multiple]="false">
+          <mat-list-option value='Recipes'>
+            <mat-icon mat-list-icon>format_list_numbered</mat-icon> Recipes
+          </mat-list-option>
+          <mat-list-option value='Users'>
+            <mat-icon mat-list-icon>person</mat-icon> Users
+          </mat-list-option>
+        </mat-selection-list>
+      <mat-divider></mat-divider>
+    </mat-list>
+    
+    <!-- sort options for recipes -->
+    <mat-expansion-panel #recipePanel [disabled]='showResults' *ngIf='searchOption[0] === "Recipes"'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Sort
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <mat-selection-list [(ngModel)]="recipeOption" (ngModelChange)="onRecipeSortChanged($event)" #sortRecipes [multiple]="false">
+        <mat-list-option value='Time Created'>
+          <mat-icon mat-list-icon>access_time</mat-icon> Time Created
+        </mat-list-option>
+        <mat-list-option value='Rating'>
+          <mat-icon mat-list-icon>star</mat-icon> Rating
+        </mat-list-option>
+        <mat-list-option value='Name'>
+          <mat-icon mat-list-icon>text_format</mat-icon> Name
+        </mat-list-option>
+      </mat-selection-list>
+      <mat-list-item>
+        <mat-slide-toggle *ngIf='recipeOption[0] === "Time Created"' [(ngModel)]="isChecked">{{ isChecked ? 'Oldest' : 'Newest' }}</mat-slide-toggle>
+        <mat-slide-toggle *ngIf='recipeOption[0] === "Rating"' [(ngModel)]="isChecked">{{ isChecked ? 'Lowest' : 'Highest' }}</mat-slide-toggle>
+        <mat-slide-toggle *ngIf='recipeOption[0] === "Name"' [(ngModel)]="isChecked">{{ isChecked ? 'Z-A' : 'A-Z' }}</mat-slide-toggle>
+      </mat-list-item>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #tagPanel [disabled]='showResults' *ngIf='searchOption[0] === "Recipes"'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Seach Tags
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <form [formGroup]="tagSearch" (submit)="getTags()">
+        <mat-form-field appearance="outline">
+          <input matInput (keyup)='checkEmpty()' formControlName="query" #tagQuery autocomplete="off" placeholder="Ex. Vegetarian">
+        </mat-form-field>
+      </form>
+    </mat-expansion-panel>
+
+    <!-- sort options for users -->
+    <mat-expansion-panel [disabled]='showResults' #recipePanel *ngIf='searchOption[0] === "Users"'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Sort
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <mat-selection-list [(ngModel)]="userOption" (ngModelChange)="onUserSortChanged($event)" #sortUsers [multiple]="false">
+        <mat-list-option value='Time Created'>
+          <mat-icon mat-list-icon>access_time</mat-icon> Time Created
+        </mat-list-option>
+        <mat-list-option value='Name'>
+          <mat-icon mat-list-icon>text_format</mat-icon> Name
+        </mat-list-option>
+      </mat-selection-list>
+      <mat-list-item>
+        <mat-slide-toggle *ngIf='userOption[0] === "Time Created"' [(ngModel)]="isChecked">{{ isChecked ? 'Oldest' : 'Newest' }}</mat-slide-toggle>
+        <mat-slide-toggle *ngIf='userOption[0] === "Name"' [(ngModel)]="isChecked">{{ isChecked ? 'Z-A' : 'A-Z' }}</mat-slide-toggle>
+      </mat-list-item>
+    </mat-expansion-panel>
+  </mat-sidenav>
+
+  <!-- the content within the actual page -->
+  <mat-sidenav-content>
+    <!-- displays the user search bar -->
+    <div *ngIf='this.searchOption[0] == "Users"' class="content">
+      <ais-instantsearch [config]="configUsers">
+        <app-search-box (noQuery)='displayResults($event)' [searchField]='query' contentType='Search for users' [delay]='500'></app-search-box>
+          <ais-hits *ngIf='showResults'>
+            <ng-template let-hits="hits">
+                <div class="search-content-container">
+                  <app-profile-card *ngFor="let user of hits" (click)='goToUser(user.username)'
+                    [user]='user'>
+                  </app-profile-card>
+                </div>
+            </ng-template>
+          </ais-hits>
+      </ais-instantsearch>
+    </div>
+
+    <!-- displays the recipe search bar -->
+    <div *ngIf='this.searchOption[0] == "Recipes"' class="content">
+      <ais-instantsearch [config]="configRecipes">
+        <app-search-box (noQuery)='displayResults($event)' [searchField]='query' contentType='Search for recipes' [delay]='500'></app-search-box>
+          <ais-hits *ngIf='showResults'>
+            <ng-template let-hits="hits">
+                <div class="search-content-container">
+                  <app-recipe-card *ngFor="let recipe of hits" (click)='goToRecipe(recipe.objectID)' [recipe]='recipe'>
+                  </app-recipe-card>
+                </div>
+            </ng-template>
+          </ais-hits>
+      </ais-instantsearch>
+    </div>
+
+    <div *ngIf='!showResults' class="content">
+      <app-discover-display [contentType]='this.searchOption[0]' [direction]='this.isChecked' 
+      [query]='tagQuery' [sortType]='this.searchOption[0] === "Recipes" ? this.recipeOption[0] : this.userOption[0]'>
+      </app-discover-display>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+

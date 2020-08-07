@@ -4,7 +4,9 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {Component, OnInit, NgZone} from '@angular/core';
 import {User} from '../user';
 import {Converter} from '../converter';
-import { templateJitUrl } from '@angular/compiler';
+import {Recipe} from '../recipe';
+import {RecipeConverter} from '../recipe-converter';
+
 
 @Component({
   selector: 'app-user-page',
@@ -17,6 +19,9 @@ export class UserPageComponent implements OnInit {
   loggedIn = false;
   displayName = '';
   picUrl = 'assets/images/blank-profile.png';
+  usersFollowing: User[] = [];
+  theirRecipes: firebase.firestore.DocumentSnapshot<Recipe>[] = [];
+  bio: string = '';
   profileLoaded = false;
   userFollowing = false;
   currentUserUid!: string;
@@ -42,13 +47,15 @@ export class UserPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    const username = this.activatedRoute.snapshot.paramMap.get('username');
-    if (username === null) {
-      this.router.navigate(['/users']);
-    } else {
-      this.username = username;
-      this.setUserData();
-    }
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.username = params.get("username");
+      if (!this.username) {
+        this.router.navigate(['discover/users']);
+      } else {
+        this.resetData();
+        this.setUserData();
+      }
+    })
   }
 
   async setUserData() {
@@ -70,9 +77,12 @@ export class UserPageComponent implements OnInit {
           user.picUrl !== null && user.picUrl !== ''
             ? user.picUrl
             : 'assets/images/blank-profile.png';
+        this.bio = user.aboutme;
+        this.getRecipes(user.recipes);
+        this.getFollowing(user.following);
         this.profileLoaded = true;
       } else {
-        this.router.navigate(['/users']);
+        this.router.navigate(['discover/users']);
       }
     }
   }
@@ -132,5 +142,54 @@ export class UserPageComponent implements OnInit {
     this.zone.run(() => {
       this.setFollowing(false)
     })
+  }
+
+  async getFollowing(following: string[]){
+    if(following){
+      for(let i = 0; i < following.length; i++){
+        const user = await this.afs
+              .collection('users')
+              .doc(following[i])
+              .ref.withConverter(new Converter().userConverter).get();
+        if(user && user.data()){
+          this.usersFollowing.push(user.data()!);
+        }
+      }
+    }
+  }
+
+  async getRecipes(recipes: string[]){
+    if(recipes){
+      for(let i = 0; i < recipes.length; i++){
+        const recipe = await this.afs
+              .collection('recipes')
+              .doc(recipes[i])
+              .ref.withConverter(new RecipeConverter().recipeConverter).get();
+        if(recipe && recipe.data()){
+          this.theirRecipes.push(recipe);
+        }
+      }
+    }
+  }
+
+  goToUser(username: string) {
+    this.resetData();
+    this.zone.run(() => {
+      this.router.navigate(['discover/users/', username]);
+    })
+  }
+
+  resetData() {
+    this.profileLoaded = false;
+    this.displayName = '';
+    this.usersFollowing = [];
+    this.theirRecipes = [];
+    this.bio = '';
+  }
+
+  goToRecipe(id: string) {
+    if (id) {
+      this.router.navigate(['discover/recipes/', id]);
+    }
   }
 }

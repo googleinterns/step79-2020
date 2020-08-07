@@ -1,47 +1,111 @@
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 rules_version = '2';
 service cloud.firestore {
 	function notUpdating(field) {
-   return !(field in request.resource.data)
-    || resource.data[field] == request.resource.data[field]
+    return !(field in request.resource.data)
+          || resource.data[field] == request.resource.data[field];
   }
   
-  function checkUserFieldsValid(){
+  function checkUserFieldsValid() {
   	return ('displayName' in request.resource.data &&
-    'email' in request.resource.data &&
-    'following' in request.resource.data &&
-    'picUrl' in request.resource.data &&
-    'recipes' in request.resource.data &&
-    'shoppingList' in request.resource.data &&
-    'time' in request.resource.data &&
-    'uid' in request.resource.data &&
-    'username' in request.resource.data &&
-    'wishlist' in request.resource.data) &&
-    request.resource.data.displayName is string &&
-    request.resource.data.username is string &&
-    request.resource.data.email is string &&
-    request.resource.data.uid is string &&
-    request.resource.data.displayName.size() < 50 &&
-    request.resource.data.username.size() < 20 &&
-    request.resource.data.username.size() > 2 &&
-    request.resource.data.email.size() < 254 &&
-    request.resource.data.email.size() > 0 &&
-    request.resource.data.username.lower() == request.resource.data.username;
+      'email' in request.resource.data &&
+      'following' in request.resource.data &&
+      'picUrl' in request.resource.data &&
+      'recipes' in request.resource.data &&
+      'shoppingList' in request.resource.data &&
+      'time' in request.resource.data &&
+      'uid' in request.resource.data &&
+      'username' in request.resource.data &&
+      'wishlist' in request.resource.data) &&
+      request.resource.data.displayName is string &&
+      request.resource.data.username is string &&
+      request.resource.data.email is string &&
+      request.resource.data.uid is string &&
+      request.resource.data.displayName.size() < 50 &&
+      request.resource.data.username.size() < 20 &&
+      request.resource.data.username.size() > 2 &&
+      request.resource.data.email.size() < 254 &&
+      request.resource.data.email.size() > 0 &&
+      request.resource.data.username.lower() == request.resource.data.username;
   }
 
-  // 'aboutme' in request.resource.data &&
-  //  request.resource.data.aboutme is string &&
-  //  request.resource.data.aboutme.size() < 2000;
+  function isAValidRecipe() {
+    return 'recipeName' in request.resource.data &&
+    'uploaderUid' in request.resource.data &&
+    'difficulty' in request.resource.data &&
+    'description' in request.resource.data &&
+    'ingredients' in request.resource.data &&
+    'tools' in request.resource.data &&
+    'images' in request.resource.data &&
+    'instructions' in request.resource.data &&
+    'extraInfo' in request.resource.data &&
+    'timestamp' in request.resource.data &&
+    'ratings' in request.resource.data &&
+    'tags' in request.resource.data &&
+    'baseRecipeId' in request.resource.data &&
+    'baseUploaderUid' in request.resource.data &&
+    'averageRating' in request.resource.data &&
+    request.resource.data.recipeName is string &&
+    request.resource.data.uploaderUid is string &&
+    request.resource.data.difficulty is string &&
+    request.resource.data.description is string &&
+    request.resource.data.extraInfo is string &&
+    request.resource.data.difficulty is string &&
+    request.resource.data.baseUploaderUid is string &&
+    (request.resource.data.averageRating is float || 
+    request.resource.data.averageRating is int) && 
+    request.resource.data.recipeName.size() > 0 &&
+    request.resource.data.recipeName.size() < 200 &&
+    request.resource.data.description.size() > 0 &&
+    request.resource.data.description.size() < 200 &&
+    request.resource.data.ingredients.size() > 0 &&
+    request.resource.data.tools.size() > 0 &&
+    request.resource.data.instructions.size() > 0 &&
+    request.resource.data.averageRating <= 5 &&
+    request.resource.data.averageRating >= 0 &&
+    request.resource.data.difficulty in ["Beginner", "Intermediate", "Advanced", "Professional"];
+  }
+
+  function editOnlyChangesFields(allowedFields) {
+    let affectedKeys = request.resource.data.diff(resource.data).affectedKeys();
+    return affectedKeys.hasOnly(allowedFields);
+  }
   
   match /databases/{database}/documents {
-  
-  	match /{document=**}{
+  	match /{document=**} {
     	allow read: if false;
       allow write: if false;
     }
-  
+
+
     match /recipes/{recipe} {
-      allow read, write: if true;
+      allow read: if true;
     }
+
+    match /recipes/{recipe} {
+      allow create: if request.auth.uid != null &&
+        request.resource.data.uploaderUid == request.auth.uid &&
+        isAValidRecipe();
+
+      allow update: if request.auth.uid != null && 
+        editOnlyChangesFields(["ratings"]); 
+
+      allow delete: if false;
+    }
+
 
     // A read rule can be divided into get and list rules
     match /users/{user} {
@@ -60,16 +124,16 @@ service cloud.firestore {
                     
       // Applies to writes to existing documents
       allow update: if user == request.auth.uid &&
-            request.auth.uid == request.resource.data.uid &&
-            notUpdating('username') && notUpdating('uid') &&
-            (!('time' in request.resource.data)
-            || resource.data.time == request.resource.data.time)
-            && checkUserFieldsValid();
+                    request.auth.uid == request.resource.data.uid &&
+                    notUpdating('username') && notUpdating('uid') &&
+                    (!('time' in request.resource.data)
+                    || resource.data.time == request.resource.data.time)
+                    && checkUserFieldsValid();
 
       // Applies to delete operations
       allow delete: if request.auth != null &&
-                        user == request.auth.uid &&
-                        request.auth.uid == resource.data.uid;
+                      user == request.auth.uid &&
+                      request.auth.uid == resource.data.uid;
     }
 
   // A write rule can be divided into create, update, and delete rules

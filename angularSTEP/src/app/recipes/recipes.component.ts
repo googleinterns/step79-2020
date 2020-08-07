@@ -1,43 +1,37 @@
-import { Component , OnInit } from '@angular/core';
-import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { Router, ActivatedRoute , ParamMap} from '@angular/router';
-import { map } from  'rxjs/operators';
-import { Observable } from 'rxjs';
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import {Component} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {Recipe} from '../recipe';
  
-interface Recipe {
-  recipeName: string;
-  difficulty: string;
-  extraInfo: string;
-  ingredients: Array<string>;
-  instructions: Array<string>;
-  tools:Array<string>;
-}
-
-interface RecipeId extends Recipe {
-  id: string;
-}
-
 @Component({
-    selector: 'app-recipes',
-    templateUrl: './recipes.component.html',
-    styleUrls: ['./recipes.component.scss'],
-  })
+  selector: 'app-recipes',
+  templateUrl: './recipes.component.html',
+  styleUrls: ['./recipes.component.scss'],
+})
   
 export class RecipesComponent {
-  recipesCollection: AngularFirestoreCollection<Recipe>;
-  recipes: Observable<RecipeId[]>;
-  id: string = '';
+  recipes: Observable<Recipe[]>;
 
-  constructor(private db: AngularFirestore,
-              private router: Router,) {
-                this.recipesCollection = this.db.collection<Recipe>('recipes');
-                this.recipes = this.recipesCollection.snapshotChanges().pipe(
-                  map(actions => actions.map(a => {
-                    const data = a.payload.doc.data() as Recipe;
-                    const id = a.payload.doc.id;
-                    return { id, ...data};
-                  }))
-                );
+  constructor(
+    private db: AngularFirestore,
+    private router: Router,
+  ) {
+    this.recipes = this.db.collection<Recipe>('recipes').valueChanges({idField: 'id'});
   }
   
   goToRecipe(id: string) {

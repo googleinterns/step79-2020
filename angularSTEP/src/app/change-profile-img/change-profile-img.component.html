@@ -1,0 +1,38 @@
+
+<!-- Copyright 2020 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+<div class="form-container">
+    <h1 mat-dialog-title>Change Profile Image</h1>
+    <div mat-dialog-content>
+        <img mat-card-image *ngIf='previewImgUrl' [src]="previewImgUrl" class='preview-image' alt="Photo">
+        <h4 class="error" *ngIf="error">{{ error }}</h4>
+        <form [formGroup]="fileForm" (submit)="onFileSubmit()">
+            <label for="upload-photo"><span><h3 class="upload">Upload Photo...<mat-icon>add_photo_alternate</mat-icon></h3></span></label>
+            <input type="file" formControlName="image" autocomplete="off" accept="image/*" id="upload-photo" (change)="onFileSelect($event)" required>
+            <mat-error *ngIf="fileForm.controls.image.invalid">
+                <span *ngIf="fileForm.controls.image.errors.fileType">Allowed types: png, jpg, jpeg, gif</span>
+            </mat-error>
+            <mat-card-actions>
+                <div mat-dialog-actions>
+                    <button mat-button mat-dialog-close>Close</button>
+                    <button mat-button [disabled]="fileForm.invalid || fileForm.pristine" color="primary" type="submit">Update Profile Photo</button>
+                </div>
+            </mat-card-actions>
+        </form>
+        <br>
+        <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+    </div>
+</div>
+

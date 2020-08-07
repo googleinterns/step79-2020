@@ -1,5 +1,22 @@
+<!-- Copyright 2020 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
 <div class="profile-header" *ngIf="user">
-  <img class="profile-pic" src="{{ user.picUrl }}" alt="Profile pic for {{ user.displayName }}">
+  <div (click)='changeProfileImage()' class='image-container'>
+    <img class="profile-pic" src="{{ user.picUrl }}" alt="Profile pic for {{ user.displayName }}">
+    <mat-icon id="photo-icon">photo_camera</mat-icon>
+  </div>
   <div class="name-header">
     <h1 *ngIf='!displayNameForm'>{{user.displayName}}<mat-icon aria-label="Edit icon" (click)='editValue("displayName")'>edit</mat-icon></h1>
     <form *ngIf='displayNameForm' (submit)="onSubmit()" [style.fontSize.px]='24'>
@@ -16,20 +33,20 @@
       <mat-icon>account_circle</mat-icon>
       My Profile
     </ng-template>
-    <app-my-profile-tab [userData]='user'></app-my-profile-tab>
+    <app-current-profile-tab [userData]='user'></app-current-profile-tab>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>favorite_border</mat-icon>
       My Wishlist
     </ng-template>
-    <!-- add wishlist component here -->
+    <app-wishlist [userData]='user'></app-wishlist>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>list_alt</mat-icon>
       My Shoppinglist
     </ng-template>
-    <!-- add shoppinglist component here -->
+    <app-shopping-list></app-shopping-list>
   </mat-tab>
 </mat-tab-group>

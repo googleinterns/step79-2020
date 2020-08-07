@@ -1,0 +1,37 @@
+<!-- Copyright 2020 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+<mat-card *ngIf='recipe' class="recipe-card">
+  <div class='card-info'>
+    <img *ngIf='!showDescription && recipe.images && recipe.images.length != 0' [src]='recipe.images[0]' alt="Photo of {{ recipe.recipeName }}" class="card-img">
+    <img *ngIf='!showDescription && recipe.images == null || recipe.images.length == 0' src="https://upload.wikimedia.org/wikipedia/commons/6/69/Banana.png" alt="Photo of stock food" class="card-img">
+    <button mat-mini-fab color="primary" (click)='cardClicked()' id="photo-icon"><mat-icon>open_in_new</mat-icon></button>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header collapsedHeight='60px' expandedHeight='60px'>
+      <mat-card-header>
+        <mat-card-title>{{recipeName}}</mat-card-title>
+        <mat-card-subtitle><span>{{recipe.difficulty}}</span>
+          <span *ngIf='!noRatings' class='rating'>{{recipe.averageRating}}/5</span>
+          <span *ngIf='noRatings' class='rating'>--/5</span>
+        </mat-card-subtitle>
+    </mat-card-header>
+    </mat-expansion-panel-header>
+    <p>{{recipe.description}}</p>
+    <mat-chip-list aria-label="Tags">
+      <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
+    </mat-chip-list>
+  </mat-expansion-panel>
+</mat-card>
