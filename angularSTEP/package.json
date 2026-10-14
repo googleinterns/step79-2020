@@ -44,7 +44,7 @@
     "mocha": "^8.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "uuid": "^8.2.0",
+    "uuid": "^14.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
